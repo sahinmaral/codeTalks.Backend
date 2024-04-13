@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "vX5b+YGzI7ljn6gA8buHI98Xahq88A6uB2L0AknPrmvLxR66nCaziNgdR/Jvtprmnf725FHAHuj008jRsatz5Q==",
+  "success": true,
+  "projectFilePath": "/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Infrastructure/codeTalks.Infrastructure.csproj",
+  "expectedPackageFiles": [
+    "/home/sahinmaral/.nuget/packages/microsoft.netcore.app.ref/8.0.2/microsoft.netcore.app.ref.8.0.2.nupkg.sha512",
+    "/home/sahinmaral/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.2/microsoft.aspnetcore.app.ref.8.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

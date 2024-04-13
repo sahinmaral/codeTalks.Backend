@@ -1,0 +1,17 @@
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/bin/Debug/net8.0/codeTalks.Domain.deps.json
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/bin/Debug/net8.0/codeTalks.Domain.dll
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/bin/Debug/net8.0/codeTalks.Domain.pdb
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/bin/Debug/net8.0/Core.Persistence.dll
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/bin/Debug/net8.0/Core.Security.dll
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/bin/Debug/net8.0/Core.Persistence.pdb
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/bin/Debug/net8.0/Core.Security.pdb
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/codeTalks.Domain.csproj.AssemblyReference.cache
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/codeTalks.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/codeTalks.Domain.AssemblyInfoInputs.cache
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/codeTalks.Domain.AssemblyInfo.cs
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/codeTalks.Domain.csproj.CoreCompileInputs.cache
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/codeTalk.7EBBDFC6.Up2Date
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/codeTalks.Domain.dll
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/refint/codeTalks.Domain.dll
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/codeTalks.Domain.pdb
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/ref/codeTalks.Domain.dll
