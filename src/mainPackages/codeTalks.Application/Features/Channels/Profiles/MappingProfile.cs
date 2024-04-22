@@ -23,5 +23,6 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email));
         CreateMap<Role, UserRoleAtChannelDto>();
+        CreateMap<Role, ChannelsByUserIdRoleDto>();
     }
 }

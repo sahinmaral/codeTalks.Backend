@@ -1,5 +1,6 @@
 using AutoMapper;
 using codeTalks.Application.Features.Auths.Rules;
+using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Features.Channels.Models;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
@@ -31,8 +32,16 @@ public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
                 size: request.Size,
                 index: request.Index,
                 cancellationToken: cancellationToken);
-            
-            return mapper.Map<ChannelsByUserIdListModel>(channelsOfUserWhoAccepted);
-        }
+
+            var mappedChannels = mapper.Map<ChannelsByUserIdListModel>(channelsOfUserWhoAccepted);
+
+            foreach (var channelsByUserIdItemDto in mappedChannels.Items)
+            {
+                channelsByUserIdItemDto.Role = mapper.Map<ChannelsByUserIdRoleDto>(channelsOfUserWhoAccepted.Items
+                    .First(channel => channel.Id == channelsByUserIdItemDto.Id).ChannelUsers.First(channelUser => channelUser.UserId == request.UserId).Role);
+            }
+
+            return mappedChannels;
+        }   
     }
 }

@@ -1,5 +1,6 @@
-using codeTalks.Application.Features.Channels.Commands;
 using codeTalks.Application.Features.Channels.Commands.CreateChannel;
+using codeTalks.Application.Features.Channels.Commands.DeleteChannel;
+using codeTalks.Application.Features.Channels.Commands.LeaveChannel;
 using codeTalks.Application.Features.Channels.Commands.UpdateChannel;
 using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Features.Channels.Queries.GetAllByUserId;
@@ -14,6 +15,28 @@ public class ChannelsController : BaseController
     [HttpPost]
     public async Task<IActionResult> CreateChannel([FromBody] CreateChannelCommand request)
     {
+        await mediator.Send(request);
+        return NoContent();
+    }
+    
+    [HttpPost("leave/{channelId}")]
+    public async Task<IActionResult> LeaveChannel([FromRoute] string channelId)
+    {
+        LeaveChannelCommand request = new LeaveChannelCommand
+        {
+            ChannelId = channelId,
+        };
+        await mediator.Send(request);
+        return NoContent();
+    }
+    
+    [HttpDelete("{channelId}")]
+    public async Task<IActionResult> DeleteChannel([FromRoute] string channelId)
+    {
+        DeleteChannelCommand request = new DeleteChannelCommand
+        {
+            ChannelId = channelId,
+        };
         await mediator.Send(request);
         return NoContent();
     }
@@ -41,7 +64,7 @@ public class ChannelsController : BaseController
         return Ok(response);
     }
     
-    [HttpGet("{userId}")]
+    [HttpGet]
     public async Task<IActionResult> GetChannelsByUserId([FromQuery] string userId, [FromQuery] int size = 10, [FromQuery] int index = 0)
     {
         GetAllByUserIdQuery request = new()

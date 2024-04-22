@@ -15,6 +15,8 @@ builder.Services
     .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
     .AddApplicationPart(codeTalks.Application.AssemblyReference.Assembly);
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services
     .AddPersistanceServices(builder.Configuration)
     .AddApplicationServices()

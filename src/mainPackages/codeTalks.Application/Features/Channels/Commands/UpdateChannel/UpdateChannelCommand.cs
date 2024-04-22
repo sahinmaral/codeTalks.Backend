@@ -42,7 +42,7 @@ public class UpdateChannelCommand : IRequest
                 throw new EntityNotFoundException("This user hasn't registered this channel yet");
 
             if (foundUserAtChannel.Role.Id != moderatorRole.Id)
-                throw new EntityNotFoundException("You have no authorization to update channel information");
+                throw new AuthorizationException("You have no authorization to update channel information");
             
             channel.Name = request.UpdateChannelDto.Name ?? channel.Name;
             channel.Description = request.UpdateChannelDto.Description ?? channel.Description;
