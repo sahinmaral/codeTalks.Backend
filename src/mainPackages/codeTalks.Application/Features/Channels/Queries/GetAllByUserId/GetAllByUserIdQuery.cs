@@ -11,6 +11,8 @@ namespace codeTalks.Application.Features.Channels.Queries.GetAllByUserId;
 public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
 {
     public string UserId { get; set; }
+    public int Size { get; set; }
+    public int Index { get; set; }
     
     public class GetAllByUserIdQueryHandler(IChannelRepository channelRepository, IMapper mapper, AuthBusinessRules authBusinessRules) : IRequestHandler<GetAllByUserIdQuery, ChannelsByUserIdListModel>
     {
@@ -23,7 +25,11 @@ public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
                 channel.ChannelUsers
                     .Where(user => user.Status == ChannelUserStatus.Accepted)
                     .Select(user => user.UserId).Contains(request.UserId), 
-                include: queryable => queryable.Include(channel => channel.ChannelUsers), 
+                include: queryable => queryable
+                    .Include(channel => channel.ChannelUsers)
+                    .ThenInclude(channelUser => channelUser.Role), 
+                size: request.Size,
+                index: request.Index,
                 cancellationToken: cancellationToken);
             
             return mapper.Map<ChannelsByUserIdListModel>(channelsOfUserWhoAccepted);

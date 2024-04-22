@@ -15,3 +15,4 @@
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/refint/codeTalks.Domain.dll
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/codeTalks.Domain.pdb
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/ref/codeTalks.Domain.dll
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Domain/obj/Debug/net8.0/codeTalks.Domain.sourcelink.json

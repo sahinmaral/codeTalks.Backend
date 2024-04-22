@@ -21,3 +21,4 @@
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Application/obj/Debug/net8.0/refint/codeTalks.Application.dll
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Application/obj/Debug/net8.0/codeTalks.Application.pdb
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Application/obj/Debug/net8.0/ref/codeTalks.Application.dll
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Application/obj/Debug/net8.0/codeTalks.Application.sourcelink.json

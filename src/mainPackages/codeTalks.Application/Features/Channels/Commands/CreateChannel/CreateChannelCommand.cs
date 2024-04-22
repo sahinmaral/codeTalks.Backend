@@ -5,7 +5,7 @@ using Core.Security.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace codeTalks.Application.Features.Channels.Commands;
+namespace codeTalks.Application.Features.Channels.Commands.CreateChannel;
 
 public class CreateChannelCommand : IRequest
 {

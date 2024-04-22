@@ -6,11 +6,13 @@ namespace codeTalks.Application.Features.Channels.Rules;
 
 public class ChannelBusinessRules(IChannelRepository channelRepository)
 {
-    public async Task CheckChannelExistsById(string id)
+    public async Task<Channel> CheckChannelExistsById(string id)
     {
         Channel? foundChannel = await channelRepository.GetAsync(predicate: channel => channel.Id == id);
 
         if (foundChannel is null)
             throw new EntityNotFoundException("Channel does not found");
+
+        return foundChannel;
     }
 }

@@ -23,3 +23,4 @@
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Persistance/obj/Debug/net8.0/refint/codeTalks.Persistance.dll
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Persistance/obj/Debug/net8.0/codeTalks.Persistance.pdb
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Persistance/obj/Debug/net8.0/ref/codeTalks.Persistance.dll
+/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Persistance/obj/Debug/net8.0/codeTalks.Persistance.sourcelink.json

@@ -7,11 +7,13 @@ namespace codeTalks.Presentation.Hubs;
 
 public class ChatHub(IMediator mediator) : Hub
 {
-    public async Task SendAllChannels(string userId)
+    public async Task SendAllChannels(string userId, int? size = null, int? index = null)
     {
         GetAllByUserIdQuery request = new()
         {
-            UserId = userId
+            UserId = userId,
+            Size = size ?? 10,
+            Index = index ?? 0
         };
         var response = await mediator.Send(request);
         
