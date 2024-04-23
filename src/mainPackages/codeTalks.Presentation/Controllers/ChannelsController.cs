@@ -6,6 +6,7 @@ using codeTalks.Application.Features.Channels.Commands.UpdateChannel;
 using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Features.Channels.Queries.GetAllByUserId;
 using codeTalks.Application.Features.Channels.Queries.GetUsersDetailAtChannelByChannelId;
+using codeTalks.Domain;
 using codeTalks.Presentation.Controllers.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -82,13 +83,14 @@ public class ChannelsController : BaseController
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetChannelsByUserId([FromQuery] string userId, [FromQuery] int size = 10, [FromQuery] int index = 0)
+    public async Task<IActionResult> GetChannelsByUserId([FromQuery] string userId, [FromQuery]ChannelUserStatus? status, [FromQuery] int size = 10, [FromQuery] int index = 0)
     {
         GetAllByUserIdQuery request = new()
         {
             UserId = userId,
             Size = size,
-            Index = index
+            Index = index,
+            Status = status
         };
         var response = await mediator.Send(request);
         return Ok(response);
