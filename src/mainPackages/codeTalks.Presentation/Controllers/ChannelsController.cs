@@ -1,11 +1,13 @@
 using codeTalks.Application.Features.Channels.Commands.CreateChannel;
 using codeTalks.Application.Features.Channels.Commands.DeleteChannel;
 using codeTalks.Application.Features.Channels.Commands.LeaveChannel;
+using codeTalks.Application.Features.Channels.Commands.SendInviteToChannel;
 using codeTalks.Application.Features.Channels.Commands.UpdateChannel;
 using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Features.Channels.Queries.GetAllByUserId;
 using codeTalks.Application.Features.Channels.Queries.GetUsersDetailAtChannelByChannelId;
 using codeTalks.Presentation.Controllers.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace codeTalks.Presentation.Controllers;
@@ -19,23 +21,38 @@ public class ChannelsController : BaseController
         return NoContent();
     }
     
-    [HttpPost("leave/{channelId}")]
-    public async Task<IActionResult> LeaveChannel([FromRoute] string channelId)
+    [Authorize]
+    [HttpPost("sendInvite/{channelId}")]
+    public async Task<IActionResult> SendInviteToChannel([FromRoute] string channelId)
     {
-        LeaveChannelCommand request = new LeaveChannelCommand
+        SendInviteToChannelCommand request = new SendInviteToChannelCommand
         {
-            ChannelId = channelId,
+            ChannelId = channelId
         };
         await mediator.Send(request);
         return NoContent();
     }
     
+    [Authorize]
+    [HttpPost("leave/{channelId}")]
+    public async Task<IActionResult> LeaveChannel([FromRoute] string channelId)
+    {
+        
+        LeaveChannelCommand request = new LeaveChannelCommand
+        {
+            ChannelId = channelId
+        };
+        await mediator.Send(request);
+        return NoContent();
+    }
+    
+    [Authorize]
     [HttpDelete("{channelId}")]
     public async Task<IActionResult> DeleteChannel([FromRoute] string channelId)
     {
         DeleteChannelCommand request = new DeleteChannelCommand
         {
-            ChannelId = channelId,
+            ChannelId = channelId
         };
         await mediator.Send(request);
         return NoContent();

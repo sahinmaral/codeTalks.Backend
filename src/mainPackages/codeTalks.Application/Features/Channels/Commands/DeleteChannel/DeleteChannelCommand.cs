@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using codeTalks.Application.Features.Users.Helpers;
 using codeTalks.Application.Services.Repositories;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;
@@ -16,12 +17,12 @@ public class DeleteChannelCommand : IRequest
     public class DeleteChannelCommandHandler(
         IHttpContextAccessor httpContextAccessor,
         RoleManager<Role> roleManager,
+        UserManager<User> userManager,
         IChannelRepository channelRepository) : IRequestHandler<DeleteChannelCommand>
     {
         public async Task Handle(DeleteChannelCommand request, CancellationToken cancellationToken)
         {
-            var httpContext = httpContextAccessor.HttpContext;
-            var currentUserId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
             
             var moderatorRole = await roleManager.FindByNameAsync("Moderator");
             

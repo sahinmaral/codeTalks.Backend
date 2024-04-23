@@ -1,6 +1,7 @@
-using System.Security.Claims;
+using codeTalks.Application.Features.Channels.Commands.LeaveChannel;
 using codeTalks.Application.Features.Users.Helpers;
 using codeTalks.Application.Services.Repositories;
+using codeTalks.Domain;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;
 using MediatR;
@@ -8,23 +9,22 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace codeTalks.Application.Features.Channels.Commands.LeaveChannel;
+namespace codeTalks.Application.Features.Channels.Commands.SendInviteToChannel;
 
-public class LeaveChannelCommand : IRequest
+public class SendInviteToChannelCommand : IRequest
 {
     public string ChannelId { get; set; }
     
-    public class LeaveChannelCommandHandler(
+    public class SendInviteToChannelCommandHandler(
         IHttpContextAccessor httpContextAccessor,
         RoleManager<Role> roleManager,
         UserManager<User> userManager,
-        IChannelRepository channelRepository) : IRequestHandler<LeaveChannelCommand>
+        IChannelRepository channelRepository) : IRequestHandler<SendInviteToChannelCommand>
     {
-        public async Task Handle(LeaveChannelCommand request, CancellationToken cancellationToken)
+        public async Task Handle(SendInviteToChannelCommand request, CancellationToken cancellationToken)
         {
             var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
-            
-            var moderatorRole = await roleManager.FindByNameAsync("Moderator");
+            var userRole = await roleManager.FindByNameAsync("User");
             
             var channel = await channelRepository.GetDetailedAsync(
                 include: queryable => queryable
@@ -39,14 +39,15 @@ public class LeaveChannelCommand : IRequest
                 throw new EntityNotFoundException("This channel doesn't exist");
             
             var foundUserAtChannel = channel.ChannelUsers.FirstOrDefault(channelUser => channelUser.UserId == currentUserId);
-            
-            if (foundUserAtChannel is null)
-                throw new EntityNotFoundException("This user hasn't registered this channel yet");
-            
-            if (channel.ChannelUsers.Count == 1 && channel.ChannelUsers.First().Role.Id == moderatorRole.Id)
-                throw new AuthorizationException("This user can't leave channel because there's only one moderator left at channel");
+            if (foundUserAtChannel is not null && foundUserAtChannel.Status == ChannelUserStatus.Accepted)
+                throw new BusinessException("This user has already accepted to this channel");
 
-            channel.ChannelUsers.Remove(foundUserAtChannel);
+            channel.ChannelUsers.Add(new ChannelUser
+            {
+                UserId = currentUserId,
+                RoleId = userRole.Id,
+                Status = ChannelUserStatus.RequestSent
+            });
             await channelRepository.UpdateAsync(channel);
         }
     }
