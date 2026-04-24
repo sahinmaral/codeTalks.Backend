@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace codeTalks.Persistance.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,11 +18,11 @@ namespace codeTalks.Persistance.Migrations
                 name: "Channels",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,10 +33,10 @@ namespace codeTalks.Persistance.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,29 +47,29 @@ namespace codeTalks.Persistance.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProfilePhotoURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RefreshTokenExpires = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: false),
+                    MiddleName = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    ProfilePhotoURL = table.Column<string>(type: "text", nullable: true),
+                    RefreshToken = table.Column<string>(type: "text", nullable: true),
+                    RefreshTokenExpires = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,12 +80,12 @@ namespace codeTalks.Persistance.Migrations
                 name: "ChannelUsers",
                 columns: table => new
                 {
-                    ChannelId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ChannelId = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    RoleId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -113,12 +114,12 @@ namespace codeTalks.Persistance.Migrations
                 name: "Messages",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SenderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ChannelId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    SenderId = table.Column<string>(type: "text", nullable: false),
+                    ChannelId = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -141,11 +142,11 @@ namespace codeTalks.Persistance.Migrations
                 name: "UserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -162,8 +163,8 @@ namespace codeTalks.Persistance.Migrations
                 name: "UserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    RoleId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -187,8 +188,8 @@ namespace codeTalks.Persistance.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2d151056-3486-499e-9344-a57b9029cd34", "47fd60f5-2d33-49d7-a389-ee294c58c0b4", "Moderator", "MODERATOR" },
-                    { "4042944b-0f80-47de-8599-7fa9c3e12759", "d55f19f6-03f0-42d0-9162-3a651189a6ee", "User", "USER" }
+                    { "98f1a25d-e613-47db-988d-28017919bec4", "38fc531b-a96b-462c-9ae6-c798498dd9f6", "User", "USER" },
+                    { "a5bcd8f5-123d-486e-afd2-03825c4a945b", "e7a25c5d-0e93-4b3b-b542-48c12c07fd5a", "Moderator", "MODERATOR" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -215,8 +216,7 @@ namespace codeTalks.Persistance.Migrations
                 name: "RoleNameIndex",
                 table: "Roles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId",
@@ -237,8 +237,7 @@ namespace codeTalks.Persistance.Migrations
                 name: "UserNameIndex",
                 table: "Users",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
         }
 
         /// <inheritdoc />

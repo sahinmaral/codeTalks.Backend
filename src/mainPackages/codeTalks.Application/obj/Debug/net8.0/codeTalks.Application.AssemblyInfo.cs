@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("codeTalks.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0f83c0a51ad012d63ff4f3ab5be75bc8d08032ea")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+26ab9f7f4c639c0af4b89664db1bab473575322b")]
 [assembly: System.Reflection.AssemblyProductAttribute("codeTalks.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("codeTalks.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

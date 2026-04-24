@@ -11,14 +11,14 @@ public static class PersistanceServiceRegistration
 {
     public static IServiceCollection AddPersistanceServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("MSSQLConnectionString");
+        var connectionString = configuration.GetConnectionString("PostgreSQLConnectionString");
 
         services.AddScoped<IMessageRepository, MessageRepository>();
         services.AddScoped<IChannelRepository, ChannelRepository>();
 
         services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseSqlServer(connectionString);
+            options.UseNpgsql(connectionString);
         });
 
         return services;

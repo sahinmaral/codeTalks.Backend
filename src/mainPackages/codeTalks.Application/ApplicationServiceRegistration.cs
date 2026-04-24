@@ -22,7 +22,6 @@ public static class ApplicationServiceRegistration
 
         services.AddValidatorsFromAssembly(assembly);
         
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
 

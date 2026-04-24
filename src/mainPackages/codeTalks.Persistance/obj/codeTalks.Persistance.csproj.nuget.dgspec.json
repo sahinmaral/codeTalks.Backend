@@ -601,7 +601,7 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Microsoft.EntityFrameworkCore.SqlServer": {
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[8.0.0, )"
             }
