@@ -6,7 +6,7 @@ Bu uygulama, Patika.dev React Native patikası içerisinde yer alan ödevlerden 
 https://academy.patika.dev/courses/react-native/odev_5
 
 - <b>Microsoft.AspNetCore.SignalR</b> paketi sayesinde API da yer alan Hub servislerine bağlantı kurup bu servisleri dinleyebiliriz.
-- Proje, <b>Clean Architecture</b> mimarisine göre oluşturulmuştur kullanılmaktadır ve MediatR paketi sayesinde <b>observer</b> deseni daha kolay projeye uygulanmıştır.
+- Proje, <b>Clean Architecture</b> mimarisine göre oluşturulmuştur. MediatR ücretli bir paket haline geldiğinden kaldırılmış, yerine kendi <b>CQRS handler'larımız </b> yazılarak <b>observer</b> deseni projeye uygulanmıştır.
 - Projede ilişkisel veritabanı yönetim sistemi olarak <b>SQL Server </b>kullanılmaktadır
 - Proje; Core ve main packages olarak ayrılmış olup genel olarak kullanılan çoğu sınıflar <b> (Repository Pattern, Security, Pagination, Cross Cutting Concerns gibi) </b>, core packages kısmında toplanmıştır.
 
