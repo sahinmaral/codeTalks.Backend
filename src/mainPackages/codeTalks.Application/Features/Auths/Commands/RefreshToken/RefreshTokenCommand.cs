@@ -1,8 +1,8 @@
 using codeTalks.Application.Features.Auths.Dtos;
+using Core.Application.CQRS;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;
 using Core.Security.JWT;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 

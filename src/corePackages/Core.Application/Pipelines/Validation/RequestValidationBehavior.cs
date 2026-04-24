@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using Core.Application.CQRS;
+using FluentValidation;
 using FluentValidation.Results;
-using MediatR;
 
 namespace Core.Application.Pipelines.Validation;
 
@@ -14,8 +14,7 @@ public class RequestValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
         _validators = validators;
     }
 
-    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken
-                                  )
+    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         ValidationContext<object> context = new(request);
         List<ValidationFailure> failures = _validators

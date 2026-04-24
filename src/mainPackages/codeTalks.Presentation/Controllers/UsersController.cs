@@ -16,7 +16,7 @@ public class UsersController : BaseController
             Index = index,
             Size = size
         };
-        var response = await mediator.Send(request);
+        var response = await Dispatcher.SendAsync(request);
         return Ok(response);
     }
 }

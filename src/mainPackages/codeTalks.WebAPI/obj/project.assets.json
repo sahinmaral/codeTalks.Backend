@@ -2424,9 +2424,9 @@
           "Core.Security": "1.0.0",
           "FluentValidation": "10.3.6",
           "FluentValidation.DependencyInjectionExtensions": "10.3.6",
-          "MediatR": "11.1.0",
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
-          "Microsoft.Extensions.Caching.Abstractions": "6.0.0"
+          "Microsoft.Extensions.Caching.Abstractions": "6.0.0",
+          "Microsoft.Extensions.DependencyInjection": "8.0.0"
         },
         "compile": {
           "bin/placeholder/Core.Application.dll": {}
@@ -6058,19 +6058,19 @@
     ]
   },
   "packageFolders": {
-    "/home/sahinmaral/.nuget/packages/": {}
+    "/Users/sahinmaral/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.WebAPI/codeTalks.WebAPI.csproj",
+      "projectUniqueName": "/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.WebAPI/codeTalks.WebAPI.csproj",
       "projectName": "codeTalks.WebAPI",
-      "projectPath": "/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.WebAPI/codeTalks.WebAPI.csproj",
-      "packagesPath": "/home/sahinmaral/.nuget/packages/",
-      "outputPath": "/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.WebAPI/obj/",
+      "projectPath": "/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.WebAPI/codeTalks.WebAPI.csproj",
+      "packagesPath": "/Users/sahinmaral/.nuget/packages/",
+      "outputPath": "/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.WebAPI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/sahinmaral/.nuget/NuGet/NuGet.Config"
+        "/Users/sahinmaral/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -6082,14 +6082,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Application/codeTalks.Application.csproj": {
-              "projectPath": "/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Application/codeTalks.Application.csproj"
+            "/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Application/codeTalks.Application.csproj": {
+              "projectPath": "/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Application/codeTalks.Application.csproj"
             },
-            "/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Persistance/codeTalks.Persistance.csproj": {
-              "projectPath": "/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Persistance/codeTalks.Persistance.csproj"
+            "/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Persistance/codeTalks.Persistance.csproj": {
+              "projectPath": "/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Persistance/codeTalks.Persistance.csproj"
             },
-            "/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Presentation/codeTalks.Presentation.csproj": {
-              "projectPath": "/home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/mainPackages/codeTalks.Presentation/codeTalks.Presentation.csproj"
+            "/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Presentation/codeTalks.Presentation.csproj": {
+              "projectPath": "/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Presentation/codeTalks.Presentation.csproj"
             }
           }
         }
@@ -6098,7 +6098,13 @@
         "warnAsError": [
           "NU1605"
         ]
-      }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -6133,15 +6139,15 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.2, 8.0.2]"
+            "version": "[8.0.24, 8.0.24]"
           },
           {
-            "name": "Microsoft.NETCore.App.Host.linux-x64",
-            "version": "[8.0.2, 8.0.2]"
+            "name": "Microsoft.NETCore.App.Host.osx-x64",
+            "version": "[8.0.24, 8.0.24]"
           },
           {
             "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.2, 8.0.2]"
+            "version": "[8.0.24, 8.0.24]"
           }
         ],
         "frameworkReferences": {
@@ -6152,7 +6158,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.200/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/x64/sdk/9.0.311/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -23,3 +23,16 @@
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/corePackages/Core.CrossCuttingConcers/obj/Debug/net8.0/refint/Core.CrossCuttingConcerns.dll
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/corePackages/Core.CrossCuttingConcers/obj/Debug/net8.0/Core.CrossCuttingConcerns.pdb
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/corePackages/Core.CrossCuttingConcers/obj/Debug/net8.0/ref/Core.CrossCuttingConcerns.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.CrossCuttingConcers/bin/Debug/net8.0/Core.CrossCuttingConcerns.deps.json
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.CrossCuttingConcers/bin/Debug/net8.0/Core.CrossCuttingConcerns.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.CrossCuttingConcers/bin/Debug/net8.0/Core.CrossCuttingConcerns.pdb
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.CrossCuttingConcers/obj/Debug/net8.0/Core.CrossCuttingConcerns.csproj.AssemblyReference.cache
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.CrossCuttingConcers/obj/Debug/net8.0/Core.CrossCuttingConcerns.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.CrossCuttingConcers/obj/Debug/net8.0/Core.CrossCuttingConcerns.AssemblyInfoInputs.cache
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.CrossCuttingConcers/obj/Debug/net8.0/Core.CrossCuttingConcerns.AssemblyInfo.cs
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.CrossCuttingConcers/obj/Debug/net8.0/Core.CrossCuttingConcerns.csproj.CoreCompileInputs.cache
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.CrossCuttingConcers/obj/Debug/net8.0/Core.CrossCuttingConcerns.sourcelink.json
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.CrossCuttingConcers/obj/Debug/net8.0/Core.CrossCuttingConcerns.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.CrossCuttingConcers/obj/Debug/net8.0/refint/Core.CrossCuttingConcerns.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.CrossCuttingConcers/obj/Debug/net8.0/Core.CrossCuttingConcerns.pdb
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.CrossCuttingConcers/obj/Debug/net8.0/ref/Core.CrossCuttingConcerns.dll

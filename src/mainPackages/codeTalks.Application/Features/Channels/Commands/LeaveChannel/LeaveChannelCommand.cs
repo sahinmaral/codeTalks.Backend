@@ -1,16 +1,15 @@
-using System.Security.Claims;
 using codeTalks.Application.Features.Users.Helpers;
 using codeTalks.Application.Services.Repositories;
+using Core.Application.CQRS;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace codeTalks.Application.Features.Channels.Commands.LeaveChannel;
 
-public class LeaveChannelCommand : IRequest
+public class LeaveChannelCommand : ICommand
 {
     public string ChannelId { get; set; }
     
@@ -18,9 +17,9 @@ public class LeaveChannelCommand : IRequest
         IHttpContextAccessor httpContextAccessor,
         RoleManager<Role> roleManager,
         UserManager<User> userManager,
-        IChannelRepository channelRepository) : IRequestHandler<LeaveChannelCommand>
+        IChannelRepository channelRepository) : ICommandHandler<LeaveChannelCommand>
     {
-        public async Task Handle(LeaveChannelCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(LeaveChannelCommand request, CancellationToken cancellationToken)
         {
             var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
             
@@ -48,6 +47,7 @@ public class LeaveChannelCommand : IRequest
 
             channel.ChannelUsers.Remove(foundUserAtChannel);
             await channelRepository.UpdateAsync(channel);
+            return Unit.Value;
         }
     }
 }

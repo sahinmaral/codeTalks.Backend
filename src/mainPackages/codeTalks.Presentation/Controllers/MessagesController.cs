@@ -10,7 +10,7 @@ public class MessagesController : BaseController
     [HttpPost]
     public async Task<IActionResult> CreateMessage([FromBody] CreateMessageCommand request)
     {
-        await mediator.Send(request);
+        await Dispatcher.SendAsync(request);
         return Ok();
     }
     
@@ -21,7 +21,7 @@ public class MessagesController : BaseController
         {
             ChannelId = channelId
         };
-        var response = await mediator.Send(request);
+        var response = await Dispatcher.SendAsync(request);
         return Ok(response);
     }
 }

@@ -18,7 +18,7 @@ public class ChannelsController : BaseController
     [HttpPost]
     public async Task<IActionResult> CreateChannel([FromBody] CreateChannelCommand request)
     {
-        await mediator.Send(request);
+        await Dispatcher.SendAsync(request);
         return NoContent();
     }
     
@@ -30,7 +30,7 @@ public class ChannelsController : BaseController
         {
             ChannelId = channelId
         };
-        await mediator.Send(request);
+        await Dispatcher.SendAsync(request);
         return NoContent();
     }
     
@@ -43,7 +43,7 @@ public class ChannelsController : BaseController
         {
             ChannelId = channelId
         };
-        await mediator.Send(request);
+        await Dispatcher.SendAsync(request);
         return NoContent();
     }
     
@@ -55,7 +55,7 @@ public class ChannelsController : BaseController
         {
             ChannelId = channelId
         };
-        await mediator.Send(request);
+        await Dispatcher.SendAsync(request);
         return NoContent();
     }
     
@@ -66,7 +66,7 @@ public class ChannelsController : BaseController
         {
             UpdateChannelDto = dto
         };
-        await mediator.Send(request);
+        await Dispatcher.SendAsync(request);
         return NoContent();
     }
     
@@ -78,7 +78,7 @@ public class ChannelsController : BaseController
             ChannelId = channelId,
             UserId = userId
         };
-        var response = await mediator.Send(request);
+        var response = await Dispatcher.SendAsync(request);
         return Ok(response);
     }
     
@@ -92,7 +92,7 @@ public class ChannelsController : BaseController
             Index = index,
             Status = status
         };
-        var response = await mediator.Send(request);
+        var response = await Dispatcher.SendAsync(request);
         return Ok(response);
     }
 }

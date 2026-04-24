@@ -12,21 +12,21 @@ public class AuthController : BaseController
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterUserCommand request)
     {
-        RegisteredUserDto response = await mediator.Send(request);
+        RegisteredUserDto response = await Dispatcher.SendAsync(request);
         return Created("", response);
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginUserCommand request)
     {
-        LoggedUserDto response = await mediator.Send(request);
+        LoggedUserDto response = await Dispatcher.SendAsync(request);
         return Ok(response);
     }
     
     [HttpPost("refresh-token")]
     public async Task<IActionResult> Refresh([FromBody] RefreshTokenCommand request)
     {
-        RefreshedTokenDto response = await mediator.Send(request);
+        RefreshedTokenDto response = await Dispatcher.SendAsync(request);
         return Ok(response);
     }
 }

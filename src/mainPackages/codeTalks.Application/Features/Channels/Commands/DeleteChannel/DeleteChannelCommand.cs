@@ -1,16 +1,15 @@
-using System.Security.Claims;
 using codeTalks.Application.Features.Users.Helpers;
 using codeTalks.Application.Services.Repositories;
+using Core.Application.CQRS;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace codeTalks.Application.Features.Channels.Commands.DeleteChannel;
 
-public class DeleteChannelCommand : IRequest
+public class DeleteChannelCommand : ICommand
 {
     public string ChannelId { get; set; }
     
@@ -18,9 +17,9 @@ public class DeleteChannelCommand : IRequest
         IHttpContextAccessor httpContextAccessor,
         RoleManager<Role> roleManager,
         UserManager<User> userManager,
-        IChannelRepository channelRepository) : IRequestHandler<DeleteChannelCommand>
+        IChannelRepository channelRepository) : ICommandHandler<DeleteChannelCommand>
     {
-        public async Task Handle(DeleteChannelCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteChannelCommand request, CancellationToken cancellationToken)
         {
             var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
             
@@ -47,6 +46,7 @@ public class DeleteChannelCommand : IRequest
                 throw new AuthorizationException("You have no authorization to delete channel");
 
             await channelRepository.DeleteAsync(channel);
+            return Unit.Value;
         }
     }
 }

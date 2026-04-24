@@ -1,9 +1,9 @@
 using AutoMapper;
 using codeTalks.Application.Features.Auths.Dtos;
 using codeTalks.Application.Features.Auths.Rules;
+using Core.Application.CQRS;
 using Core.Security.Entities;
 using Core.Security.JWT;
-using MediatR;
 
 namespace codeTalks.Application.Features.Auths.Commands.LoginUser;
 

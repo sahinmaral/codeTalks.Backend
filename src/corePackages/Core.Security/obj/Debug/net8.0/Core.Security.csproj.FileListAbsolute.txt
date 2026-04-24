@@ -23,3 +23,16 @@
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/corePackages/Core.Security/obj/Debug/net8.0/refint/Core.Security.dll
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/corePackages/Core.Security/obj/Debug/net8.0/Core.Security.pdb
 /home/sahinmaral/Desktop/GithubRepositories/codeTalks.Backend/src/corePackages/Core.Security/obj/Debug/net8.0/ref/Core.Security.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Security/bin/Debug/net8.0/Core.Security.deps.json
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Security/bin/Debug/net8.0/Core.Security.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Security/bin/Debug/net8.0/Core.Security.pdb
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Security/obj/Debug/net8.0/Core.Security.csproj.AssemblyReference.cache
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Security/obj/Debug/net8.0/Core.Security.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Security/obj/Debug/net8.0/Core.Security.AssemblyInfoInputs.cache
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Security/obj/Debug/net8.0/Core.Security.AssemblyInfo.cs
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Security/obj/Debug/net8.0/Core.Security.csproj.CoreCompileInputs.cache
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Security/obj/Debug/net8.0/Core.Security.sourcelink.json
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Security/obj/Debug/net8.0/Core.Security.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Security/obj/Debug/net8.0/refint/Core.Security.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Security/obj/Debug/net8.0/Core.Security.pdb
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Security/obj/Debug/net8.0/ref/Core.Security.dll

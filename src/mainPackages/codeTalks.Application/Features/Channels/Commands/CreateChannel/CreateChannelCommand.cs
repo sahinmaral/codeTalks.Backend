@@ -1,13 +1,13 @@
 using codeTalks.Application.Features.Auths.Rules;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
+using Core.Application.CQRS;
 using Core.Security.Entities;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace codeTalks.Application.Features.Channels.Commands.CreateChannel;
 
-public class CreateChannelCommand : IRequest
+public class CreateChannelCommand : ICommand
 {
     public string Name { get; set; }
     public string Description { get; set; }
@@ -16,9 +16,9 @@ public class CreateChannelCommand : IRequest
     public class CreateChannelCommandHandler(
         IChannelRepository channelRepository,
         RoleManager<Role> roleManager,
-        AuthBusinessRules authBusinessRules) : IRequestHandler<CreateChannelCommand>
+        AuthBusinessRules authBusinessRules) : ICommandHandler<CreateChannelCommand>
     {
-        public async Task Handle(CreateChannelCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateChannelCommand request, CancellationToken cancellationToken)
         {
             var user = await authBusinessRules.CheckUserExistsById(request.UserId);
             var moderatorRole = await roleManager.FindByNameAsync("Moderator");
@@ -39,6 +39,7 @@ public class CreateChannelCommand : IRequest
             });
 
             await channelRepository.AddAsync(newChannel);
+            return Unit.Value;
         }
     }
 }

@@ -2,8 +2,8 @@ using AutoMapper;
 using codeTalks.Application.Features.Channels.Rules;
 using codeTalks.Application.Features.Users.Models;
 using codeTalks.Application.Services.Repositories;
+using Core.Application.CQRS;
 using Core.Persistence.Paging;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace codeTalks.Application.Features.Users.Query.GetAllByChannelId;

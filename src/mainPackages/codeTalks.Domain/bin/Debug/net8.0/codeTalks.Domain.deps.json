@@ -440,7 +440,10 @@
           "System.Linq.Dynamic.Core": "1.2.17"
         },
         "runtime": {
-          "Core.Persistence.dll": {}
+          "Core.Persistence.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "Core.Security/1.0.0": {
@@ -454,7 +457,10 @@
           "System.Linq.Dynamic.Core": "1.2.17"
         },
         "runtime": {
-          "Core.Security.dll": {}
+          "Core.Security.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

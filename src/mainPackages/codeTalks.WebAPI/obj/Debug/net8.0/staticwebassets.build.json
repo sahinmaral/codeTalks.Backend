@@ -1,11 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "nzFp2ihGV4Pty6zsWR7J8WC2lGxdQKQImJJhdlqxP4c=",
-  "Source": "codeTalks.WebAPI",
-  "BasePath": "_content/codeTalks.WebAPI",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
-}
+{"Version":1,"Hash":"IeuO4x8MirXtd9VNuBwgMySQ1PX+kbBHF4a97pdBmiw=","Source":"codeTalks.WebAPI","BasePath":"_content/codeTalks.WebAPI","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

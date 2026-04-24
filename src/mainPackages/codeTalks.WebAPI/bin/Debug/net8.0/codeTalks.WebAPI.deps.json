@@ -1260,7 +1260,10 @@
           "codeTalks.Domain": "1.0.0"
         },
         "runtime": {
-          "codeTalks.Application.dll": {}
+          "codeTalks.Application.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "codeTalks.Domain/1.0.0": {
@@ -1269,7 +1272,10 @@
           "Core.Security": "1.0.0"
         },
         "runtime": {
-          "codeTalks.Domain.dll": {}
+          "codeTalks.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "codeTalks.Persistance/1.0.0": {
@@ -1281,7 +1287,10 @@
           "codeTalks.Domain": "1.0.0"
         },
         "runtime": {
-          "codeTalks.Persistance.dll": {}
+          "codeTalks.Persistance.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "codeTalks.Presentation/1.0.0": {
@@ -1292,7 +1301,10 @@
           "codeTalks.Application": "1.0.0"
         },
         "runtime": {
-          "codeTalks.Presentation.dll": {}
+          "codeTalks.Presentation.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "Core.Application/1.0.0": {
@@ -1301,12 +1313,15 @@
           "Core.Security": "1.0.0",
           "FluentValidation": "10.3.6",
           "FluentValidation.DependencyInjectionExtensions": "10.3.6",
-          "MediatR": "12.0.1",
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
-          "Microsoft.Extensions.Caching.Abstractions": "8.0.0"
+          "Microsoft.Extensions.Caching.Abstractions": "8.0.0",
+          "Microsoft.Extensions.DependencyInjection": "8.0.0"
         },
         "runtime": {
-          "Core.Application.dll": {}
+          "Core.Application.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "Core.CrossCuttingConcerns/1.0.0": {
@@ -1319,7 +1334,10 @@
           "Serilog.Sinks.File": "5.0.0"
         },
         "runtime": {
-          "Core.CrossCuttingConcerns.dll": {}
+          "Core.CrossCuttingConcerns.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "Core.Persistence/1.0.0": {
@@ -1328,7 +1346,10 @@
           "System.Linq.Dynamic.Core": "1.2.17"
         },
         "runtime": {
-          "Core.Persistence.dll": {}
+          "Core.Persistence.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "Core.Security/1.0.0": {
@@ -1342,7 +1363,10 @@
           "System.Linq.Dynamic.Core": "1.2.17"
         },
         "runtime": {
-          "Core.Security.dll": {}
+          "Core.Security.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

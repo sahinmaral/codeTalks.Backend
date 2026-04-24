@@ -1,8 +1,10 @@
 ﻿using codeTalks.Application.Features.Auths.Rules;
 using codeTalks.Application.Features.Channels.Rules;
+using Core.Application.CQRS;
+using Core.Application.Pipelines.Authorization;
+using Core.Application.Pipelines.Logging;
 using Core.Application.Pipelines.Validation;
 using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace codeTalks.Application;
@@ -11,17 +13,19 @@ public static class ApplicationServiceRegistration
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssembly(AssemblyReference.Assembly);
-        });
+        var assembly = AssemblyReference.Assembly;
+        services.AddRequestHandlers(assembly);
 
-        services.AddAutoMapper(AssemblyReference.Assembly);
+        services.AddTransient<IDispatcher, Dispatcher>();
 
-        services.AddValidatorsFromAssembly(AssemblyReference.Assembly);
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
-        // services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
+        services.AddAutoMapper(assembly);
+
+        services.AddValidatorsFromAssembly(assembly);
         
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+
         services.AddScoped<AuthBusinessRules>();
         services.AddScoped<ChannelBusinessRules>();
 

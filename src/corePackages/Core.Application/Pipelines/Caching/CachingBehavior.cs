@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using Core.Application.CQRS;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

@@ -1,13 +1,13 @@
 using AutoMapper;
 using codeTalks.Application.Features.Auths.Dtos;
 using codeTalks.Application.Features.Auths.Rules;
+using Core.Application.CQRS;
 using Core.Security.Entities;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace codeTalks.Application.Features.Auths.Commands.RegisterUser;
 
-public partial class RegisterUserCommand : IRequest<RegisteredUserDto>
+public class RegisterUserCommand : IRequest<RegisteredUserDto>
 {
     public string FirstName { get; set; }
     public string? MiddleName { get; set; }

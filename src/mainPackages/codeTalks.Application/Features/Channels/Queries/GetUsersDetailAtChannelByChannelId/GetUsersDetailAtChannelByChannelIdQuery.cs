@@ -2,8 +2,8 @@ using AutoMapper;
 using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
+using Core.Application.CQRS;
 using Core.CrossCuttingConcerns.Exceptions;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace codeTalks.Application.Features.Channels.Queries.GetUsersDetailAtChannelByChannelId;

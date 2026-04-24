@@ -1,6 +1,6 @@
-﻿using Core.CrossCuttingConcerns.Logging;
+﻿using Core.Application.CQRS;
+using Core.CrossCuttingConcerns.Logging;
 using Core.CrossCuttingConcerns.Logging.Serilog;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
@@ -19,30 +19,46 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken
-                                  )
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
+        string user = _httpContextAccessor.HttpContext?.User.Identity?.Name ?? "?";
+
         List<LogParameter> logParameters = new()
         {
-            new LogParameter
-            {
-                Type = request.GetType().Name,
-                Value = request
-            }
+            new LogParameter { Type = request.GetType().Name, Value = request }
         };
 
         LogDetail logDetail = new()
         {
             MethodName = next.Method.Name,
             Parameters = logParameters,
-            User = _httpContextAccessor.HttpContext == null ||
-                   _httpContextAccessor.HttpContext.User.Identity.Name == null
-                       ? "?"
-                       : _httpContextAccessor.HttpContext.User.Identity.Name
+            User = user
         };
 
         _loggerServiceBase.Info(JsonConvert.SerializeObject(logDetail));
 
-        return next();
+        try
+        {
+            TResponse response = await next();
+            _loggerServiceBase.Info(JsonConvert.SerializeObject(new
+            {
+                logDetail.MethodName,
+                logDetail.User,
+                Response = response
+            }));
+            return response;
+        }
+        catch (Exception ex)
+        {
+            LogDetailWithException errorLog = new()
+            {
+                MethodName = logDetail.MethodName,
+                Parameters = logParameters,
+                User = user,
+                ExceptionMessage = ex.Message
+            };
+            _loggerServiceBase.Error(JsonConvert.SerializeObject(errorLog));
+            throw;
+        }
     }
 }

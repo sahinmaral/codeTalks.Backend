@@ -1,9 +1,8 @@
-﻿using Core.CrossCuttingConcerns.Exceptions;
+﻿using Core.Application.CQRS;
+using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Core.Security.Extensions;
-using Microsoft.AspNetCore.Identity;
 
 namespace Core.Application.Pipelines.Authorization;
 
@@ -19,6 +18,11 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
+        if (request.Roles == null || request.Roles.Length == 0)
+        {
+            throw new InvalidOperationException($"{request.GetType().Name} must define at least one role in {nameof(ISecuredRequest)}.{nameof(ISecuredRequest.Roles)}.");
+        }
+
         List<string>? roleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles();
 
         if (roleClaims == null) throw new AuthorizationException("Claims not found.");

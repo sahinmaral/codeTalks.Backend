@@ -2,11 +2,11 @@ using codeTalks.Application.Features.Auths.Rules;
 using codeTalks.Application.Features.Channels.Rules;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
-using MediatR;
+using Core.Application.CQRS;
 
 namespace codeTalks.Application.Features.Messages.Commands.CreateMessage;
 
-public class CreateMessageCommand : IRequest
+public class CreateMessageCommand : ICommand
 {
     public string Content { get; set; }
     public string UserId { get; set; }
@@ -15,9 +15,9 @@ public class CreateMessageCommand : IRequest
     public class CreateMessageCommandHandler(
         IMessageRepository messageRepository,
         AuthBusinessRules authBusinessRules,
-        ChannelBusinessRules channelBusinessRules) : IRequestHandler<CreateMessageCommand>
+        ChannelBusinessRules channelBusinessRules) : ICommandHandler<CreateMessageCommand>
     {
-        public async Task Handle(CreateMessageCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateMessageCommand request, CancellationToken cancellationToken)
         {
             await authBusinessRules.CheckUserExistsById(request.UserId);
             await channelBusinessRules.CheckChannelExistsById(request.ChannelId);
@@ -28,6 +28,7 @@ public class CreateMessageCommand : IRequest
                 SenderId = request.UserId,
                 ChannelId = request.ChannelId
             });
+            return Unit.Value;
         }
     }
 }

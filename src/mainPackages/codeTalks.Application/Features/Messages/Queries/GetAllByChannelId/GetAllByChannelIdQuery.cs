@@ -1,7 +1,7 @@
 using AutoMapper;
 using codeTalks.Application.Features.Messages.Models;
 using codeTalks.Application.Services.Repositories;
-using MediatR;
+using Core.Application.CQRS;
 using Microsoft.EntityFrameworkCore;
 
 namespace codeTalks.Application.Features.Messages.Queries.GetAllByChannelId;
