@@ -1,28 +1,16 @@
 # codeTalks.Backend
 
-Bu uygulama, Patika.dev React Native patikası içerisinde yer alan ödevlerden biri olan codeTalks adlı projenin back-end kısmıdır. Ödevden ayrıca olarak firebase gibi bir servis kullanmak yerine back-end servisini kendim yazdığım ve içerisine signalR eklediğim bir API ile haberleşmesi sağlanmıştır. 
-<br />
-Ödevin linki : 
-https://academy.patika.dev/courses/react-native/odev_5
+**codeTalks**, geliştiriciler için tasarlanmış gerçek zamanlı bir sohbet uygulamasının back-end kısmıdır. Firebase gibi hazır bir servis kullanmak yerine back-end servisi özel olarak yazılmış ve içerisine SignalR eklenmiş bir API olarak geliştirilmiştir.
 
-- <b>Microsoft.AspNetCore.SignalR</b> paketi sayesinde API da yer alan Hub servislerine bağlantı kurup bu servisleri dinleyebiliriz.
-- Proje, <b>Clean Architecture</b> mimarisine göre oluşturulmuştur. MediatR ücretli bir paket haline geldiğinden kaldırılmış, yerine kendi <b>CQRS handler'larımız </b> yazılarak <b>observer</b> deseni projeye uygulanmıştır.
-- Projede ilişkisel veritabanı yönetim sistemi olarak <b>SQL Server </b>kullanılmaktadır
-- Proje; Core ve main packages olarak ayrılmış olup genel olarak kullanılan çoğu sınıflar <b> (Repository Pattern, Security, Pagination, Cross Cutting Concerns gibi) </b>, core packages kısmında toplanmıştır.
+* **Microsoft.AspNetCore.SignalR** paketi sayesinde API'da yer alan Hub servislerine bağlantı kurup bu servisleri dinleyebiliriz.
+* Proje, **Clean Architecture** mimarisine göre oluşturulmuştur. MediatR ücretli bir paket haline geldiğinden kaldırılmış, yerine kendi **CQRS handler'larımız** yazılarak **observer** deseni projeye uygulanmıştır.
+* Projede ilişkisel veritabanı yönetim sistemi olarak **SQL Server** kullanılmaktadır.
+* Proje; Core ve main packages olarak ayrılmış olup genel olarak kullanılan çoğu sınıflar **(Repository Pattern, Security, Pagination, Cross Cutting Concerns gibi)**, core packages kısmında toplanmıştır.
 
-## TODO
+## Roadmap
 
-### Yapılacaklar
+Proje ilerleyişini [GitHub Projects](https://github.com/users/sahinmaral/projects/5) üzerinden takip edebilirsiniz.
 
-- [ ] Kullanıcıların profil fotoğraflarının kaydı için Cloudinary servisini entegre et.
-- [ ] Kullanıcıların Google ve Facebook ile bağlantı yapmaları için altyapı hazırla.
-- [ ] Kullanıcı bilgilerinin güncellenebileceği bir Controller oluştur.
-- [ ] Projenin rollendirme kısımlarını Features da yer alan Commands ve Queries sınıflarında tanımla.
-    - ISecuredRequest sınıfı sayesinde 
-- [ ] Projeyi Dockerize et.
-- [ ] Projeyi , Heroku üzerinde deploy etmeyi dene.
-    - Sadece bir fikir ???
+## İlgili Repo
 
-### Yapım Aşamasında
-
-### Bitti ✓
+Mobil uygulama kaynak koduna ulaşmak için: [codeTalks Mobile](https://github.com/sahinmaral/codeTalks)
