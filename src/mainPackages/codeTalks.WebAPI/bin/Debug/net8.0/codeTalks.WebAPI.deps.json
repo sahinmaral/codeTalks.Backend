@@ -53,7 +53,7 @@
       "FluentValidation.DependencyInjectionExtensions/10.3.6": {
         "dependencies": {
           "FluentValidation": "10.3.6",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
         },
         "runtime": {
           "lib/netstandard2.1/FluentValidation.DependencyInjectionExtensions.dll": {
@@ -70,10 +70,41 @@
           }
         }
       },
+      "Mapster/10.0.0": {
+        "dependencies": {
+          "Mapster.Core": "10.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Mapster.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.0.0"
+          }
+        }
+      },
+      "Mapster.Core/10.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/Mapster.Core.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.0.0"
+          }
+        }
+      },
+      "Mapster.DependencyInjection/10.0.0": {
+        "dependencies": {
+          "Mapster": "10.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Mapster.DependencyInjection.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.0.0"
+          }
+        }
+      },
       "MediatR/12.0.1": {
         "dependencies": {
           "MediatR.Contracts": "2.0.1",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
         },
         "runtime": {
           "lib/net6.0/MediatR.dll": {
@@ -93,7 +124,7 @@
       "MediatR.Extensions.Microsoft.DependencyInjection/11.0.0": {
         "dependencies": {
           "MediatR": "12.0.1",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
         },
         "runtime": {
           "lib/netstandard2.1/MediatR.Extensions.Microsoft.DependencyInjection.dll": {
@@ -166,7 +197,7 @@
           "Microsoft.AspNetCore.Cryptography.Internal": "6.0.1",
           "Microsoft.AspNetCore.DataProtection.Abstractions": "2.2.0",
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.2.0",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
           "Microsoft.Extensions.Options": "8.0.0",
           "Microsoft.Win32.Registry": "4.5.0",
@@ -591,7 +622,7 @@
       "Microsoft.Extensions.Caching.Memory/8.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Caching.Abstractions": "8.0.0",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
           "Microsoft.Extensions.Options": "8.0.0",
           "Microsoft.Extensions.Primitives": "8.0.0"
@@ -609,10 +640,17 @@
       },
       "Microsoft.Extensions.DependencyInjection/8.0.0": {
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0": {},
+      "Microsoft.Extensions.DependencyInjection.Abstractions/9.0.0": {
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
       "Microsoft.Extensions.DependencyModel/8.0.0": {
         "dependencies": {
           "System.Text.Encodings.Web": "8.0.0",
@@ -633,7 +671,7 @@
       "Microsoft.Extensions.Hosting.Abstractions/2.2.0": {
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
           "Microsoft.Extensions.FileProviders.Abstractions": "2.2.0",
           "Microsoft.Extensions.Logging.Abstractions": "8.0.0"
         }
@@ -661,20 +699,20 @@
       },
       "Microsoft.Extensions.Logging.Abstractions/8.0.0": {
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
         }
       },
       "Microsoft.Extensions.ObjectPool/2.2.0": {},
       "Microsoft.Extensions.Options/8.0.0": {
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
           "Microsoft.Extensions.Primitives": "8.0.0"
         }
       },
       "Microsoft.Extensions.Primitives/8.0.0": {},
       "Microsoft.Extensions.WebEncoders/2.2.0": {
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
           "Microsoft.Extensions.Options": "8.0.0",
           "System.Text.Encodings.Web": "8.0.0"
         }
@@ -1021,6 +1059,8 @@
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.0",
           "Core.Application": "1.0.0",
           "Core.Persistence": "1.0.0",
+          "Mapster": "10.0.0",
+          "Mapster.DependencyInjection": "10.0.0",
           "MediatR": "12.0.1",
           "MediatR.Extensions.Microsoft.DependencyInjection": "11.0.0",
           "codeTalks.Domain": "1.0.0"
@@ -1177,6 +1217,27 @@
       "sha512": "sha512-lQKvtaTDOXnoVJ20ibTuSIOf2i0uO0MPbDhd1jm238I+U/2ZnRENj0cktKZhtchBMtCUSRQ5v4xBCUbKNmyVMw==",
       "path": "humanizer.core/2.14.1",
       "hashPath": "humanizer.core.2.14.1.nupkg.sha512"
+    },
+    "Mapster/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-R2WUPwRS1EWVMNp7RE72GaDUVCliAWuKGt75tTYUOzPpM/40aVPDLhljGA465jA8PTLLID0n0cvbRtCzUXYDWg==",
+      "path": "mapster/10.0.0",
+      "hashPath": "mapster.10.0.0.nupkg.sha512"
+    },
+    "Mapster.Core/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RHPuFw8JyjPzW8CyMjBFtCsdxd8bTniFcU2ARjpmp2n3c8B30tFCjpQWmajSObdud2eTLVnNCqY3ZweHx+m4+w==",
+      "path": "mapster.core/10.0.0",
+      "hashPath": "mapster.core.10.0.0.nupkg.sha512"
+    },
+    "Mapster.DependencyInjection/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ezjvM0mCGmZk09XFZ7KOzk3oGZ9+rjIzMHuRdFPj2doFgVbVHZ1tL6HuhgHs7BHfGADQIPn8TOTiE2F9CEN/Kw==",
+      "path": "mapster.dependencyinjection/10.0.0",
+      "hashPath": "mapster.dependencyinjection.10.0.0.nupkg.sha512"
     },
     "MediatR/12.0.1": {
       "type": "package",
@@ -1514,12 +1575,12 @@
       "path": "microsoft.extensions.dependencyinjection/8.0.0",
       "hashPath": "microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512"
     },
-    "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0": {
+    "Microsoft.Extensions.DependencyInjection.Abstractions/9.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-cjWrLkJXK0rs4zofsK4bSdg+jhDLTaxrkXu4gS6Y7MAlCvRyNNgwY/lJi5RDlQOnSZweHqoyvgvbdvQsRIW+hg==",
-      "path": "microsoft.extensions.dependencyinjection.abstractions/8.0.0",
-      "hashPath": "microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+      "sha512": "sha512-+6f2qv2a3dLwd5w6JanPIPs47CxRbnk+ZocMJUhv9NxP88VlOcJYZs9jY+MYSjxvady08bUZn6qgiNh7DadGgg==",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/9.0.0",
+      "hashPath": "microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.DependencyModel/8.0.0": {
       "type": "package",

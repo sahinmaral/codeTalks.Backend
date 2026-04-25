@@ -312,3 +312,7 @@
 /Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.WebAPI/obj/Debug/net8.0/staticwebassets.build.endpoints.json
 /Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.WebAPI/bin/Debug/net8.0/Npgsql.dll
 /Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.WebAPI/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.WebAPI/bin/Debug/net8.0/Mapster.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.WebAPI/bin/Debug/net8.0/Mapster.Core.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.WebAPI/bin/Debug/net8.0/Mapster.DependencyInjection.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.WebAPI/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll

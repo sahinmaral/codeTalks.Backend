@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "vsodDTREsWE=",
+  "dgSpecHash": "zprDyrF5cNg=",
   "success": true,
   "projectFilePath": "/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.WebAPI/codeTalks.WebAPI.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,9 @@
     "/Users/sahinmaral/.nuget/packages/fluentvalidation/10.3.6/fluentvalidation.10.3.6.nupkg.sha512",
     "/Users/sahinmaral/.nuget/packages/fluentvalidation.dependencyinjectionextensions/10.3.6/fluentvalidation.dependencyinjectionextensions.10.3.6.nupkg.sha512",
     "/Users/sahinmaral/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
+    "/Users/sahinmaral/.nuget/packages/mapster/10.0.0/mapster.10.0.0.nupkg.sha512",
+    "/Users/sahinmaral/.nuget/packages/mapster.core/10.0.0/mapster.core.10.0.0.nupkg.sha512",
+    "/Users/sahinmaral/.nuget/packages/mapster.dependencyinjection/10.0.0/mapster.dependencyinjection.10.0.0.nupkg.sha512",
     "/Users/sahinmaral/.nuget/packages/mediatr/12.0.1/mediatr.12.0.1.nupkg.sha512",
     "/Users/sahinmaral/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
     "/Users/sahinmaral/.nuget/packages/mediatr.extensions.microsoft.dependencyinjection/11.0.0/mediatr.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
@@ -57,7 +60,7 @@
     "/Users/sahinmaral/.nuget/packages/microsoft.extensions.configuration.abstractions/8.0.0/microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
     "/Users/sahinmaral/.nuget/packages/microsoft.extensions.configuration.binder/6.0.0/microsoft.extensions.configuration.binder.6.0.0.nupkg.sha512",
     "/Users/sahinmaral/.nuget/packages/microsoft.extensions.dependencyinjection/8.0.0/microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
-    "/Users/sahinmaral/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/Users/sahinmaral/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/9.0.0/microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512",
     "/Users/sahinmaral/.nuget/packages/microsoft.extensions.dependencymodel/8.0.0/microsoft.extensions.dependencymodel.8.0.0.nupkg.sha512",
     "/Users/sahinmaral/.nuget/packages/microsoft.extensions.fileproviders.abstractions/2.2.0/microsoft.extensions.fileproviders.abstractions.2.2.0.nupkg.sha512",
     "/Users/sahinmaral/.nuget/packages/microsoft.extensions.hosting.abstractions/2.2.0/microsoft.extensions.hosting.abstractions.2.2.0.nupkg.sha512",

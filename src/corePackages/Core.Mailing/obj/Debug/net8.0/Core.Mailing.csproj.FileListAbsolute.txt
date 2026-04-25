@@ -10,3 +10,16 @@
 /home/sahinmaral/Desktop/GithubRepositories/diDENGE-Backend/src/corePackages/Core.Mailing/obj/Debug/net8.0/refint/Core.Mailing.dll
 /home/sahinmaral/Desktop/GithubRepositories/diDENGE-Backend/src/corePackages/Core.Mailing/obj/Debug/net8.0/Core.Mailing.pdb
 /home/sahinmaral/Desktop/GithubRepositories/diDENGE-Backend/src/corePackages/Core.Mailing/obj/Debug/net8.0/ref/Core.Mailing.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Mailing/bin/Debug/net8.0/Core.Mailing.deps.json
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Mailing/bin/Debug/net8.0/Core.Mailing.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Mailing/bin/Debug/net8.0/Core.Mailing.pdb
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Mailing/obj/Debug/net8.0/Core.Mailing.csproj.AssemblyReference.cache
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Mailing/obj/Debug/net8.0/Core.Mailing.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Mailing/obj/Debug/net8.0/Core.Mailing.AssemblyInfoInputs.cache
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Mailing/obj/Debug/net8.0/Core.Mailing.AssemblyInfo.cs
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Mailing/obj/Debug/net8.0/Core.Mailing.csproj.CoreCompileInputs.cache
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Mailing/obj/Debug/net8.0/Core.Mailing.sourcelink.json
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Mailing/obj/Debug/net8.0/Core.Mailing.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Mailing/obj/Debug/net8.0/refint/Core.Mailing.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Mailing/obj/Debug/net8.0/Core.Mailing.pdb
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/corePackages/Core.Mailing/obj/Debug/net8.0/ref/Core.Mailing.dll

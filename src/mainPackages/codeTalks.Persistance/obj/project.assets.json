@@ -61,6 +61,40 @@
           }
         }
       },
+      "Mapster/10.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Mapster.Core": "10.0.0"
+        },
+        "compile": {
+          "lib/net8.0/Mapster.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/Mapster.dll": {}
+        }
+      },
+      "Mapster.Core/10.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Mapster.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Mapster.Core.dll": {}
+        }
+      },
+      "Mapster.DependencyInjection/10.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Mapster": "10.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
+        },
+        "compile": {
+          "lib/net8.0/Mapster.DependencyInjection.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/Mapster.DependencyInjection.dll": {}
+        }
+      },
       "MediatR/12.0.1": {
         "type": "package",
         "dependencies": {
@@ -741,7 +775,7 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0": {
+      "Microsoft.Extensions.DependencyInjection.Abstractions/9.0.0": {
         "type": "package",
         "compile": {
           "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
@@ -754,7 +788,7 @@
           }
         },
         "build": {
-          "buildTransitive/net6.0/_._": {}
+          "buildTransitive/net8.0/_._": {}
         }
       },
       "Microsoft.Extensions.DependencyModel/2.1.0": {
@@ -1844,6 +1878,8 @@
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.0",
           "Core.Application": "1.0.0",
           "Core.Persistence": "1.0.0",
+          "Mapster": "10.0.0",
+          "Mapster.DependencyInjection": "10.0.0",
           "MediatR": "12.0.1",
           "MediatR.Extensions.Microsoft.DependencyInjection": "11.0.0",
           "codeTalks.Domain": "1.0.0"
@@ -2007,6 +2043,51 @@
         "lib/netstandard2.0/FluentValidation.DependencyInjectionExtensions.xml",
         "lib/netstandard2.1/FluentValidation.DependencyInjectionExtensions.dll",
         "lib/netstandard2.1/FluentValidation.DependencyInjectionExtensions.xml"
+      ]
+    },
+    "Mapster/10.0.0": {
+      "sha512": "R2WUPwRS1EWVMNp7RE72GaDUVCliAWuKGt75tTYUOzPpM/40aVPDLhljGA465jA8PTLLID0n0cvbRtCzUXYDWg==",
+      "type": "package",
+      "path": "mapster/10.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/net10.0/Mapster.dll",
+        "lib/net8.0/Mapster.dll",
+        "lib/net9.0/Mapster.dll",
+        "lib/netstandard2.0/Mapster.dll",
+        "mapster.10.0.0.nupkg.sha512",
+        "mapster.nuspec"
+      ]
+    },
+    "Mapster.Core/10.0.0": {
+      "sha512": "RHPuFw8JyjPzW8CyMjBFtCsdxd8bTniFcU2ARjpmp2n3c8B30tFCjpQWmajSObdud2eTLVnNCqY3ZweHx+m4+w==",
+      "type": "package",
+      "path": "mapster.core/10.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/netstandard2.0/Mapster.Core.dll",
+        "mapster.core.10.0.0.nupkg.sha512",
+        "mapster.core.nuspec"
+      ]
+    },
+    "Mapster.DependencyInjection/10.0.0": {
+      "sha512": "ezjvM0mCGmZk09XFZ7KOzk3oGZ9+rjIzMHuRdFPj2doFgVbVHZ1tL6HuhgHs7BHfGADQIPn8TOTiE2F9CEN/Kw==",
+      "type": "package",
+      "path": "mapster.dependencyinjection/10.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/net10.0/Mapster.DependencyInjection.dll",
+        "lib/net8.0/Mapster.DependencyInjection.dll",
+        "lib/net9.0/Mapster.DependencyInjection.dll",
+        "lib/netstandard2.0/Mapster.DependencyInjection.dll",
+        "mapster.dependencyinjection.10.0.0.nupkg.sha512",
+        "mapster.dependencyinjection.nuspec"
       ]
     },
     "MediatR/12.0.1": {
@@ -2677,10 +2758,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0": {
-      "sha512": "cjWrLkJXK0rs4zofsK4bSdg+jhDLTaxrkXu4gS6Y7MAlCvRyNNgwY/lJi5RDlQOnSZweHqoyvgvbdvQsRIW+hg==",
+    "Microsoft.Extensions.DependencyInjection.Abstractions/9.0.0": {
+      "sha512": "+6f2qv2a3dLwd5w6JanPIPs47CxRbnk+ZocMJUhv9NxP88VlOcJYZs9jY+MYSjxvady08bUZn6qgiNh7DadGgg==",
       "type": "package",
-      "path": "microsoft.extensions.dependencyinjection.abstractions/8.0.0",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2690,21 +2771,19 @@
         "THIRD-PARTY-NOTICES.TXT",
         "buildTransitive/net461/Microsoft.Extensions.DependencyInjection.Abstractions.targets",
         "buildTransitive/net462/_._",
-        "buildTransitive/net6.0/_._",
+        "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/Microsoft.Extensions.DependencyInjection.Abstractions.targets",
         "lib/net462/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
         "lib/net462/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
-        "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
-        "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
-        "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
-        "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
         "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
         "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
         "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
         "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
-        "microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512",
         "microsoft.extensions.dependencyinjection.abstractions.nuspec",
         "useSharedDesignerContext.txt"
       ]

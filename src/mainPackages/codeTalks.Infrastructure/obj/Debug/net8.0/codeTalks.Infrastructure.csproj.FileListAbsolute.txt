@@ -1,0 +1,12 @@
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Infrastructure/bin/Debug/net8.0/codeTalks.Infrastructure.deps.json
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Infrastructure/bin/Debug/net8.0/codeTalks.Infrastructure.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Infrastructure/bin/Debug/net8.0/codeTalks.Infrastructure.pdb
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Infrastructure/obj/Debug/net8.0/codeTalks.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Infrastructure/obj/Debug/net8.0/codeTalks.Infrastructure.AssemblyInfoInputs.cache
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Infrastructure/obj/Debug/net8.0/codeTalks.Infrastructure.AssemblyInfo.cs
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Infrastructure/obj/Debug/net8.0/codeTalks.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Infrastructure/obj/Debug/net8.0/codeTalks.Infrastructure.sourcelink.json
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Infrastructure/obj/Debug/net8.0/codeTalks.Infrastructure.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Infrastructure/obj/Debug/net8.0/refint/codeTalks.Infrastructure.dll
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Infrastructure/obj/Debug/net8.0/codeTalks.Infrastructure.pdb
+/Users/sahinmaral/Desktop/codeTalks/Backend/src/mainPackages/codeTalks.Infrastructure/obj/Debug/net8.0/ref/codeTalks.Infrastructure.dll
