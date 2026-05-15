@@ -1,0 +1,41 @@
+## Build artifacts
+bin/
+obj/
+
+## .NET
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+.vs/
+_ReSharper*/
+*.DotSettings.user
+
+## NuGet
+*.nupkg
+*.snupkg
+**/packages/
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+## Logs
+*.log
+logs/
+
+## OS
+.DS_Store
+Thumbs.db
+
+## IDE
+.idea/
+*.swp
+*.swo
+
+## Environment
+.env
+*.env.local
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json

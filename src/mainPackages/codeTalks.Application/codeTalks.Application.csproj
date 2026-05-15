@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\corePackages\Core.Application\Core.Application.csproj" />
+      <ProjectReference Include="..\..\corePackages\Core.Persistence\Core.Persistence.csproj" />
+      <ProjectReference Include="..\codeTalks.Domain\codeTalks.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="MediatR">
+        <HintPath>..\..\..\..\..\..\.nuget\packages\mediatr\11.1.0\lib\netstandard2.1\MediatR.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Mapster" Version="10.0.0" />
+      <PackageReference Include="Mapster.DependencyInjection" Version="10.0.0" />
+    </ItemGroup>
+
+</Project>
