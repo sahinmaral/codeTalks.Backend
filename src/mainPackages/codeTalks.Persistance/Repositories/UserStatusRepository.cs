@@ -5,5 +5,7 @@ using Core.Persistence.Repositories;
 
 namespace codeTalks.Persistance.Repositories;
 
-public sealed class MessageRepository(AppDbContext context)
-    : EfRepositoryBase<Message, AppDbContext>(context), IMessageRepository;
+public sealed class UserStatusRepository(AppDbContext context) : EfRepositoryBase<UserStatus, AppDbContext>(context), IUserStatusRepository
+{
+    
+}

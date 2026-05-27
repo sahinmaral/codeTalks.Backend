@@ -15,6 +15,7 @@ public static class PersistanceServiceRegistration
 
         services.AddScoped<IMessageRepository, MessageRepository>();
         services.AddScoped<IChannelRepository, ChannelRepository>();
+        services.AddScoped<IUserStatusRepository, UserStatusRepository>();
 
         services.AddDbContext<AppDbContext>(options =>
         {

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using codeTalks.Persistance.Contexts;
@@ -11,9 +12,11 @@ using codeTalks.Persistance.Contexts;
 namespace codeTalks.Persistance.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260517183944_UpdateUserStatusToInheritEntity")]
+    partial class UpdateUserStatusToInheritEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,15 +53,15 @@ namespace codeTalks.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ec128130-96b8-4fa9-b624-a7fd8bf9c5d2",
-                            ConcurrencyStamp = "d3a9a937-e0a2-401c-9cca-b95403e44cf8",
+                            Id = "9fc4de86-4793-4709-b83f-0b6988f92f64",
+                            ConcurrencyStamp = "cedce06c-6f78-45a4-8d98-f0dc5838ba90",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "b1c487ef-1fa4-4f96-a8ab-b6cb14216a86",
-                            ConcurrencyStamp = "f370f307-6959-4896-ae23-0ea826a00261",
+                            Id = "4aac6dd6-e5c9-47dc-99e9-e8b3f26264c5",
+                            ConcurrencyStamp = "ed1ad7f7-1305-45f4-ba15-97b3ad467869",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         });
@@ -286,6 +289,9 @@ namespace codeTalks.Persistance.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("LastUpdated")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Status")

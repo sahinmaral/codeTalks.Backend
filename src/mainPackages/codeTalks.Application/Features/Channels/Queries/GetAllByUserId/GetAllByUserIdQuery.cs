@@ -37,6 +37,7 @@ public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
                     .First(channel => channel.Id == channelsByUserIdItemDto.Id).ChannelUsers
                     .First(channelUser => channelUser.UserId == request.UserId);
 
+                channelsByUserIdItemDto.MemberCount = filteredChannelUser.Channel.ChannelUsers.Count;
                 channelsByUserIdItemDto.Status = filteredChannelUser.Status;
                 channelsByUserIdItemDto.Role = mapper.Map<ChannelsByUserIdRoleDto>(filteredChannelUser.Role);
             }

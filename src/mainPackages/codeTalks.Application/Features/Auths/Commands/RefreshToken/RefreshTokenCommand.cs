@@ -13,20 +13,12 @@ public class RefreshTokenCommand : IRequest<RefreshedTokenDto>
     public string UserId { get; set; }
     public string RefreshToken { get; set; }
     
-    public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, RefreshedTokenDto>
+    public class RefreshTokenCommandHandler(UserManager<User> userManager, IJwtProvider jwtProvider)
+        : IRequestHandler<RefreshTokenCommand, RefreshedTokenDto>
     {
-        private readonly UserManager<User> _userManager;
-        private readonly IJwtProvider _jwtProvider;
-
-        public RefreshTokenCommandHandler(UserManager<User> userManager, IJwtProvider jwtProvider)
-        {
-            _userManager = userManager;
-            _jwtProvider = jwtProvider;
-        }
-
         public async Task<RefreshedTokenDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            User? user = await _userManager.FindByIdAsync(request.UserId) 
+            User? user = await userManager.FindByIdAsync(request.UserId) 
                          ?? throw new EntityNotFoundException("User could not found");
 
             if (user.RefreshToken != request.RefreshToken)
@@ -35,7 +27,7 @@ public class RefreshTokenCommand : IRequest<RefreshedTokenDto>
             if (user.RefreshTokenExpires < DateTime.Now)
                 throw new SecurityTokenException("Refresh token is expired");
 
-            var tokenResponse = await _jwtProvider.CreateTokenAsync(user);
+            var tokenResponse = await jwtProvider.CreateTokenAsync(user);
 
             RefreshedTokenDto refreshedTokenDto = new RefreshedTokenDto
             {

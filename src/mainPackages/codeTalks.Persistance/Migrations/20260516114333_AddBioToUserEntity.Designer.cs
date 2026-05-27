@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using codeTalks.Persistance.Contexts;
@@ -11,9 +12,11 @@ using codeTalks.Persistance.Contexts;
 namespace codeTalks.Persistance.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260516114333_AddBioToUserEntity")]
+    partial class AddBioToUserEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,15 +53,15 @@ namespace codeTalks.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ec128130-96b8-4fa9-b624-a7fd8bf9c5d2",
-                            ConcurrencyStamp = "d3a9a937-e0a2-401c-9cca-b95403e44cf8",
+                            Id = "84597abd-cf79-4545-bda4-c12e2f445ae7",
+                            ConcurrencyStamp = "b8ca6cab-d0fb-4d33-8cb0-5b3dad6b989d",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "b1c487ef-1fa4-4f96-a8ab-b6cb14216a86",
-                            ConcurrencyStamp = "f370f307-6959-4896-ae23-0ea826a00261",
+                            Id = "60e9f9d2-b8ef-4693-aab4-93b6480c62ba",
+                            ConcurrencyStamp = "fe86da36-726f-4e96-9c01-c543bb5caca9",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         });
@@ -280,32 +283,6 @@ namespace codeTalks.Persistance.Migrations
                     b.ToTable("Messages", (string)null);
                 });
 
-            modelBuilder.Entity("codeTalks.Domain.UserStatus", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("UserStatuses", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.HasOne("Core.Security.Entities.User", null)
@@ -374,17 +351,6 @@ namespace codeTalks.Persistance.Migrations
                     b.Navigation("Channel");
 
                     b.Navigation("Sender");
-                });
-
-            modelBuilder.Entity("codeTalks.Domain.UserStatus", b =>
-                {
-                    b.HasOne("Core.Security.Entities.User", "User")
-                        .WithOne()
-                        .HasForeignKey("codeTalks.Domain.UserStatus", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("codeTalks.Domain.Channel", b =>

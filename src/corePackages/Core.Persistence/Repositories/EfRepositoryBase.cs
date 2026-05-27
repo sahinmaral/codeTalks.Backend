@@ -6,16 +6,11 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace Core.Persistence.Repositories;
 
-public class EfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>, IRepository<TEntity>
+public class EfRepositoryBase<TEntity, TContext>(TContext context) : IAsyncRepository<TEntity>, IRepository<TEntity>
     where TEntity : Entity
     where TContext : DbContext
 {
-    protected TContext Context { get; }
-
-    public EfRepositoryBase(TContext context)
-    {
-        Context = context;
-    }
+    protected TContext Context { get; } = context;
 
     public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate)
     {

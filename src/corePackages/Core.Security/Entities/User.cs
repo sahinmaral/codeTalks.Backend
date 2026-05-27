@@ -13,6 +13,7 @@ public class User : IdentityUser<string>
     public string? MiddleName { get; set; }
     public string LastName { get; set; } = null!;
     public string? ProfilePhotoURL { get; set; }
+    public string? Bio { get; set; }
     public string? RefreshToken { get; set; }
     public DateTime? RefreshTokenExpires { get; set; }
     public DateTime CreatedAt { get; set; }

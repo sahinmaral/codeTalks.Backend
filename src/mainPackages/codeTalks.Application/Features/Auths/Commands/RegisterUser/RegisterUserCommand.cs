@@ -1,6 +1,8 @@
 using MapsterMapper;
 using codeTalks.Application.Features.Auths.Dtos;
 using codeTalks.Application.Features.Auths.Rules;
+using codeTalks.Application.Services.Repositories;
+using codeTalks.Domain;
 using Core.Application.CQRS;
 using Core.Security.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -13,36 +15,37 @@ public class RegisterUserCommand : IRequest<RegisteredUserDto>
     public string? MiddleName { get; set; }
     public string LastName { get; set; }
     public string? ProfilePhotoURL { get; set; }
+    public string? Bio { get; set; }
     public string UserName { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
 
-    public sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, RegisteredUserDto>
+    public sealed class RegisterUserCommandHandler(
+        UserManager<User> userManager,
+        IUserStatusRepository userStatusRepository,
+        AuthBusinessRules authBusinessRules,
+        IMapper mapper)
+        : IRequestHandler<RegisterUserCommand, RegisteredUserDto>
     {
-        private readonly RoleManager<Role> _roleManager;
-        private readonly UserManager<User> _userManager;
-        private readonly AuthBusinessRules _authBusinessRules;
-        private readonly IMapper _mapper;
-
-        public RegisterUserCommandHandler(UserManager<User> userManager, AuthBusinessRules authBusinessRules, IMapper mapper, RoleManager<Role> roleManager)
-        {
-            _userManager = userManager;
-            _authBusinessRules = authBusinessRules;
-            _mapper = mapper;
-            _roleManager = roleManager;
-        }
-
         public async Task<RegisteredUserDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            await _authBusinessRules.CheckUserWithUsernameAlreadyExists(request.UserName);
-            await _authBusinessRules.CheckUserWithEmailAlreadyExists(request.Email);
+            await authBusinessRules.CheckUserWithUsernameAlreadyExists(request.UserName);
+            await authBusinessRules.CheckUserWithEmailAlreadyExists(request.Email);
 
-            User newUser = _mapper.Map<User>(request);
+            User newUser = mapper.Map<User>(request);
 
-            await _userManager.CreateAsync(newUser, request.Password);
-            await _userManager.AddToRoleAsync(newUser, "User");
+            await userManager.CreateAsync(newUser, request.Password);
+            await userManager.AddToRoleAsync(newUser, "User");
+
+            UserStatus userStatusForNewUser = new UserStatus
+            {
+                UserId = newUser.Id,
+                Status = UserStatusType.Online
+            };
+            
+            userStatusRepository.Add(userStatusForNewUser);
                 
-            return _mapper.Map<RegisteredUserDto>(newUser);
+            return mapper.Map<RegisteredUserDto>(newUser);
         }
     }
 }

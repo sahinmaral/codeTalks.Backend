@@ -6,14 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace codeTalks.Persistance.Repositories;
 
-public sealed class ChannelRepository :  EfRepositoryBase<Channel, AppDbContext>, IChannelRepository
+public sealed class ChannelRepository(AppDbContext context)
+    : EfRepositoryBase<Channel, AppDbContext>(context), IChannelRepository
 {
-    private readonly AppDbContext _context;
-
-    public ChannelRepository(AppDbContext context) : base(context)
-    {
-        _context = context;
-    }
+    private readonly AppDbContext _context = context;
 
     public new async Task<Channel> AddAsync(Channel entity)
     {

@@ -1,5 +1,8 @@
+using codeTalks.Application.Features.Users.Commands.UpdateUserStatus;
+using codeTalks.Application.Features.Users.Dtos;
 using codeTalks.Application.Features.Users.Query.GetAllByChannelId;
 using codeTalks.Presentation.Controllers.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace codeTalks.Presentation.Controllers;
@@ -7,8 +10,8 @@ namespace codeTalks.Presentation.Controllers;
 public class UsersController : BaseController
 {
     
-    [HttpGet]
-    public async Task<IActionResult> GetUsersByChannelId([FromQuery] string channelId, [FromQuery] int size = 10, [FromQuery] int index = 0)
+    [HttpGet("channels/{channelId}")]
+    public async Task<IActionResult> GetUsersByChannelId([FromRoute] string channelId, [FromQuery] int size = 10, [FromQuery] int index = 0)
     {
         GetAllByChannelIdQuery request = new()
         {
@@ -18,5 +21,17 @@ public class UsersController : BaseController
         };
         var response = await Dispatcher.SendAsync(request);
         return Ok(response);
+    }
+
+    [Authorize]
+    [HttpPut("status")]
+    public async Task<IActionResult> UpdateUserStatus([FromBody] UpdateUserStatusDto request)
+    {
+        await Dispatcher.SendAsync(new UpdateUserStatusCommand
+        {
+            Status = request.Status,
+        });
+        
+        return NoContent();
     }
 }
