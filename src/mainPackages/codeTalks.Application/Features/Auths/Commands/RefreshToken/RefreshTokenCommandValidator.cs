@@ -9,9 +9,5 @@ public class RefreshTokenCommandValidator : AbstractValidator<RefreshTokenComman
         RuleFor(x => x.RefreshToken)
             .NotEmpty()
             .NotEqual(Guid.Empty.ToString());
-        
-        RuleFor(x => x.UserId)
-            .NotEmpty()
-            .NotEqual(Guid.Empty.ToString());
     }
 }

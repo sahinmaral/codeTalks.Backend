@@ -15,11 +15,13 @@ public class MessagesController : BaseController
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetMessagesByChannelId([FromQuery] string channelId)
+    public async Task<IActionResult> GetMessagesByChannelId([FromQuery] string channelId, [FromQuery]int size = 10, [FromQuery]int index = 0)
     {
         GetAllByChannelIdQuery request = new()
         {
-            ChannelId = channelId
+            ChannelId = channelId,
+            Size = size,
+            Index = index
         };
         var response = await Dispatcher.SendAsync(request);
         return Ok(response);

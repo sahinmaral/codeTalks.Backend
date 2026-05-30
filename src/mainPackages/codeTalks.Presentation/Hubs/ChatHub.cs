@@ -1,9 +1,9 @@
+using System.Diagnostics;
 using codeTalks.Application.Features.Channels.Queries.GetAllByUserId;
 using codeTalks.Application.Features.Messages.Queries.GetAllByChannelId;
 using codeTalks.Domain;
 using codeTalks.Presentation.Hubs.Models;
 using Core.Application.CQRS;
-using Core.Application.Requests;
 using Microsoft.AspNetCore.SignalR;
 
 namespace codeTalks.Presentation.Hubs;
@@ -33,17 +33,19 @@ public class ChatHub(IDispatcher dispatcher) : Hub
         };
         var response = await dispatcher.SendAsync(request);
 
-        await Clients.All.SendAsync("ReceiveAllChannelsByUserId", response);
+        await Clients.Caller.SendAsync("ReceiveAllChannelsByUserId", response);
     }
 
-    public async Task SendMessagesOfChannel(string channelId)
+    public async Task SendMessagesOfChannel(string channelId, int? size = null, int? index = null)
     {
         GetAllByChannelIdQuery request = new()
         {
-            ChannelId = channelId
+            ChannelId = channelId,
+            Size = size ?? 10,
+            Index = index ?? 0
         };
         var response = await dispatcher.SendAsync(request);
-
-        await Clients.All.SendAsync("ReceiveMessagesOfChannel", response);
+        
+        await Clients.Caller.SendAsync("ReceiveMessagesOfChannel", response);
     }
 }

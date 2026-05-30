@@ -25,12 +25,9 @@ public class UsersController : BaseController
 
     [Authorize]
     [HttpPut("status")]
-    public async Task<IActionResult> UpdateUserStatus([FromBody] UpdateUserStatusDto request)
+    public async Task<IActionResult> UpdateUserStatus([FromBody] UpdateUserStatusCommand request)
     {
-        await Dispatcher.SendAsync(new UpdateUserStatusCommand
-        {
-            Status = request.Status,
-        });
+        await Dispatcher.SendAsync(request);
         
         return NoContent();
     }
