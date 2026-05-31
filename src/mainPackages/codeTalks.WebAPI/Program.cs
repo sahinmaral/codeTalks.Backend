@@ -1,7 +1,8 @@
 using codeTalks.Persistance;
 using codeTalks.Application;
-using codeTalks.Presentation;
+using codeTalks.Infrastructure;
 using codeTalks.Persistance.Contexts;
+using codeTalks.Presentation;
 using codeTalks.Presentation.Hubs;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security;
@@ -9,8 +10,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services
     .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
     .AddApplicationPart(codeTalks.Application.AssemblyReference.Assembly);
@@ -20,6 +19,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services
     .AddPersistanceServices(builder.Configuration)
     .AddApplicationServices()
+    .AddInfrastructureService()
     .AddPresentationServices();
 
 builder.Services.AddEndpointsApiExplorer();

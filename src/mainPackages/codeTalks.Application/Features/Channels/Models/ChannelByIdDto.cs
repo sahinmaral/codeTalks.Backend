@@ -1,8 +1,8 @@
-using codeTalks.Domain;
+using codeTalks.Application.Features.Channels.Dtos;
 
-namespace codeTalks.Application.Features.Channels.Dtos;
+namespace codeTalks.Application.Features.Channels.Models;
 
-public class ChannelsByUserIdItemDto
+public class ChannelByIdDto
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -10,12 +10,5 @@ public class ChannelsByUserIdItemDto
     public string InviteCode { get; set; }
     public DateTime CreatedAt { get; set; }
     public int MemberCount { get; set; }
-    public ChannelUserStatus Status { get; set; }
     public ChannelsByUserIdRoleDto Role { get; set; }
-}
-
-public class ChannelsByUserIdRoleDto
-{
-    public string Id { get; set; }
-    public string Name { get; set; }
 }

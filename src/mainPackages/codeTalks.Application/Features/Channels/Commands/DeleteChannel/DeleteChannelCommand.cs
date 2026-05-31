@@ -42,7 +42,7 @@ public class DeleteChannelCommand : ICommand
             if (foundUserAtChannel is null)
                 throw new EntityNotFoundException("This user hasn't registered this channel yet");
             
-            if (foundUserAtChannel.Role.Id != moderatorRole.Id)
+            if (foundUserAtChannel.Role.Id != moderatorRole!.Id)
                 throw new AuthorizationException("You have no authorization to delete channel");
 
             await channelRepository.DeleteAsync(channel);

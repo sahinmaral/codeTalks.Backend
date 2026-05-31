@@ -10,5 +10,14 @@ public sealed class ChannelConfiguration : IEntityTypeConfiguration<Channel>
     {
         builder.ToTable("Channels");
         builder.HasKey(x => x.Id);
+        
+        builder
+            .HasIndex(c => c.InviteCode)
+            .IsUnique();
+
+        builder
+            .Property(c => c.InviteCode)
+            .HasMaxLength(10)
+            .IsRequired();
     }
 }

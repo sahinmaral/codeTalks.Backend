@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using codeTalks.Persistance.Contexts;
@@ -11,9 +12,11 @@ using codeTalks.Persistance.Contexts;
 namespace codeTalks.Persistance.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260530165427_AddedInvitationCodeToChannelEntity")]
+    partial class AddedInvitationCodeToChannelEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,9 +210,7 @@ namespace codeTalks.Persistance.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("InviteCode")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -219,9 +220,6 @@ namespace codeTalks.Persistance.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InviteCode")
-                        .IsUnique();
 
                     b.ToTable("Channels", (string)null);
                 });

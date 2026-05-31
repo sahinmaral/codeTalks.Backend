@@ -5,6 +5,7 @@ using codeTalks.Application.Features.Channels.Commands.SendInviteToChannel;
 using codeTalks.Application.Features.Channels.Commands.UpdateChannel;
 using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Features.Channels.Queries.GetAllByUserId;
+using codeTalks.Application.Features.Channels.Queries.GetById;
 using codeTalks.Application.Features.Channels.Queries.GetUsersDetailAtChannelByChannelId;
 using codeTalks.Domain;
 using codeTalks.Presentation.Controllers.Common;
@@ -15,7 +16,20 @@ namespace codeTalks.Presentation.Controllers;
 
 public class ChannelsController : BaseController
 {
+    [HttpGet("{channelId}")]
+    [Authorize]
+    public async Task<IActionResult> GetChannelById([FromRoute] string channelId)
+    {
+        GetByIdQuery request = new()
+        {
+            ChannelId = channelId,
+        };
+        var response = await Dispatcher.SendAsync(request);
+        return Ok(response);
+    }
+    
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateChannel([FromBody] CreateChannelCommand request)
     {
         await Dispatcher.SendAsync(request);
@@ -23,7 +37,7 @@ public class ChannelsController : BaseController
     }
     
     [Authorize]
-    [HttpPost("sendInvite/{channelId}")]
+    [HttpPost("send-invite/{channelId}")]
     public async Task<IActionResult> SendInviteToChannel([FromRoute] string channelId)
     {
         SendInviteToChannelCommand request = new SendInviteToChannelCommand
@@ -70,27 +84,14 @@ public class ChannelsController : BaseController
         return NoContent();
     }
     
-    [HttpGet("userDetail/{channelId}/{userId}")]
+    [HttpGet("{channelId}/users/{userId}")]
+    [Authorize]
     public async Task<IActionResult> GetUsersDetailAtChannelByChannelAndUserId([FromRoute] string channelId, [FromRoute] string userId)
     {
         GetUsersDetailAtChannelByChannelIdQuery request = new()
         {
             ChannelId = channelId,
             UserId = userId
-        };
-        var response = await Dispatcher.SendAsync(request);
-        return Ok(response);
-    }
-    
-    [HttpGet]
-    public async Task<IActionResult> GetChannelsByUserId([FromQuery] string userId, [FromQuery]ChannelUserStatus? status, [FromQuery] int size = 10, [FromQuery] int index = 0)
-    {
-        GetAllByUserIdQuery request = new()
-        {
-            UserId = userId,
-            Size = size,
-            Index = index,
-            Status = status
         };
         var response = await Dispatcher.SendAsync(request);
         return Ok(response);

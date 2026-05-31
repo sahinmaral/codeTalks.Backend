@@ -1,5 +1,6 @@
 ﻿using codeTalks.Application.Features.Auths.Rules;
 using codeTalks.Application.Features.Channels.Rules;
+using codeTalks.Application.Services;
 using Core.Application.CQRS;
 using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Logging;

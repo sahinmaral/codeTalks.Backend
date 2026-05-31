@@ -1,9 +1,13 @@
 using MapsterMapper;
 using codeTalks.Application.Features.Channels.Dtos;
+using codeTalks.Application.Features.Users.Helpers;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
 using Core.Application.CQRS;
 using Core.CrossCuttingConcerns.Exceptions;
+using Core.Security.Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace codeTalks.Application.Features.Channels.Queries.GetUsersDetailAtChannelByChannelId;
@@ -13,10 +17,17 @@ public class GetUsersDetailAtChannelByChannelIdQuery : IRequest<GetUsersDetailAt
     public string UserId { get; set; }
     public string ChannelId { get; set; }
     
-    public class GetUsersDetailAtChannelByChannelIdQueryHandler(IChannelRepository channelRepository,IMapper mapper) : IRequestHandler<GetUsersDetailAtChannelByChannelIdQuery, GetUsersDetailAtChannelByChannelIdDto>
+    public class GetUsersDetailAtChannelByChannelIdQueryHandler(
+        IChannelRepository channelRepository,
+        IMapper mapper,
+        IHttpContextAccessor httpContextAccessor,
+        UserManager<User> userManager)
+        : IRequestHandler<GetUsersDetailAtChannelByChannelIdQuery, GetUsersDetailAtChannelByChannelIdDto>
     {
         public async Task<GetUsersDetailAtChannelByChannelIdDto> Handle(GetUsersDetailAtChannelByChannelIdQuery request, CancellationToken cancellationToken)
         {
+            var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
+            
             var existedChannel = await channelRepository.GetDetailedAsync(
                 include: queryable => queryable
                     .Include(channel => channel.ChannelUsers)
@@ -28,6 +39,12 @@ public class GetUsersDetailAtChannelByChannelIdQuery : IRequest<GetUsersDetailAt
 
             if (existedChannel is null)
                 throw new EntityNotFoundException("This channel doesn't exist");
+            
+            var currentUserChannelUser = existedChannel.ChannelUsers.FirstOrDefault(x =>
+                x.UserId == currentUserId && x.Status == ChannelUserStatus.Accepted);
+            
+            if (currentUserChannelUser is null)
+                throw new BusinessException("You are not authorized to see this channel");
 
             var foundUserAtChannel = existedChannel.ChannelUsers.FirstOrDefault(channelUser => channelUser.UserId == request.UserId);
 

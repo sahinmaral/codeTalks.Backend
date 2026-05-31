@@ -12,18 +12,18 @@ public class EfRepositoryBase<TEntity, TContext>(TContext context) : IAsyncRepos
 {
     protected TContext Context { get; } = context;
 
-    public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate)
+    public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
     {
-        return await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+        return await Context.Set<TEntity>().FirstOrDefaultAsync(predicate, cancellationToken);
     }
 
     public async Task<TEntity?> GetDetailedAsync(Expression<Func<TEntity, bool>> predicate,
-        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include, bool enableTracking = true)
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include, bool enableTracking = true, CancellationToken cancellationToken = default)
     {
         IQueryable<TEntity> queryable = Query();
         if (!enableTracking) queryable = queryable.AsNoTracking();
         queryable = include(queryable);
-        return await queryable.FirstOrDefaultAsync(predicate);
+        return await queryable.FirstOrDefaultAsync(predicate, cancellationToken);
     }
 
     public async Task<IPaginate<TEntity>> GetListAsync(Expression<Func<TEntity, bool>>? predicate = null,
