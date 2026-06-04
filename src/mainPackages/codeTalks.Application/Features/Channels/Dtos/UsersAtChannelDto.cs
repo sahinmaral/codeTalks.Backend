@@ -1,6 +1,8 @@
+using Core.Persistence.Paging;
+
 namespace codeTalks.Application.Features.Channels.Dtos;
 
-public class GetUsersDetailAtChannelByChannelIdDto
+public class UsersAtChannelDto
 {
     public string Id { get; set; }
     public string FirstName { get; set; }
@@ -16,4 +18,10 @@ public class UserRoleAtChannelDto
 {
     public string Id { get; set; }
     public string Name { get; set; }
+}
+
+public class UsersAtChannelListModel : BasePageableModel
+{
+    public IList<UsersAtChannelDto> Admins { get; set; }
+    public IList<UsersAtChannelDto> Items { get; set; }
 }

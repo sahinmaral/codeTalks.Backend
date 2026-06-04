@@ -8,47 +8,45 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace codeTalks.Application.Features.Channels.Commands.UpdateChannel;
+namespace codeTalks.Application.Features.Channels.Commands.PatchChannel;
 
-public class UpdateChannelCommand : ICommand
+public class PatchChannelCommand : ICommand
 {
     public string ChannelId { get; set; }
-    public UpdateChannelDto UpdateChannelDto { get; set; }
-    
-    public class UpdateChannelCommandHandler(
+    public PatchChannelDto PatchChannelDto { get; set; }
+
+    public class PatchChannelCommandHandler(
         IChannelRepository channelRepository,
         RoleManager<Role> roleManager,
         UserManager<User> userManager,
-        IHttpContextAccessor httpContextAccessor) : ICommandHandler<UpdateChannelCommand>
+        IHttpContextAccessor httpContextAccessor) : ICommandHandler<PatchChannelCommand>
     {
-        public async Task<Unit> Handle(UpdateChannelCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(PatchChannelCommand request, CancellationToken cancellationToken)
         {
             var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
             var moderatorRole = await roleManager.FindByNameAsync("Moderator");
-            
+
             var channel = await channelRepository.GetDetailedAsync(
                 include: queryable => queryable
-                    .Include(channel => channel.ChannelUsers)
-                    .ThenInclude(channelUser => channelUser.User)
-                    .Include(channel => channel.ChannelUsers)
-                    .ThenInclude(channelUser => channelUser.Role),
-                predicate: channel => channel.Id == request.ChannelId,
+                    .Include(c => c.ChannelUsers)
+                    .ThenInclude(cu => cu.Role),
+                predicate: c => c.Id == request.ChannelId,
                 cancellationToken: cancellationToken
             );
 
             if (channel is null)
                 throw new EntityNotFoundException("This channel doesn't exist");
-            
-            var foundUserAtChannel = channel.ChannelUsers.FirstOrDefault(channelUser => channelUser.UserId == currentUserId);
-            
+
+            var foundUserAtChannel = channel.ChannelUsers.FirstOrDefault(cu => cu.UserId == currentUserId);
+
             if (foundUserAtChannel is null)
                 throw new EntityNotFoundException("This user hasn't registered this channel yet");
 
-            if (foundUserAtChannel.Role.Id != moderatorRole.Id)
+            if (foundUserAtChannel.Role.Id != moderatorRole!.Id)
                 throw new AuthorizationException("You have no authorization to update channel information");
-            
-            channel.Name = request.UpdateChannelDto.Name ?? channel.Name;
-            channel.Description = request.UpdateChannelDto.Description ?? channel.Description;
+
+            channel.Name = request.PatchChannelDto.Name ?? channel.Name;
+            channel.Description = request.PatchChannelDto.Description ?? channel.Description;
 
             await channelRepository.UpdateAsync(channel);
             return Unit.Value;

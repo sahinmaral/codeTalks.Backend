@@ -43,6 +43,24 @@ public class EfRepositoryBase<TEntity, TContext>(TContext context) : IAsyncRepos
         return await queryable.ToPaginateAsync(index, size, 0, cancellationToken);
     }
 
+    public async Task<IPaginate<TResult>> GetListAsync<TResult>(
+        Expression<Func<TEntity, TResult>> selector,
+        Expression<Func<TEntity, bool>>? predicate = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+        int index = 0, int size = 10, bool enableTracking = true,
+        CancellationToken cancellationToken = default)
+    {
+        IQueryable<TEntity> queryable = Query();
+        if (!enableTracking) queryable = queryable.AsNoTracking();
+        if (include != null) queryable = include(queryable);
+        if (predicate != null) queryable = queryable.Where(predicate);
+        IQueryable<TResult> projected = orderBy != null
+            ? orderBy(queryable).Select(selector)
+            : queryable.Select(selector);
+        return await projected.ToPaginateAsync(index, size, 0, cancellationToken);
+    }
+
     public async Task<IPaginate<TEntity>> GetListByDynamicAsync(Dynamic.Dynamic dynamic,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy =
             null,
@@ -115,6 +133,24 @@ public class EfRepositoryBase<TEntity, TContext>(TContext context) : IAsyncRepos
             return orderBy(queryable).ToPaginate(index, size);
         return queryable.ToPaginate(index, size);
     }
+
+    public IPaginate<TResult> GetList<TResult>(
+        Expression<Func<TEntity, TResult>> selector,
+        Expression<Func<TEntity, bool>>? predicate = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+        int index = 0, int size = 10, bool enableTracking = true)
+    {
+        IQueryable<TEntity> queryable = Query();
+        if (!enableTracking) queryable = queryable.AsNoTracking();
+        if (include != null) queryable = include(queryable);
+        if (predicate != null) queryable = queryable.Where(predicate);
+        IQueryable<TResult> projected = orderBy != null
+            ? orderBy(queryable).Select(selector)
+            : queryable.Select(selector);
+        return projected.ToPaginate(index, size, 0);
+    }
+    
 
     public IPaginate<TEntity> GetListByDynamic(Dynamic.Dynamic dynamic,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy =

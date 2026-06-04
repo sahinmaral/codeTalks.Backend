@@ -1,6 +1,7 @@
 using codeTalks.Application.Features.Channels.Commands.CreateChannel;
 using codeTalks.Application.Features.Channels.Commands.DeleteChannel;
 using codeTalks.Application.Features.Channels.Commands.LeaveChannel;
+using codeTalks.Application.Features.Channels.Commands.PatchChannel;
 using codeTalks.Application.Features.Channels.Commands.SendInviteToChannel;
 using codeTalks.Application.Features.Channels.Commands.UpdateChannel;
 using codeTalks.Application.Features.Channels.Dtos;
@@ -73,25 +74,48 @@ public class ChannelsController : BaseController
         return NoContent();
     }
     
-    [HttpPut]
-    public async Task<IActionResult> UpdateChannel([FromBody] UpdateChannelDto dto)
+    [HttpPut("{channelId}")]
+    [Authorize]
+    public async Task<IActionResult> UpdateChannel([FromRoute] string channelId, [FromBody] UpdateChannelDto dto)
     {
         UpdateChannelCommand request = new UpdateChannelCommand
         {
+            ChannelId = channelId,
             UpdateChannelDto = dto
         };
         await Dispatcher.SendAsync(request);
         return NoContent();
     }
-    
-    [HttpGet("{channelId}/users/{userId}")]
+
+    [HttpPatch("{channelId}")]
     [Authorize]
-    public async Task<IActionResult> GetUsersDetailAtChannelByChannelAndUserId([FromRoute] string channelId, [FromRoute] string userId)
+    public async Task<IActionResult> PatchChannel([FromRoute] string channelId, [FromBody] PatchChannelDto dto)
     {
-        GetUsersDetailAtChannelByChannelIdQuery request = new()
+        PatchChannelCommand request = new PatchChannelCommand
         {
             ChannelId = channelId,
-            UserId = userId
+            PatchChannelDto = dto
+        };
+        await Dispatcher.SendAsync(request);
+        return NoContent();
+    }
+
+    [HttpGet("{channelId}/users")]
+    [Authorize]
+    public async Task<IActionResult> GetUsersByChannelId(
+        [FromRoute] string channelId,
+        [FromQuery] ChannelUserStatus status = ChannelUserStatus.Accepted,
+        [FromQuery] string? search = null,
+        [FromQuery] int index = 0,
+        [FromQuery] int size = 10)
+    {
+        GetUsersByChannelIdQuery request = new()
+        {
+            ChannelId = channelId,
+            Status = status,
+            Search = search,
+            Index = index,
+            Size = size
         };
         var response = await Dispatcher.SendAsync(request);
         return Ok(response);

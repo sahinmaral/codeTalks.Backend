@@ -27,8 +27,8 @@ public class GetCurrentUserQuery : IRequest<GetCurrentUserDto>
             var user = await userManager.FindByIdAsync(currentUserId)
                 ?? throw new InvalidOperationException("User not found.");
 
-            var channelsWhoUserJoined = await channelRepository.GetListAsync(channel =>
-                    channel.ChannelUsers.FirstOrDefault(channelUser => channelUser.UserId == currentUserId) != null,
+            var channelsWhoUserJoined = await channelRepository.GetListAsync(
+                predicate: channel => channel.ChannelUsers.Any(cu => cu.UserId == currentUserId),
                 cancellationToken: cancellationToken);
             
             var userStatusOfUser = await userStatusRepository.GetAsync(x => x.UserId == currentUserId, cancellationToken);
