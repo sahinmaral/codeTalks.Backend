@@ -38,7 +38,10 @@ public class SendInviteToChannelCommand : ICommand
             
             var foundUserAtChannel = channel.ChannelUsers.FirstOrDefault(channelUser => channelUser.UserId == currentUserId);
             if (foundUserAtChannel is not null && foundUserAtChannel.Status == ChannelUserStatus.Accepted)
-                throw new BusinessException("This user has already accepted to this channel");
+                throw new BusinessException("You already accepted to this channel");
+            
+            if (foundUserAtChannel is not null && foundUserAtChannel.Status == ChannelUserStatus.Blocked)
+                throw new BusinessException("You have been blocked from this channel");
 
             channel.ChannelUsers.Add(new ChannelUser
             {

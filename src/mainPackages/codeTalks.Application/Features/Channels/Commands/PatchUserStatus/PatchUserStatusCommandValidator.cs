@@ -12,7 +12,7 @@ public class PatchUserStatusCommandValidator : AbstractValidator<PatchUserStatus
 
         RuleFor(x => x.Status)
             .NotNull()
-            .Must(s => s == ChannelUserStatus.Accepted || s == ChannelUserStatus.Denied)
-            .WithMessage("Status must be Accepted or Denied.");
+            .Must(s => s == ChannelUserStatus.Accepted || s == ChannelUserStatus.Denied || s == ChannelUserStatus.Blocked)
+            .WithMessage("Status must be Accepted, Denied or Blocked.");
     }
 }
