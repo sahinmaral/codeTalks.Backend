@@ -68,10 +68,18 @@ public sealed class ChannelRepository(AppDbContext context)
                 cu.User.LastName.ToLower().Contains(term));
         }
 
+        if (status is ChannelUserStatus.Accepted or ChannelUserStatus.Denied)
+        {
+            return await query
+                .OrderBy(cu => cu.User.FirstName)
+                .ThenBy(cu => cu.User.MiddleName)
+                .ThenBy(cu => cu.User.LastName)
+                .Select(selector)
+                .ToPaginateAsync(index, size, cancellationToken: cancellationToken);
+        }
+        
         return await query
-            .OrderBy(cu => cu.User.FirstName)
-            .ThenBy(cu => cu.User.MiddleName)
-            .ThenBy(cu => cu.User.LastName)
+            .OrderByDescending(cu => cu.CreatedAt)
             .Select(selector)
             .ToPaginateAsync(index, size, cancellationToken: cancellationToken);
     }

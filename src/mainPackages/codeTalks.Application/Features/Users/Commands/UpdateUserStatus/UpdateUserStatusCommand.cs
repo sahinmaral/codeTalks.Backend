@@ -1,11 +1,7 @@
-using System.Security.Claims;
-using codeTalks.Application.Features.Users.Helpers;
+using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
 using Core.Application.CQRS;
-using Core.Security.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 
 namespace codeTalks.Application.Features.Users.Commands.UpdateUserStatus;
 
@@ -14,13 +10,12 @@ public class UpdateUserStatusCommand : ICommand
     public UserStatusType Status { get; set; }
 
     public class UpdateUserStatusCommandHandler(
-        IHttpContextAccessor httpContextAccessor,
-        UserManager<User> userManager,
+        ICurrentUserService currentUserService,
         IUserStatusRepository userStatusRepository) : ICommandHandler<UpdateUserStatusCommand>
     {
         public async Task<Unit> Handle(UpdateUserStatusCommand request, CancellationToken cancellationToken)
         {
-            var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
+            var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             
             var currentUserStatus = await userStatusRepository.GetAsync(x => x.UserId == currentUserId);
             if (currentUserStatus == null)

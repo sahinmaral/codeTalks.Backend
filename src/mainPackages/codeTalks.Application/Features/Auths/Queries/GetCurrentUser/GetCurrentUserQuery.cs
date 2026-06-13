@@ -1,11 +1,9 @@
-using System.Security.Claims;
 using codeTalks.Application.Features.Auths.Dtos;
-using codeTalks.Application.Features.Users.Helpers;
+using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using Core.Application.CQRS;
 using Core.Security.Entities;
 using MapsterMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace codeTalks.Application.Features.Auths.Queries.GetCurrentUser;
@@ -13,16 +11,16 @@ namespace codeTalks.Application.Features.Auths.Queries.GetCurrentUser;
 public class GetCurrentUserQuery : IRequest<GetCurrentUserDto>
 {
     public class GetCurrentUserQueryHandler(
+        ICurrentUserService currentUserService,
         UserManager<User> userManager,
         IChannelRepository channelRepository,
         IUserStatusRepository userStatusRepository,
-        IHttpContextAccessor httpContextAccessor,
         IMapper mapper
     ) : IRequestHandler<GetCurrentUserQuery, GetCurrentUserDto>
     {
         public async Task<GetCurrentUserDto> Handle(GetCurrentUserQuery request, CancellationToken cancellationToken)
         {
-            var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
+            var currentUserId = await currentUserService.GetCurrentUserIdAsync();
 
             var user = await userManager.FindByIdAsync(currentUserId)
                 ?? throw new InvalidOperationException("User not found.");

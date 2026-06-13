@@ -1,14 +1,11 @@
 using codeTalks.Application.Features.Channels.Dtos;
 using MapsterMapper;
 using codeTalks.Application.Features.Channels.Models;
-using codeTalks.Application.Features.Users.Helpers;
+using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
 using Core.Application.CQRS;
 using Core.CrossCuttingConcerns.Exceptions;
-using Core.Security.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace codeTalks.Application.Features.Channels.Queries.GetById;
@@ -19,14 +16,13 @@ public class GetByIdQuery : IRequest<ChannelByIdDto>
 
     public class GetByIdQueryHandler(
         IChannelRepository channelRepository,
-        IHttpContextAccessor httpContextAccessor,
-        UserManager<User> userManager,
+        ICurrentUserService currentUserService,
         IMapper mapper) : IRequestHandler<GetByIdQuery, ChannelByIdDto>
     {
         public async Task<ChannelByIdDto> Handle(GetByIdQuery request,
             CancellationToken cancellationToken)
         {
-            var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
+            var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             
             var foundChannel = await channelRepository.GetDetailedAsync(
                 predicate: x => x.Id == request.ChannelId,

@@ -1,10 +1,8 @@
-using codeTalks.Application.Features.Users.Helpers;
 using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
 using Core.Application.CQRS;
 using Core.Security.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace codeTalks.Application.Features.Channels.Commands.CreateChannel;
@@ -15,15 +13,14 @@ public class CreateChannelCommand : ICommand
     public string Description { get; set; }
     
     public class CreateChannelCommandHandler(
-        IHttpContextAccessor httpContextAccessor,
-        UserManager<User> userManager,
+        ICurrentUserService currentUserService,
         IChannelRepository channelRepository,
         RoleManager<Role> roleManager,
         IInviteCodeGenerator codeGenerator) : ICommandHandler<CreateChannelCommand>
     {
         public async Task<Unit> Handle(CreateChannelCommand request, CancellationToken cancellationToken)
         {
-            var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
+            var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             
             string inviteCode;
             bool isUnique;

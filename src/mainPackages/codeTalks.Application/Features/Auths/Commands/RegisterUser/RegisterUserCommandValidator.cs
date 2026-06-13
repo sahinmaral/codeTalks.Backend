@@ -38,5 +38,8 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
         RuleFor(u => u.Email)
             .MaximumLength(320);
 
+        RuleFor(u => u.Password).NotEmpty();
+        RuleFor(u => u.Password).MinimumLength(6);
+        RuleFor(u => u.Password).MaximumLength(100);
     }
 }

@@ -12,6 +12,7 @@ public class UsersAtChannelDto
     public string UserName { get; set; }
     public string Email { get; set; }
     public UserRoleAtChannelDto Role { get; set; }
+    public DateTime StatusCreatedAt { get; set; }
 }
 
 public class UserRoleAtChannelDto
@@ -22,6 +23,6 @@ public class UserRoleAtChannelDto
 
 public class UsersAtChannelListModel : BasePageableModel
 {
-    public IList<UsersAtChannelDto> Admins { get; set; }
+    public IList<UsersAtChannelDto>? Admins { get; set; }
     public IList<UsersAtChannelDto> Items { get; set; }
 }

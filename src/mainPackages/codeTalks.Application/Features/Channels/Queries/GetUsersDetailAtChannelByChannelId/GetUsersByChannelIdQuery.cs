@@ -1,13 +1,10 @@
 using System.Linq.Expressions;
 using codeTalks.Application.Features.Channels.Dtos;
-using codeTalks.Application.Features.Users.Helpers;
+using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
 using Core.Application.CQRS;
 using Core.CrossCuttingConcerns.Exceptions;
-using Core.Security.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace codeTalks.Application.Features.Channels.Queries.GetUsersDetailAtChannelByChannelId;
@@ -22,21 +19,25 @@ public class GetUsersByChannelIdQuery : IRequest<UsersAtChannelListModel>
 
     public class GetUsersByChannelIdQueryHandler(
         IChannelRepository channelRepository,
-        IHttpContextAccessor httpContextAccessor,
-        UserManager<User> userManager)
+        ICurrentUserService currentUserService)
         : IRequestHandler<GetUsersByChannelIdQuery, UsersAtChannelListModel>
     {
         public async Task<UsersAtChannelListModel> Handle(GetUsersByChannelIdQuery request, CancellationToken cancellationToken)
         {
-            var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
+            var currentUserId = await currentUserService.GetCurrentUserIdAsync();
 
             await CheckCurrentUserCanAccessChannel(request.ChannelId, currentUserId, cancellationToken);
-
-            var admins = await channelRepository.GetChannelAdminsAsync(
-                selector: ToDto(),
-                channelId: request.ChannelId,
-                cancellationToken: cancellationToken
-            );
+            
+            IList<UsersAtChannelDto>? admins = null;
+            
+            if (request.Status == ChannelUserStatus.Accepted)
+            {
+                admins = await channelRepository.GetChannelAdminsAsync(
+                    selector: ToDto(),
+                    channelId: request.ChannelId,
+                    cancellationToken: cancellationToken
+                );   
+            }
 
             var members = await channelRepository.GetChannelUsersAsync(
                 selector: ToDto(),
@@ -48,7 +49,7 @@ public class GetUsersByChannelIdQuery : IRequest<UsersAtChannelListModel>
                 size: request.Size,
                 cancellationToken: cancellationToken
             );
-
+            
             return new UsersAtChannelListModel
             {
                 Admins = admins,
@@ -76,7 +77,8 @@ public class GetUsersByChannelIdQuery : IRequest<UsersAtChannelListModel>
                 {
                     Id = cu.Role.Id,
                     Name = cu.Role.Name!
-                }
+                },
+                StatusCreatedAt = cu.CreatedAt,
             };
 
         private async Task CheckCurrentUserCanAccessChannel(string channelId, string currentUserId, CancellationToken cancellationToken)

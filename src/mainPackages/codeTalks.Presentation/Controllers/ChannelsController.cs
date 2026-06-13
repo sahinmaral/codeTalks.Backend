@@ -2,6 +2,8 @@ using codeTalks.Application.Features.Channels.Commands.CreateChannel;
 using codeTalks.Application.Features.Channels.Commands.DeleteChannel;
 using codeTalks.Application.Features.Channels.Commands.LeaveChannel;
 using codeTalks.Application.Features.Channels.Commands.PatchChannel;
+using codeTalks.Application.Features.Channels.Commands.PatchUserStatus;
+using codeTalks.Application.Features.Channels.Commands.RemoveMemberFromChannel;
 using codeTalks.Application.Features.Channels.Commands.SendInviteToChannel;
 using codeTalks.Application.Features.Channels.Commands.UpdateChannel;
 using codeTalks.Application.Features.Channels.Dtos;
@@ -114,10 +116,37 @@ public class ChannelsController : BaseController
             ChannelId = channelId,
             Status = status,
             Search = search,
-            Index = index,
+            Index = index,  
             Size = size
         };
         var response = await Dispatcher.SendAsync(request);
         return Ok(response);
+    }
+
+    [HttpPatch("{channelId}/users/{userId}/status")]
+    [Authorize]
+    public async Task<IActionResult> PatchUserStatus([FromRoute] string channelId, [FromRoute] string userId, [FromBody] PatchUserStatusDto request)
+    {
+        PatchUserStatusCommand command = new PatchUserStatusCommand
+        {
+            ChannelId = channelId,
+            UserId = userId,
+            Status = request.Status
+        };
+        await Dispatcher.SendAsync(command);
+        return NoContent();
+    }
+    
+    [HttpDelete("{channelId}/users/{userId}")]
+    [Authorize]
+    public async Task<IActionResult> RemoveMemberFromChannel([FromRoute] string channelId, [FromRoute] string userId)
+    {
+        RemoveMemberFromChannelCommand command = new RemoveMemberFromChannelCommand
+        {
+            ChannelId = channelId,
+            UserId = userId,
+        };
+        await Dispatcher.SendAsync(command);
+        return NoContent();
     }
 }

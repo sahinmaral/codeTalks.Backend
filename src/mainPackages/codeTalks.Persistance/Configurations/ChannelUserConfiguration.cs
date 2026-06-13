@@ -10,5 +10,8 @@ public sealed class ChannelUserConfiguration : IEntityTypeConfiguration<ChannelU
     {
         builder.ToTable("ChannelUsers");
         builder.HasKey(x => new {x.ChannelId, x.UserId});
+        
+        builder
+            .HasQueryFilter(cu => cu.Channel.IsActive);
     }
 }

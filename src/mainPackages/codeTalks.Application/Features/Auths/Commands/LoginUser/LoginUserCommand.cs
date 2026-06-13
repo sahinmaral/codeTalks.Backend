@@ -22,7 +22,7 @@ public class LoginUserCommand : IRequest<LoggedUserDto>
         {
             User loggedInUser = await authBusinessRules.CheckUserWithEmailOrUsernameExists(request.UsernameOrEmail);
 
-            await authBusinessRules.CheckIfUserEnteredCorrectPassword(loggedInUser, request.Password);
+            await authBusinessRules.CheckIfUserEnteredCorrectPassword(loggedInUser, request.Password, "Invalid username/email or password");
 
             //TODO: E-posta doğrulaması yerine telefon numarası doğrulaması yapılabilir
             //await _authBusinessRules.CheckIfUserEmailHasBeenVerified(loggedInUser);

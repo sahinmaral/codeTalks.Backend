@@ -1,6 +1,7 @@
 using codeTalks.Application.Features.Auths.Rules;
 using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Features.Channels.Models;
+using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
 using Core.Application.CQRS;
@@ -13,11 +14,11 @@ namespace codeTalks.Application.Features.Channels.Queries.GetAllByUserId;
 public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
 {
     public ChannelUserStatus? Status { get; set; }
-    public string UserId { get; set; }
     public int Size { get; set; }
     public int Index { get; set; }
 
     public class GetAllByUserIdQueryHandler(
+        ICurrentUserService currentUserService,
         IChannelRepository channelRepository,
         IMapper mapper,
         AuthBusinessRules authBusinessRules) : IRequestHandler<GetAllByUserIdQuery, ChannelsByUserIdListModel>
@@ -25,9 +26,11 @@ public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
         public async Task<ChannelsByUserIdListModel> Handle(GetAllByUserIdQuery request,
             CancellationToken cancellationToken)
         {
-            await authBusinessRules.CheckUserExistsById(request.UserId);
+            var currentUserId = await currentUserService.GetCurrentUserIdAsync();
+            
+            await authBusinessRules.CheckUserExistsById(currentUserId);
 
-            IPaginate<Channel> channelsOfUserWhoAccepted = await FilterChannelsByDefinedChannelUserStatusAndRetrieve(request, cancellationToken);
+            IPaginate<Channel> channelsOfUserWhoAccepted = await FilterChannelsByDefinedChannelUserStatusAndRetrieve(request, currentUserId, cancellationToken);
             
             var mappedChannels = mapper.Map<ChannelsByUserIdListModel>(channelsOfUserWhoAccepted);
 
@@ -35,9 +38,14 @@ public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
             {
                 var filteredChannelUser = channelsOfUserWhoAccepted.Items
                     .First(channel => channel.Id == channelsByUserIdItemDto.Id).ChannelUsers
-                    .First(channelUser => channelUser.UserId == request.UserId);
+                    .First(channelUser => channelUser.UserId == currentUserId);
 
-                channelsByUserIdItemDto.MemberCount = filteredChannelUser.Channel.ChannelUsers.Count;
+                channelsByUserIdItemDto.MemberCount = filteredChannelUser.Channel
+                    .ChannelUsers
+                    .Where(x => x.Status == request.Status)
+                    .ToList()
+                    .Count;
+                
                 channelsByUserIdItemDto.Status = filteredChannelUser.Status;
                 channelsByUserIdItemDto.Role = mapper.Map<ChannelsByUserIdRoleDto>(filteredChannelUser.Role);
             }
@@ -46,20 +54,22 @@ public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
         }
 
         /// <summary>
-        /// If ChannelUserStatus has been set, filter by also this status with user id. Otherwise filter by only user id. After that retrieve this paginated channel.
+        /// If ChannelUserStatus has been set, filter by also this status with user id. Otherwise, filter by only user id. After that retrieve this paginated channel.
         /// </summary>
         /// <param name="request"></param>
+        /// <param name="currentUserId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>Paginated Channel as IPaginate</returns>
         private async Task<IPaginate<Channel>> FilterChannelsByDefinedChannelUserStatusAndRetrieve(GetAllByUserIdQuery request,
+            string currentUserId,
             CancellationToken cancellationToken)
         {
-            IPaginate<Channel> channelsOfUserWhoAccepted;
+            IPaginate<Channel> channelsOfUserOfDesiredStatus;
             if (request.Status.HasValue)
             {
-                channelsOfUserWhoAccepted = await channelRepository.GetListAsync(
+                channelsOfUserOfDesiredStatus = await channelRepository.GetListAsync(
                     predicate: channel => channel.ChannelUsers.Any(user =>
-                        user.UserId == request.UserId && user.Status == request.Status),
+                        user.UserId == currentUserId && user.Status == request.Status),
                     include: queryable => queryable
                         .Include(channel => channel.ChannelUsers)
                         .ThenInclude(channelUser => channelUser.Role),
@@ -69,9 +79,9 @@ public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
             }
             else
             {
-                channelsOfUserWhoAccepted = await channelRepository.GetListAsync(
+                channelsOfUserOfDesiredStatus = await channelRepository.GetListAsync(
                     predicate: channel => channel.ChannelUsers.Any(user =>
-                        user.UserId == request.UserId),
+                        user.UserId == currentUserId),
                     include: queryable => queryable
                         .Include(channel => channel.ChannelUsers)
                         .ThenInclude(channelUser => channelUser.Role),
@@ -80,7 +90,7 @@ public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
                     cancellationToken: cancellationToken);
             }
 
-            return channelsOfUserWhoAccepted;
+            return channelsOfUserOfDesiredStatus;
         }
     }
 }

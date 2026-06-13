@@ -19,5 +19,12 @@ public sealed class ChannelConfiguration : IEntityTypeConfiguration<Channel>
             .Property(c => c.InviteCode)
             .HasMaxLength(10)
             .IsRequired();
+        
+        builder
+            .Property(c => c.IsActive)
+            .HasDefaultValue(true);
+        
+        builder
+            .HasQueryFilter(c => c.IsActive);
     }
 }

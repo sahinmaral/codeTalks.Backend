@@ -1,10 +1,9 @@
 using codeTalks.Application.Features.Channels.Dtos;
-using codeTalks.Application.Features.Users.Helpers;
+using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using Core.Application.CQRS;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,12 +17,11 @@ public class UpdateChannelCommand : ICommand
     public class UpdateChannelCommandHandler(
         IChannelRepository channelRepository,
         RoleManager<Role> roleManager,
-        UserManager<User> userManager,
-        IHttpContextAccessor httpContextAccessor) : ICommandHandler<UpdateChannelCommand>
+        ICurrentUserService currentUserService) : ICommandHandler<UpdateChannelCommand>
     {
         public async Task<Unit> Handle(UpdateChannelCommand request, CancellationToken cancellationToken)
         {
-            var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
+            var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             var moderatorRole = await roleManager.FindByNameAsync("Moderator");
             
             var channel = await channelRepository.GetDetailedAsync(

@@ -10,5 +10,8 @@ public sealed class MessageConfiguration : IEntityTypeConfiguration<Message>
     {
         builder.ToTable("Messages");
         builder.HasKey(x => x.Id);
+        
+        builder
+            .HasQueryFilter(m => m.Channel.IsActive);
     }
 }

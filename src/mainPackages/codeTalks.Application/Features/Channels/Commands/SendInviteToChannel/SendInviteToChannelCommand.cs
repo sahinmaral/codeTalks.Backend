@@ -1,10 +1,9 @@
-using codeTalks.Application.Features.Users.Helpers;
+using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
 using Core.Application.CQRS;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,14 +14,13 @@ public class SendInviteToChannelCommand : ICommand
     public string ChannelId { get; set; }
     
     public class SendInviteToChannelCommandHandler(
-        IHttpContextAccessor httpContextAccessor,
+        ICurrentUserService currentUserService,
         RoleManager<Role> roleManager,
-        UserManager<User> userManager,
         IChannelRepository channelRepository) : ICommandHandler<SendInviteToChannelCommand>
     {
         public async Task<Unit> Handle(SendInviteToChannelCommand request, CancellationToken cancellationToken)
         {
-            var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
+            var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             var userRole = await roleManager.FindByNameAsync("User");
             
             var channel = await channelRepository.GetDetailedAsync(
@@ -31,7 +29,8 @@ public class SendInviteToChannelCommand : ICommand
                     .ThenInclude(channelUser => channelUser.User)
                     .Include(channel => channel.ChannelUsers)
                     .ThenInclude(channelUser => channelUser.Role),
-                predicate: channel => channel.Id == request.ChannelId
+                predicate: channel => channel.InviteCode == request.ChannelId,
+                cancellationToken: cancellationToken
             );
             
             if (channel is null)
@@ -44,7 +43,7 @@ public class SendInviteToChannelCommand : ICommand
             channel.ChannelUsers.Add(new ChannelUser
             {
                 UserId = currentUserId,
-                RoleId = userRole.Id,
+                RoleId = userRole!.Id,
                 Status = ChannelUserStatus.RequestSent
             });
             await channelRepository.UpdateAsync(channel);

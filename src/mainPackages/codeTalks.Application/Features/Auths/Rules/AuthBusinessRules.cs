@@ -46,11 +46,13 @@ public class AuthBusinessRules(UserManager<User> userManager)
         return user;
     }
 
-    public async Task CheckIfUserEnteredCorrectPassword(User user, string password)
-    {
+    public async Task CheckIfUserEnteredCorrectPassword(
+        User user, string password,
+        string errorMessage)
+    {   
         var passwordCheckResult = await userManager.CheckPasswordAsync(user, password);
-        if (!passwordCheckResult)
-            throw new BusinessException("You entered the wrong password along with the username or email you entered");
+        if (!passwordCheckResult) 
+            throw new BusinessException(errorMessage);
     }
 
     public Task CheckIfUserEmailHasBeenVerified(User user)

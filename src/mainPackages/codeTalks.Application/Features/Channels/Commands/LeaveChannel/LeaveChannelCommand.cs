@@ -1,9 +1,8 @@
-using codeTalks.Application.Features.Users.Helpers;
+using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using Core.Application.CQRS;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,14 +13,13 @@ public class LeaveChannelCommand : ICommand
     public string ChannelId { get; set; }
     
     public class LeaveChannelCommandHandler(
-        IHttpContextAccessor httpContextAccessor,
+        ICurrentUserService currentUserService,
         RoleManager<Role> roleManager,
-        UserManager<User> userManager,
         IChannelRepository channelRepository) : ICommandHandler<LeaveChannelCommand>
     {
         public async Task<Unit> Handle(LeaveChannelCommand request, CancellationToken cancellationToken)
         {
-            var currentUserId = await UserContextHelper.GetCurrentUserId(httpContextAccessor, userManager);
+            var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             
             var moderatorRole = await roleManager.FindByNameAsync("Moderator");
             

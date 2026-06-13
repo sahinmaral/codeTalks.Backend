@@ -59,7 +59,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseCors("CorsPolicy");
-app.MapHub<ChatHub>("/chatHub");
 
 if (app.Environment.IsDevelopment())
 {
@@ -72,6 +71,7 @@ app.ConfigureCustomExceptionMiddleware();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapHub<ChatHub>("/chatHub");
 app.MapControllers();
 
 app.Run();
