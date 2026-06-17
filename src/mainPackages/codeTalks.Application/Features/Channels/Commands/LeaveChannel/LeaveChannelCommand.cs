@@ -21,7 +21,7 @@ public class LeaveChannelCommand : ICommand
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             
-            var moderatorRole = await roleManager.FindByNameAsync("Moderator");
+            var ownerRole = await roleManager.FindByNameAsync("Owner");
             
             var channel = await channelRepository.GetDetailedAsync(
                 include: queryable => queryable
@@ -29,8 +29,8 @@ public class LeaveChannelCommand : ICommand
                     .ThenInclude(channelUser => channelUser.User)
                     .Include(channel => channel.ChannelUsers)
                     .ThenInclude(channelUser => channelUser.Role),
-                predicate: channel => channel.Id == request.ChannelId
-            );
+                predicate: channel => channel.Id == request.ChannelId, 
+                cancellationToken: cancellationToken);
             
             if (channel is null)
                 throw new EntityNotFoundException("This channel doesn't exist");
@@ -38,10 +38,18 @@ public class LeaveChannelCommand : ICommand
             var foundUserAtChannel = channel.ChannelUsers.FirstOrDefault(channelUser => channelUser.UserId == currentUserId);
             
             if (foundUserAtChannel is null)
-                throw new EntityNotFoundException("This user hasn't registered this channel yet");
+                throw new EntityNotFoundException("You haven't registered this channel yet");
             
-            if (channel.ChannelUsers.Count == 1 && channel.ChannelUsers.First().Role.Id == moderatorRole.Id)
-                throw new AuthorizationException("This user can't leave channel because there's only one moderator left at channel");
+            var isOwner = foundUserAtChannel.Role.Id == ownerRole!.Id;
+
+            if (isOwner)
+            {
+                if(channel.ChannelUsers.Count >= 2)
+                    throw new AuthorizationException("You can't leave channel, you have to transfer your ownership to someone else");
+                
+                channel.IsActive = false;
+                channel.DeletedAt = DateTime.UtcNow;
+            }
 
             channel.ChannelUsers.Remove(foundUserAtChannel);
             await channelRepository.UpdateAsync(channel);

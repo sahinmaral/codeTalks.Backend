@@ -22,7 +22,7 @@ public class UpdateChannelCommand : ICommand
         public async Task<Unit> Handle(UpdateChannelCommand request, CancellationToken cancellationToken)
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
-            var moderatorRole = await roleManager.FindByNameAsync("Moderator");
+            var ownerRole = await roleManager.FindByNameAsync("Owner");
             
             var channel = await channelRepository.GetDetailedAsync(
                 include: queryable => queryable
@@ -42,7 +42,7 @@ public class UpdateChannelCommand : ICommand
             if (foundUserAtChannel is null)
                 throw new EntityNotFoundException("This user hasn't registered this channel yet");
 
-            if (foundUserAtChannel.Role.Id != moderatorRole.Id)
+            if (foundUserAtChannel.Role.Id != ownerRole.Id)
                 throw new AuthorizationException("You have no authorization to update channel information");
             
             channel.Name = request.UpdateChannelDto.Name ?? channel.Name;

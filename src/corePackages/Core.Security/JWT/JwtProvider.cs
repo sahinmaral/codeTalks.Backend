@@ -2,23 +2,16 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Core.Security.Entities;
-using Core.Security.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Core.Security.JWT;
 
-public class JwtProvider : IJwtProvider
+public class JwtProvider(IOptions<JwtOptions> jwtOptions, UserManager<User> userManager)
+    : IJwtProvider
 {
-    private readonly JwtOptions _jwtOptions;
-    private readonly UserManager<User> _userManager;
-
-    public JwtProvider(IOptions<JwtOptions> jwtOptions, UserManager<User> userManager)
-    {
-        _jwtOptions = jwtOptions.Value;
-        _userManager = userManager;
-    }
+    private readonly JwtOptions _jwtOptions = jwtOptions.Value;
 
     public async Task<TokenResponse> CreateTokenAsync(User user)
     {
@@ -27,10 +20,6 @@ public class JwtProvider : IJwtProvider
             new Claim(ClaimTypes.Email,user.Email),
             new Claim(JwtRegisteredClaimNames.Name,user.UserName)
         };
-
-        var roles = (await _userManager.GetRolesAsync(user)).ToList();
-
-        claims.AddRoles(roles.ToArray());
 
         var expires = DateTime.UtcNow.AddHours(1);
 
@@ -52,7 +41,7 @@ public class JwtProvider : IJwtProvider
         user.RefreshToken = refreshToken;
         user.RefreshTokenExpires = expires.AddMinutes(_jwtOptions.RefreshTokenExpiration);
 
-        await _userManager.UpdateAsync(user);
+        await userManager.UpdateAsync(user);
 
         var response = new TokenResponse
         {

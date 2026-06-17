@@ -7,16 +7,16 @@ namespace codeTalks.Application.Services.Repositories;
 
 public interface IChannelRepository : IAsyncRepository<Channel>, IRepository<Channel>
 {
-    Task<IList<TResult>> GetChannelAdminsAsync<TResult>(
-        Expression<Func<ChannelUser, TResult>> selector,
+    Task<IList<TResult>> GetChannelAdminsAsync<TResult>(Expression<Func<ChannelUser, TResult>> selector,
         string channelId,
+        ChannelUserStatus status,
         CancellationToken cancellationToken = default);
 
     Task<IPaginate<TResult>> GetChannelUsersAsync<TResult>(
         Expression<Func<ChannelUser, TResult>> selector,
         string channelId,
         ChannelUserStatus status,
-        string? excludeRoleName = null,
+        IReadOnlyCollection<string>? excludeRoleNames = null,
         string? search = null,
         int index = 0,
         int size = 10,

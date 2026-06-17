@@ -14,7 +14,7 @@ public class RemoveMemberFromChannelCommand : ICommand
     public string ChannelId { get; set; }
     public string UserId { get; set; }
     
-    public class DeleteChannelCommandHandler(
+    public class RemoveMemberFromChannelCommandHandler(
         ICurrentUserService currentUserService,
         RoleManager<Role> roleManager,
         UserManager<User> userManager,
@@ -24,6 +24,7 @@ public class RemoveMemberFromChannelCommand : ICommand
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             var moderatorRole = await roleManager.FindByNameAsync("Moderator");
+            var ownerRole = await roleManager.FindByNameAsync("Owner");
 
             var channel = await channelRepository.GetDetailedAsync(
                               include: queryable => queryable
@@ -45,27 +46,26 @@ public class RemoveMemberFromChannelCommand : ICommand
             var targetUserAtChannel = channel.ChannelUsers.FirstOrDefault(cu => cu.UserId == userToRemove.Id)
                                       ?? throw new EntityNotFoundException("This user hasn't registered this channel yet");
 
-            var isCurrentUserModerator = currentUserAtChannel.Role.Id == moderatorRole!.Id;
-            var isLastModerator = channel.ChannelUsers.Count(cu => cu.Role.Id == moderatorRole.Id) == 1;
-            var isSelf = targetUserAtChannel.UserId == currentUserId;
-            var isLastMember = channel.ChannelUsers.Count == 1;
+            var isCurrentUserHasGotAuthorizationForRemoveTargetUser = 
+                currentUserAtChannel.Role.Id == moderatorRole!.Id || 
+                currentUserAtChannel.Role.Id == ownerRole!.Id;
+
+            var currentUserRole = currentUserAtChannel.Role;
+            var targetUserRole = targetUserAtChannel.Role;
             
-            // isSelf -> true, isModerator -> false ---> That means user leaves channel
-            // isSelf -> false, isModerator -> true ---> Current user is moderator and user wants to remove target user from channel
+            var isSelf = targetUserAtChannel.UserId == currentUserId;
 
-            if (!isSelf && !isCurrentUserModerator)
+            if(isSelf)
+                throw new AuthorizationException("You can't remove yourself from channel");
+
+            if (!isSelf && !isCurrentUserHasGotAuthorizationForRemoveTargetUser)
                 throw new AuthorizationException("You have no authorization to remove user from channel");
-
-            if (isSelf && isCurrentUserModerator && isLastModerator && !isLastMember)
-                throw new BusinessException("You are the last admin. Transfer ownership before leaving.");
+            
+            if (currentUserRole.Id == moderatorRole.Id &&
+                (targetUserRole.Id == ownerRole!.Id || targetUserRole.Id == moderatorRole.Id))
+                throw new AuthorizationException("As a moderator you can only remove regular members from channel");
 
             channel.ChannelUsers.Remove(targetUserAtChannel);
-
-            if (isLastMember)
-            {
-                channel.IsActive = false;
-                channel.DeletedAt = DateTime.UtcNow;
-            }
 
             await channelRepository.UpdateAsync(channel);
             return Unit.Value;

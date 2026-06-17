@@ -21,7 +21,7 @@ public class DeleteChannelCommand : ICommand
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             
-            var moderatorRole = await roleManager.FindByNameAsync("Moderator");
+            var ownerRole = await roleManager.FindByNameAsync("Owner");
             
             var channel = await channelRepository.GetDetailedAsync(
                 include: queryable => queryable
@@ -39,7 +39,7 @@ public class DeleteChannelCommand : ICommand
             if (foundUserAtChannel is null)
                 throw new EntityNotFoundException("This user hasn't registered this channel yet");
             
-            if (foundUserAtChannel.Role.Id != moderatorRole!.Id)
+            if (foundUserAtChannel.Role.Id != ownerRole!.Id)
                 throw new AuthorizationException("You have no authorization to delete channel");
             
             channel.IsActive = false;

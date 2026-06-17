@@ -5,14 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Core.Security.JWT;
 
-public sealed class JwtBearerOptionsSetup : IPostConfigureOptions<JwtBearerOptions>
+public sealed class JwtBearerOptionsSetup(IOptions<JwtOptions> jwtOptions) : IPostConfigureOptions<JwtBearerOptions>
 {
-    private readonly JwtOptions _jwtOptions;
-
-    public JwtBearerOptionsSetup(IOptions<JwtOptions> jwtOptions)
-    {
-        _jwtOptions = jwtOptions.Value;
-    }
+    private readonly JwtOptions _jwtOptions = jwtOptions.Value;
 
     public void PostConfigure(string? name, JwtBearerOptions options)
     {

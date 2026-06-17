@@ -26,24 +26,38 @@ public class GetUsersByChannelIdQuery : IRequest<UsersAtChannelListModel>
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
 
-            await CheckCurrentUserCanAccessChannel(request.ChannelId, currentUserId, cancellationToken);
-            
+            var currentUserAtChannel = await GetCurrentUserAtChannel(request.ChannelId, currentUserId, cancellationToken);
+            var currentUserRoleName = currentUserAtChannel.Role.Name;
+
+            // Regular members may only browse accepted users.
+            if (currentUserRoleName == "User" &&
+                request.Status is ChannelUserStatus.Banned or ChannelUserStatus.RequestSent)
+                throw new AuthorizationException("You are not authorized to view these users");
+
             IList<UsersAtChannelDto>? admins = null;
             
             if (request.Status == ChannelUserStatus.Accepted)
             {
                 admins = await channelRepository.GetChannelAdminsAsync(
                     selector: ToDto(),
+                    status: request.Status,
                     channelId: request.ChannelId,
                     cancellationToken: cancellationToken
                 );   
             }
 
+            // For the Banned list a moderator may only see banned regular members,
+            // while the owner sees every banned user. For all other statuses admins
+            // are listed separately, so they are excluded from the members list.
+            IReadOnlyCollection<string>? excludeRoleNames = request.Status == ChannelUserStatus.Banned
+                ? (currentUserRoleName == "Moderator" ? ["Owner", "Moderator"] : null)
+                : ["Owner", "Moderator"];
+
             var members = await channelRepository.GetChannelUsersAsync(
                 selector: ToDto(),
                 channelId: request.ChannelId,
                 status: request.Status,
-                excludeRoleName: "Moderator",
+                excludeRoleNames: excludeRoleNames,
                 search: request.Search,
                 index: request.Index,
                 size: request.Size,
@@ -81,10 +95,10 @@ public class GetUsersByChannelIdQuery : IRequest<UsersAtChannelListModel>
                 StatusCreatedAt = cu.CreatedAt,
             };
 
-        private async Task CheckCurrentUserCanAccessChannel(string channelId, string currentUserId, CancellationToken cancellationToken)
+        private async Task<ChannelUser> GetCurrentUserAtChannel(string channelId, string currentUserId, CancellationToken cancellationToken)
         {
             var channel = await channelRepository.GetDetailedAsync(
-                include: q => q.Include(c => c.ChannelUsers),
+                include: q => q.Include(c => c.ChannelUsers).ThenInclude(cu => cu.Role),
                 predicate: c => c.Id == channelId,
                 cancellationToken: cancellationToken
             );
@@ -97,6 +111,8 @@ public class GetUsersByChannelIdQuery : IRequest<UsersAtChannelListModel>
 
             if (currentUserAtChannel is null)
                 throw new BusinessException("You are not authorized to see this channel");
+
+            return currentUserAtChannel;
         }
     }
 }

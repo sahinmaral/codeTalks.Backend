@@ -1,3 +1,4 @@
+using codeTalks.Application.Features.Channels.Commands.ChangeUserRole;
 using codeTalks.Application.Features.Channels.Commands.CreateChannel;
 using codeTalks.Application.Features.Channels.Commands.DeleteChannel;
 using codeTalks.Application.Features.Channels.Commands.LeaveChannel;
@@ -137,6 +138,20 @@ public class ChannelsController : BaseController
         return NoContent();
     }
     
+    [HttpPatch("{channelId}/users/{userId}/role")]
+    [Authorize]
+    public async Task<IActionResult> ChangeUserRole([FromRoute] string channelId, [FromRoute] string userId, [FromBody] ChangeUserRoleDto request)
+    {
+        ChangeUserRoleCommand command = new ChangeUserRoleCommand
+        {
+            ChannelId = channelId,
+            UserId = userId,
+            Role = request.Role
+        };
+        await Dispatcher.SendAsync(command);
+        return NoContent();
+    }
+
     [HttpDelete("{channelId}/users/{userId}")]
     [Authorize]
     public async Task<IActionResult> RemoveMemberFromChannel([FromRoute] string channelId, [FromRoute] string userId)

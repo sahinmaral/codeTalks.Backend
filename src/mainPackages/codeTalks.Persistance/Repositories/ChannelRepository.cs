@@ -26,16 +26,20 @@ public sealed class ChannelRepository(AppDbContext context)
         return entity;
     }
 
-    public async Task<IList<TResult>> GetChannelAdminsAsync<TResult>(
-        Expression<Func<ChannelUser, TResult>> selector,
+    public async Task<IList<TResult>> GetChannelAdminsAsync<TResult>(Expression<Func<ChannelUser, TResult>> selector,
         string channelId,
+        ChannelUserStatus status,
         CancellationToken cancellationToken = default)
     {
         return await _context.Set<ChannelUser>()
             .AsNoTracking()
             .Include(cu => cu.User)
             .Include(cu => cu.Role)
-            .Where(cu => cu.ChannelId == channelId && cu.Role.Name == "Moderator")
+            .Where(cu => cu.ChannelId == channelId && cu.Status == status && (cu.Role.Name == "Owner" || cu.Role.Name == "Moderator"))
+            .OrderBy(cu => cu.Role.Name == "Owner" ? 0 : 1)
+            .ThenBy(cu => cu.User.FirstName)
+            .ThenBy(cu => cu.User.MiddleName)
+            .ThenBy(cu => cu.User.LastName)
             .Select(selector)
             .ToListAsync(cancellationToken);
     }
@@ -44,7 +48,7 @@ public sealed class ChannelRepository(AppDbContext context)
         Expression<Func<ChannelUser, TResult>> selector,
         string channelId,
         ChannelUserStatus status,
-        string? excludeRoleName = null,
+        IReadOnlyCollection<string>? excludeRoleNames = null,
         string? search = null,
         int index = 0,
         int size = 10,
@@ -56,8 +60,8 @@ public sealed class ChannelRepository(AppDbContext context)
             .Include(cu => cu.Role)
             .Where(cu => cu.ChannelId == channelId && cu.Status == status);
 
-        if (excludeRoleName is not null)
-            query = query.Where(cu => cu.Role.Name != excludeRoleName);
+        if (excludeRoleNames is { Count: > 0 })
+            query = query.Where(cu => !excludeRoleNames.Contains(cu.Role.Name));
 
         if (!string.IsNullOrWhiteSpace(search))
         {
@@ -68,10 +72,11 @@ public sealed class ChannelRepository(AppDbContext context)
                 cu.User.LastName.ToLower().Contains(term));
         }
 
-        if (status is ChannelUserStatus.Accepted or ChannelUserStatus.Denied)
+        if (status is ChannelUserStatus.Accepted or ChannelUserStatus.Banned)
         {
             return await query
-                .OrderBy(cu => cu.User.FirstName)
+                .OrderBy(cu => cu.Role.Name == "Moderator" ? 0 : 1)
+                .ThenBy(cu => cu.User.FirstName)
                 .ThenBy(cu => cu.User.MiddleName)
                 .ThenBy(cu => cu.User.LastName)
                 .Select(selector)

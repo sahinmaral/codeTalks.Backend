@@ -35,7 +35,6 @@ public class RegisterUserCommand : IRequest<RegisteredUserDto>
             User newUser = mapper.Map<User>(request);
 
             await userManager.CreateAsync(newUser, request.Password);
-            await userManager.AddToRoleAsync(newUser, "User");
 
             UserStatus userStatusForNewUser = new UserStatus
             {

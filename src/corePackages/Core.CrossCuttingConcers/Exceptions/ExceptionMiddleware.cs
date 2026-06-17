@@ -36,7 +36,7 @@ public class ExceptionMiddleware(RequestDelegate next)
 
         return context.Response.WriteAsync(new AuthorizationProblemDetails
         {
-            Status = StatusCodes.Status401Unauthorized,
+            Status = StatusCodes.Status403Forbidden,
             Type = "https://example.com/probs/authorization",
             Title = "Authorization exception",
             Detail = exception.Message,

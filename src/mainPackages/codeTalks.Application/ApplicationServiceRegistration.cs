@@ -2,7 +2,6 @@
 using codeTalks.Application.Features.Channels.Rules;
 using codeTalks.Application.Services;
 using Core.Application.CQRS;
-using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Logging;
 using Core.Application.Pipelines.Validation;
 using FluentValidation;
@@ -26,7 +25,6 @@ public static class ApplicationServiceRegistration
 
         services.AddValidatorsFromAssembly(assembly);
         
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
 
         services.AddScoped<AuthBusinessRules>();

@@ -26,6 +26,7 @@ public class PatchUserStatusCommand : ICommand
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             var moderatorRole = await roleManager.FindByNameAsync("Moderator");
+            var ownerRole = await roleManager.FindByNameAsync("Owner");
 
             var channel = await channelRepository.GetDetailedAsync(
                 include: queryable => queryable
@@ -51,11 +52,29 @@ public class PatchUserStatusCommand : ICommand
             if (currentUserAtChannel is null)
                 throw new EntityNotFoundException("You haven't registered this channel yet");
 
-            if (currentUserAtChannel.Role.Id != moderatorRole!.Id)
+            if (currentUserAtChannel.Role.Id != moderatorRole!.Id &&
+                currentUserAtChannel.Role.Id != ownerRole!.Id)
                 throw new AuthorizationException("You have no authorization to update user's channel status");
             
             if (foundUserAtChannel.UserId == currentUserAtChannel.UserId)
                 throw new AuthorizationException("You can't update your own channel status");
+
+            bool isBan    = request.Status == ChannelUserStatus.Banned;
+            bool isUnban  = request.Status == ChannelUserStatus.Accepted &&
+                            foundUserAtChannel.Status == ChannelUserStatus.Banned;
+
+            if (isBan || isUnban)
+            {
+                bool currentUserIsOwner = currentUserAtChannel.Role.Id == ownerRole!.Id;
+                
+                if (!currentUserIsOwner)
+                {
+                    if (foundUserAtChannel.Role.Id == ownerRole.Id)
+                        throw new AuthorizationException($"You can't {(isBan ? "ban" : "unban")} owner");
+                    if (foundUserAtChannel.Role.Id == moderatorRole!.Id)
+                        throw new AuthorizationException($"You can't {(isBan ? "ban" : "unban")} another moderator");
+                }
+            }
             
             foundUserAtChannel.Status = request.Status;
             

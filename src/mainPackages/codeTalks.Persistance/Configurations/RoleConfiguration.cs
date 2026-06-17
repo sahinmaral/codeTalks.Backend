@@ -16,5 +16,8 @@ public sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
         
         builder.HasData(
             new Role {Id = "b1c487ef-1fa4-4f96-a8ab-b6cb14216a86", Name = "Moderator", NormalizedName = "MODERATOR", ConcurrencyStamp = "f370f307-6959-4896-ae23-0ea826a00261"});
+        
+        builder.HasData(
+            new Role {Id = "ea552ce1-296c-4607-b7e1-9f0d21de9499", Name = "Owner", NormalizedName = "OWNER", ConcurrencyStamp = "e633761d-0a88-4b95-bc75-bb19efff08fb"});
     }
 }
