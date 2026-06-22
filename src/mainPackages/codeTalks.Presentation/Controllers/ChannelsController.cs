@@ -1,25 +1,28 @@
 using codeTalks.Application.Features.Channels.Commands.ChangeUserRole;
 using codeTalks.Application.Features.Channels.Commands.CreateChannel;
 using codeTalks.Application.Features.Channels.Commands.DeleteChannel;
+using codeTalks.Application.Features.Channels.Commands.DeleteThumbnailPhoto;
 using codeTalks.Application.Features.Channels.Commands.LeaveChannel;
 using codeTalks.Application.Features.Channels.Commands.PatchChannel;
 using codeTalks.Application.Features.Channels.Commands.PatchUserStatus;
 using codeTalks.Application.Features.Channels.Commands.RemoveMemberFromChannel;
 using codeTalks.Application.Features.Channels.Commands.SendInviteToChannel;
 using codeTalks.Application.Features.Channels.Commands.UpdateChannel;
+using codeTalks.Application.Features.Channels.Commands.UpdateThumbnailPhoto;
 using codeTalks.Application.Features.Channels.Dtos;
-using codeTalks.Application.Features.Channels.Queries.GetAllByUserId;
 using codeTalks.Application.Features.Channels.Queries.GetById;
 using codeTalks.Application.Features.Channels.Queries.GetUsersDetailAtChannelByChannelId;
 using codeTalks.Domain;
 using codeTalks.Presentation.Controllers.Common;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace codeTalks.Presentation.Controllers;
 
 public class ChannelsController : BaseController
 {
+    
     [HttpGet("{channelId}")]
     [Authorize]
     public async Task<IActionResult> GetChannelById([FromRoute] string channelId)
@@ -162,6 +165,32 @@ public class ChannelsController : BaseController
             UserId = userId,
         };
         await Dispatcher.SendAsync(command);
+        return NoContent();
+    }
+    
+    [HttpPut("{channelId}/thumbnail-photo")]
+    public async Task<IActionResult> UpdateThumbnailPhoto([FromRoute] string channelId, IFormFile image)
+    {
+        UpdateThumbnailPhotoCommand request = new UpdateThumbnailPhotoCommand
+        {
+            ChannelId = channelId,
+            Image = image,
+        };
+        
+        UpdatedThumbnailPhotoDto response = await Dispatcher.SendAsync(request);
+        
+        return Ok(response);
+    }
+    
+    [HttpDelete("{channelId}/thumbnail-photo")]
+    public async Task<IActionResult> DeleteThumbnailPhoto([FromRoute] string channelId)
+    {
+        DeleteThumbnailPhotoCommand request = new DeleteThumbnailPhotoCommand
+        {
+            ChannelId = channelId,
+        };
+        await Dispatcher.SendAsync(request);
+        
         return NoContent();
     }
 }

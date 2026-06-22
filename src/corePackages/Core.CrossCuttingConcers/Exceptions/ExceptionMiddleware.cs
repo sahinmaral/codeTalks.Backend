@@ -32,7 +32,7 @@ public class ExceptionMiddleware(RequestDelegate next)
 
     private Task CreateAuthorizationException(HttpContext context, Exception exception)
     {
-        context.Response.StatusCode = Convert.ToInt32(HttpStatusCode.Unauthorized);
+        context.Response.StatusCode = Convert.ToInt32(HttpStatusCode.Forbidden);
 
         return context.Response.WriteAsync(new AuthorizationProblemDetails
         {

@@ -15,4 +15,8 @@
       <ProjectReference Include="..\..\corePackages\Core.Security\Core.Security.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="CloudinaryDotNet" Version="1.29.2" />
+    </ItemGroup>
+
 </Project>
