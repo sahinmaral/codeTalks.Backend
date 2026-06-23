@@ -1,3 +1,4 @@
+using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
@@ -13,7 +14,8 @@ public class UpdateUserStatusCommand : ICommand
         ICurrentUserService currentUserService,
         IUserStatusRepository userStatusRepository) : ICommandHandler<UpdateUserStatusCommand>
     {
-        public async Task<Unit> Handle(UpdateUserStatusCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateUserStatusCommand request,
+            CancellationToken cancellationToken)
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             

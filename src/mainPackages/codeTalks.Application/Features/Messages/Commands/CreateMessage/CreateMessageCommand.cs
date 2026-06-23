@@ -1,4 +1,5 @@
 using codeTalks.Application.Features.Auths.Rules;
+using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Features.Channels.Rules;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;

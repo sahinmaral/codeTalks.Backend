@@ -9,21 +9,22 @@ using Core.Persistence.Paging;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace codeTalks.Application.Features.Channels.Queries.GetAllByUserId;
+namespace codeTalks.Application.Features.Channels.Queries.GetAll;
 
-public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
+public class GetAllQuery : IRequest<ChannelsByUserIdListModel>
 {
     public ChannelUserStatus? Status { get; set; }
+    public string? Title { get; set; }
     public int Size { get; set; }
     public int Index { get; set; }
 
-    public class GetAllByUserIdQueryHandler(
+    public class GetAllQueryHandler(
         ICurrentUserService currentUserService,
         IChannelRepository channelRepository,
         IMapper mapper,
-        AuthBusinessRules authBusinessRules) : IRequestHandler<GetAllByUserIdQuery, ChannelsByUserIdListModel>
+        AuthBusinessRules authBusinessRules) : IRequestHandler<GetAllQuery, ChannelsByUserIdListModel>
     {
-        public async Task<ChannelsByUserIdListModel> Handle(GetAllByUserIdQuery request,
+        public async Task<ChannelsByUserIdListModel> Handle(GetAllQuery request,
             CancellationToken cancellationToken)
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
@@ -36,18 +37,19 @@ public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
 
             foreach (var channelsByUserIdItemDto in mappedChannels.Items)
             {
-                var filteredChannelUser = channelsOfUserWhoAccepted.Items
-                    .First(channel => channel.Id == channelsByUserIdItemDto.Id).ChannelUsers
-                    .First(channelUser => channelUser.UserId == currentUserId);
+                var channel = channelsOfUserWhoAccepted.Items
+                    .First(channel => channel.Id == channelsByUserIdItemDto.Id);
 
-                channelsByUserIdItemDto.MemberCount = filteredChannelUser.Channel
-                    .ChannelUsers
-                    .Where(x => x.Status == request.Status)
-                    .ToList()
-                    .Count;
-                
-                channelsByUserIdItemDto.Status = filteredChannelUser.Status;
-                channelsByUserIdItemDto.Role = mapper.Map<ChannelsByUserIdRoleDto>(filteredChannelUser.Role);
+                var currentUserMembership = channel.ChannelUsers
+                    .FirstOrDefault(channelUser => channelUser.UserId == currentUserId);
+
+                channelsByUserIdItemDto.MemberCount = channel.ChannelUsers
+                    .Count(x => x.Status == (request.Status ?? ChannelUserStatus.Accepted));
+
+                channelsByUserIdItemDto.Status = currentUserMembership?.Status;
+                channelsByUserIdItemDto.Role = currentUserMembership is null
+                    ? null
+                    : mapper.Map<ChannelsByUserIdRoleDto>(currentUserMembership.Role);
             }
 
             return mappedChannels;
@@ -60,7 +62,7 @@ public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
         /// <param name="currentUserId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>Paginated Channel as IPaginate</returns>
-        private async Task<IPaginate<Channel>> FilterChannelsByDefinedChannelUserStatusAndRetrieve(GetAllByUserIdQuery request,
+        private async Task<IPaginate<Channel>> FilterChannelsByDefinedChannelUserStatusAndRetrieve(GetAllQuery request,
             string currentUserId,
             CancellationToken cancellationToken)
         {
@@ -69,7 +71,9 @@ public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
             {
                 channelsOfUserOfDesiredStatus = await channelRepository.GetListAsync(
                     predicate: channel => channel.ChannelUsers.Any(user =>
-                        user.UserId == currentUserId && user.Status == request.Status),
+                        user.UserId == currentUserId && user.Status == request.Status) &&
+                        (string.IsNullOrWhiteSpace(request.Title) || channel.Name.ToLower().Contains(request.Title!.ToLower())),
+                    orderBy: queryable => queryable.OrderBy(channel => channel.Name),
                     include: queryable => queryable
                         .Include(channel => channel.ChannelUsers)
                         .ThenInclude(channelUser => channelUser.Role),
@@ -80,8 +84,9 @@ public class GetAllByUserIdQuery : IRequest<ChannelsByUserIdListModel>
             else
             {
                 channelsOfUserOfDesiredStatus = await channelRepository.GetListAsync(
-                    predicate: channel => channel.ChannelUsers.Any(user =>
-                        user.UserId == currentUserId),
+                    predicate: channel => channel.ChannelUsers.All(user => user.UserId != currentUserId) &&
+                                          (string.IsNullOrWhiteSpace(request.Title) || channel.Name.ToLower().Contains(request.Title!.ToLower())),
+                    orderBy: queryable => queryable.OrderBy(channel => channel.Name),
                     include: queryable => queryable
                         .Include(channel => channel.ChannelUsers)
                         .ThenInclude(channelUser => channelUser.Role),

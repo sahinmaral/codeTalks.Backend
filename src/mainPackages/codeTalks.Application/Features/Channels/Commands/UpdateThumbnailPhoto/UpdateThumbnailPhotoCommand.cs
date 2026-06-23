@@ -22,7 +22,8 @@ public class UpdateThumbnailPhotoCommand : ICommand<UpdatedThumbnailPhotoDto>
         RoleManager<Role> roleManager,
         IChannelRepository channelRepository) : ICommandHandler<UpdateThumbnailPhotoCommand, UpdatedThumbnailPhotoDto>
     {
-        public async Task<UpdatedThumbnailPhotoDto> Handle(UpdateThumbnailPhotoCommand request, CancellationToken cancellationToken)
+        public async Task<UpdatedThumbnailPhotoDto> Handle(UpdateThumbnailPhotoCommand request,
+            CancellationToken cancellationToken)
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             var ownerRole = await roleManager.FindByNameAsync("Owner");

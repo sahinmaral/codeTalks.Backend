@@ -2,18 +2,20 @@ using codeTalks.Application.Features.Channels.Commands.ChangeUserRole;
 using codeTalks.Application.Features.Channels.Commands.CreateChannel;
 using codeTalks.Application.Features.Channels.Commands.DeleteChannel;
 using codeTalks.Application.Features.Channels.Commands.DeleteThumbnailPhoto;
+using codeTalks.Application.Features.Channels.Commands.JoinChannel;
 using codeTalks.Application.Features.Channels.Commands.LeaveChannel;
 using codeTalks.Application.Features.Channels.Commands.PatchChannel;
 using codeTalks.Application.Features.Channels.Commands.PatchUserStatus;
 using codeTalks.Application.Features.Channels.Commands.RemoveMemberFromChannel;
-using codeTalks.Application.Features.Channels.Commands.SendInviteToChannel;
 using codeTalks.Application.Features.Channels.Commands.UpdateChannel;
 using codeTalks.Application.Features.Channels.Commands.UpdateThumbnailPhoto;
 using codeTalks.Application.Features.Channels.Dtos;
+using codeTalks.Application.Features.Channels.Queries.GetAll;
 using codeTalks.Application.Features.Channels.Queries.GetById;
 using codeTalks.Application.Features.Channels.Queries.GetUsersDetailAtChannelByChannelId;
 using codeTalks.Domain;
 using codeTalks.Presentation.Controllers.Common;
+using codeTalks.Presentation.Hubs.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +24,19 @@ namespace codeTalks.Presentation.Controllers;
 
 public class ChannelsController : BaseController
 {
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> GetChannels([FromQuery] ChannelPageRequest request)
+    {
+        GetAllQuery getAllByUserIdQuery = new()
+        {
+            Size = request.PageSize,
+            Index = request.Page - 1,
+            Title = request.Title,
+        };
+        var response = await Dispatcher.SendAsync(getAllByUserIdQuery);
+        return Ok(response);
+    }
     
     [HttpGet("{channelId}")]
     [Authorize]
@@ -44,13 +59,9 @@ public class ChannelsController : BaseController
     }
     
     [Authorize]
-    [HttpPost("send-invite/{channelId}")]
-    public async Task<IActionResult> SendInviteToChannel([FromRoute] string channelId)
+    [HttpPost("join")]
+    public async Task<IActionResult> JoinChannel([FromBody] JoinChannelCommand request)
     {
-        SendInviteToChannelCommand request = new SendInviteToChannelCommand
-        {
-            ChannelId = channelId
-        };
         await Dispatcher.SendAsync(request);
         return NoContent();
     }

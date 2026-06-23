@@ -1,4 +1,5 @@
 using codeTalks.Application.Features.Auths.Rules;
+using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Services;
 using codeTalks.Application.Services.FileStorage;
 using codeTalks.Application.Services.Repositories;
@@ -20,7 +21,8 @@ public class DeleteThumbnailPhotoCommand : ICommand
         IChannelRepository channelRepository,
         RoleManager<Role> roleManager) : ICommandHandler<DeleteThumbnailPhotoCommand>
     {
-        public async Task<Unit> Handle(DeleteThumbnailPhotoCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteThumbnailPhotoCommand request,
+            CancellationToken cancellationToken)
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             var ownerRole = await roleManager.FindByNameAsync("Owner");

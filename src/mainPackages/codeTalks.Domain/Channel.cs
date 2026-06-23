@@ -6,7 +6,9 @@ public class Channel : Entity
 {
     public string Name { get; set; }
     public string Description { get; set; }
-    public string InviteCode { get; set; } 
+    public string InviteCode { get; set; }
+    public string? ThumbnailPhotoURL { get; set; }
+    public ChannelJoinPolicy JoinPolicy { get; set; }
     public DateTime? DeletedAt { get; set; }
     public bool IsActive { get; set; } = true;
     

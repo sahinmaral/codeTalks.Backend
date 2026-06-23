@@ -1,5 +1,6 @@
 
 using codeTalks.Application.Features.Auths.Rules;
+using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Features.Users.Dtos;
 using codeTalks.Application.Services;
 using codeTalks.Application.Services.FileStorage;
@@ -20,7 +21,8 @@ public class UpdateProfilePhotoCommand : ICommand<UpdatedProfilePhotoDto>
         UserManager<User> userManager,
         AuthBusinessRules authBusinessRules) : ICommandHandler<UpdateProfilePhotoCommand, UpdatedProfilePhotoDto>
     {
-        public async Task<UpdatedProfilePhotoDto> Handle(UpdateProfilePhotoCommand request, CancellationToken cancellationToken)
+        public async Task<UpdatedProfilePhotoDto> Handle(UpdateProfilePhotoCommand request,
+            CancellationToken cancellationToken)
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             User user = await authBusinessRules.CheckUserExistsById(currentUserId);

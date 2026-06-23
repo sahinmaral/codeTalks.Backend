@@ -1,3 +1,4 @@
+using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using Core.Application.CQRS;
@@ -20,7 +21,8 @@ public class RemoveMemberFromChannelCommand : ICommand
         UserManager<User> userManager,
         IChannelRepository channelRepository) : ICommandHandler<RemoveMemberFromChannelCommand>
     {
-        public async Task<Unit> Handle(RemoveMemberFromChannelCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RemoveMemberFromChannelCommand request,
+            CancellationToken cancellationToken)
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             var moderatorRole = await roleManager.FindByNameAsync("Moderator");

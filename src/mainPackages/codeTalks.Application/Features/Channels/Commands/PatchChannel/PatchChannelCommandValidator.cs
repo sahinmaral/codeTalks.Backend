@@ -1,3 +1,4 @@
+using codeTalks.Domain;
 using FluentValidation;
 
 namespace codeTalks.Application.Features.Channels.Commands.PatchChannel;
@@ -19,5 +20,10 @@ public class PatchChannelCommandValidator : AbstractValidator<PatchChannelComman
         RuleFor(x => x.PatchChannelDto.Description)
             .MaximumLength(500)
             .When(x => x.PatchChannelDto.Description is not null);
+        
+        RuleFor(x => x.PatchChannelDto.JoinPolicy)
+            .Must(s => s == ChannelJoinPolicy.Open || s == ChannelJoinPolicy.Request)
+            .WithMessage("Join Policy must be Open or Request.")
+            .When(x => x.PatchChannelDto.Name is not null);
     }
 }

@@ -1,6 +1,7 @@
 using MapsterMapper;
 using codeTalks.Application.Features.Auths.Dtos;
 using codeTalks.Application.Features.Auths.Rules;
+using codeTalks.Application.Features.Channels.Dtos;
 using Core.Application.CQRS;
 using Core.Security.Entities;
 using Core.Security.JWT;

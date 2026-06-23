@@ -45,6 +45,7 @@ public class PatchChannelCommand : ICommand
 
             channel.Name = request.PatchChannelDto.Name ?? channel.Name;
             channel.Description = request.PatchChannelDto.Description ?? channel.Description;
+            channel.JoinPolicy = request.PatchChannelDto.JoinPolicy ?? channel.JoinPolicy;
 
             await channelRepository.UpdateAsync(channel);
             return Unit.Value;

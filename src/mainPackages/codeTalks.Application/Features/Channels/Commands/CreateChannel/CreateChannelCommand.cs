@@ -1,3 +1,4 @@
+using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
@@ -11,6 +12,7 @@ public class CreateChannelCommand : ICommand
 {
     public string Name { get; set; }
     public string Description { get; set; }
+    public ChannelJoinPolicy JoinPolicy { get; set; }
     
     public class CreateChannelCommandHandler(
         ICurrentUserService currentUserService,
@@ -36,6 +38,7 @@ public class CreateChannelCommand : ICommand
             {
                 Name = request.Name,
                 Description = request.Description,
+                JoinPolicy = request.JoinPolicy,
                 InviteCode = inviteCode,
                 ChannelUsers = new List<ChannelUser>()
             };

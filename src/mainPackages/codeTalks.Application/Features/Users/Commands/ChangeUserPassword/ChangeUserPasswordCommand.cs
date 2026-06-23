@@ -1,4 +1,5 @@
 using codeTalks.Application.Features.Auths.Rules;
+using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Services;
 using Core.Application.CQRS;
 using Core.CrossCuttingConcerns.Exceptions;
@@ -17,7 +18,8 @@ public class ChangeUserPasswordCommand : ICommand
         UserManager<User> userManager,
         AuthBusinessRules authBusinessRules) : ICommandHandler<ChangeUserPasswordCommand>
     {
-        public async Task<Unit> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ChangeUserPasswordCommand request,
+            CancellationToken cancellationToken)
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
 

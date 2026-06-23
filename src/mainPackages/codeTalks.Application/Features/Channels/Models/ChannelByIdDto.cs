@@ -1,4 +1,5 @@
 using codeTalks.Application.Features.Channels.Dtos;
+using codeTalks.Domain;
 
 namespace codeTalks.Application.Features.Channels.Models;
 
@@ -9,6 +10,7 @@ public class ChannelByIdDto
     public string Description { get; set; }
     public string InviteCode { get; set; }
     public DateTime CreatedAt { get; set; }
+    public ChannelJoinPolicy JoinPolicy { get; set; }
     public int MemberCount { get; set; }
     public ChannelsByUserIdRoleDto Role { get; set; }
 }

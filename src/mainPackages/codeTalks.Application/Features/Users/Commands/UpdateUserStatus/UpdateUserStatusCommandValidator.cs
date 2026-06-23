@@ -7,9 +7,6 @@ public class UpdateUserStatusCommandValidator : AbstractValidator<UpdateUserStat
     public UpdateUserStatusCommandValidator()
     {
         RuleFor(x => x.Status)
-            .NotEmpty();
-        
-        RuleFor(x => x.Status)
             .IsInEnum()
             .WithMessage("Status must be between [0-3]");
     }

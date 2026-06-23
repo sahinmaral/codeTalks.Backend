@@ -1,4 +1,4 @@
-using codeTalks.Application.Features.Channels.Queries.GetAllByUserId;
+using codeTalks.Application.Features.Channels.Queries.GetAll;
 using codeTalks.Application.Features.Messages.Queries.GetAllByChannelId;
 using codeTalks.Domain;
 using codeTalks.Presentation.Hubs.Models;
@@ -13,7 +13,7 @@ public class ChatHub(IDispatcher dispatcher) : Hub
     [Authorize]
     public async Task SendActiveChannelsByUserId(ChannelPageRequest request)
     {
-        GetAllByUserIdQuery getAllByUserIdQuery = new()
+        GetAllQuery getAllByUserIdQuery = new()
         {
             Size = request.PageSize,
             Index = request.Page - 1,
@@ -27,7 +27,7 @@ public class ChatHub(IDispatcher dispatcher) : Hub
     [Authorize]
     public async Task SendAllChannelsByUserId(ChannelPageRequest request)
     {
-        GetAllByUserIdQuery getAllByUserIdQuery = new()
+        GetAllQuery getAllByUserIdQuery = new()
         {
             Size = request.PageSize,
             Index = request.Page - 1,

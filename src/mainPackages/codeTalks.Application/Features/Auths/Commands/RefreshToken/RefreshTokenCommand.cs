@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using codeTalks.Application.Features.Auths.Dtos;
+using codeTalks.Application.Features.Channels.Dtos;
 using Core.Application.CQRS;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;

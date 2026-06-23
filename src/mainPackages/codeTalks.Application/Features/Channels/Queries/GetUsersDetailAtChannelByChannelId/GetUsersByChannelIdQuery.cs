@@ -22,7 +22,8 @@ public class GetUsersByChannelIdQuery : IRequest<UsersAtChannelListModel>
         ICurrentUserService currentUserService)
         : IRequestHandler<GetUsersByChannelIdQuery, UsersAtChannelListModel>
     {
-        public async Task<UsersAtChannelListModel> Handle(GetUsersByChannelIdQuery request, CancellationToken cancellationToken)
+        public async Task<UsersAtChannelListModel> Handle(GetUsersByChannelIdQuery request,
+            CancellationToken cancellationToken)
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
 

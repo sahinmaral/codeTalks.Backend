@@ -1,4 +1,5 @@
 using codeTalks.Application.Features.Auths.Dtos;
+using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using Core.Application.CQRS;

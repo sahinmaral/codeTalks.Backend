@@ -1,4 +1,5 @@
 using codeTalks.Application.Features.Auths.Rules;
+using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Services;
 using codeTalks.Application.Services.FileStorage;
 using Core.Application.CQRS;
@@ -16,7 +17,8 @@ public class DeleteProfilePhotoCommand : ICommand
         UserManager<User> userManager,
         AuthBusinessRules authBusinessRules) : ICommandHandler<DeleteProfilePhotoCommand>
     {
-        public async Task<Unit> Handle(DeleteProfilePhotoCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteProfilePhotoCommand request,
+            CancellationToken cancellationToken)
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             User user = await authBusinessRules.CheckUserExistsById(currentUserId);
