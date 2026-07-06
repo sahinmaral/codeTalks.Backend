@@ -21,4 +21,8 @@ public interface IChannelRepository : IAsyncRepository<Channel>, IRepository<Cha
         int index = 0,
         int size = 10,
         CancellationToken cancellationToken = default);
+    
+    Task<List<ChannelUser>> GetChannelUsersAsync(
+        Expression<Func<ChannelUser, bool>> predicate,
+        CancellationToken cancellationToken = default);
 }

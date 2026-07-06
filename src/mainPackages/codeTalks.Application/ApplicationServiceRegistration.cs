@@ -1,6 +1,7 @@
 ﻿using codeTalks.Application.Features.Auths.Rules;
 using codeTalks.Application.Features.Channels.Rules;
 using codeTalks.Application.Services;
+using codeTalks.Application.Services.Notifications;
 using Core.Application.CQRS;
 using Core.Application.Pipelines.Logging;
 using Core.Application.Pipelines.Validation;
@@ -29,6 +30,8 @@ public static class ApplicationServiceRegistration
 
         services.AddScoped<AuthBusinessRules>();
         services.AddScoped<ChannelBusinessRules>();
+        
+        services.AddSingleton<NotificationDecisionEngine>();
 
         return services;
     }

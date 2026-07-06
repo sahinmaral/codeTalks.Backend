@@ -51,7 +51,7 @@ public class CreateChannelCommand : ICommand
                 RoleId = moderatorRole!.Id
             });
 
-            await channelRepository.AddAsync(newChannel);
+            await channelRepository.AddAsync(newChannel, cancellationToken);
             return Unit.Value;
         }
     }

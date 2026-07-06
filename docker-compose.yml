@@ -3,16 +3,91 @@ name: codetalks
 services:
   postgres:
     image: postgres:16
-    container_name: codetalks-postgres
+    container_name: postgres
+    restart: unless-stopped
     environment:
-      POSTGRES_DB: codeTalksDb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: "Abc1234."
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Abc1234.}
+      POSTGRES_DB: ${POSTGRES_DB:-codeTalksDb}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - codetalks-network
+
+  codetalks-redis:
+    image: redis:7-alpine
+    container_name: codetalks-redis
     restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - codetalks-network
+
+  codetalks-rabbitmq:
+    image: rabbitmq:3-management
+    container_name: codetalks-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - codetalks-network
+
+  codetalks-webapi:
+    build:
+      context: .
+      dockerfile: src/mainPackages/codeTalks.WebAPI/Dockerfile
+    container_name: codetalks-webapi
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      codetalks-redis:
+        condition: service_healthy
+      codetalks-rabbitmq:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
+      ConnectionStrings__PostgreSQLConnectionString: "Host=postgres;Port=5432;Database=${POSTGRES_DB:-codeTalksDb};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-Abc1234.}"
+      Redis__ConnectionString: "codetalks-redis:6379"
+      RabbitMq__Host: codetalks-rabbitmq
+      RabbitMq__Username: ${RABBITMQ_USER:-guest}
+      RabbitMq__Password: ${RABBITMQ_PASSWORD:-guest}
+    ports:
+      - "5050:8080"
+      - "5051:8081"
+    networks:
+      - codetalks-network
+
+networks:
+  codetalks-network:
+    driver: bridge
 
 volumes:
   postgres_data:
+  redis_data:
+  rabbitmq_data:

@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
       <UserSecretsId>7a3c6efa-8031-49ca-9aec-34b69927d169</UserSecretsId>
+      <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
     <ItemGroup>
@@ -19,8 +20,14 @@
     <ItemGroup>
       <ProjectReference Include="..\codeTalks.Application\codeTalks.Application.csproj" />
       <ProjectReference Include="..\codeTalks.Infrastructure\codeTalks.Infrastructure.csproj" />
-      <ProjectReference Include="..\codeTalks.Persistance\codeTalks.Persistance.csproj" />
+      <ProjectReference Include="..\codeTalks.Persistence\codeTalks.Persistence.csproj" />
       <ProjectReference Include="..\codeTalks.Presentation\codeTalks.Presentation.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

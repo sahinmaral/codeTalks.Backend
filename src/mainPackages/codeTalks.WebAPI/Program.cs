@@ -1,7 +1,8 @@
-using codeTalks.Persistance;
+using codeTalks.Persistence;
 using codeTalks.Application;
 using codeTalks.Infrastructure;
-using codeTalks.Persistance.Contexts;
+using codeTalks.Infrastructure.Hubs;
+using codeTalks.Persistence.Contexts;
 using codeTalks.Presentation;
 using codeTalks.Presentation.Hubs;
 using Core.CrossCuttingConcerns.Exceptions;
@@ -19,7 +20,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services
     .AddPersistanceServices(builder.Configuration)
     .AddApplicationServices()
-    .AddInfrastructureService()
+    .AddInfrastructureService(builder.Configuration)
     .AddPresentationServices();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -71,7 +72,8 @@ app.ConfigureCustomExceptionMiddleware();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapHub<ChatHub>("/chatHub");
+app.MapHub<ChatHub>("/hubs/chat");
+app.MapHub<NotificationHub>("/hubs/notifications");
 app.MapControllers();
 
 app.Run();

@@ -2,7 +2,6 @@ using codeTalks.Application.Features.Auths.Commands.LoginUser;
 using codeTalks.Application.Features.Auths.Commands.RefreshToken;
 using codeTalks.Application.Features.Auths.Commands.RegisterUser;
 using codeTalks.Application.Features.Auths.Dtos;
-using codeTalks.Application.Features.Auths.Queries.GetCurrentUser;
 using codeTalks.Presentation.Controllers.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,18 +25,10 @@ public class AuthController : BaseController
     }
     
     [Authorize]
-    [HttpPost("refresh-token")]
+    [HttpPost("refresh")]
     public async Task<IActionResult> Refresh([FromBody] RefreshTokenCommand request)
     {
         RefreshedTokenDto response = await Dispatcher.SendAsync(request);
-        return Ok(response);
-    }
-    
-    [Authorize]
-    [HttpGet("me")]
-    public async Task<IActionResult> GetCurrentUser()
-    {
-        GetCurrentUserDto response = await Dispatcher.SendAsync(new GetCurrentUserQuery());
         return Ok(response);
     }
 }

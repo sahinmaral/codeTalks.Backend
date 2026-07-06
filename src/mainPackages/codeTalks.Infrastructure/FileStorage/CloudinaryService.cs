@@ -1,6 +1,7 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using codeTalks.Application.Services.FileStorage;
+using Core.CrossCuttingConcerns.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
@@ -32,7 +33,10 @@ public class CloudinaryService : ICloudinaryService
             PublicId = Guid.NewGuid().ToString()
         };
 
-        return await _cloudinary.UploadAsync(uploadParams);
+        var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+        EnsureSuccess(uploadResult, "image upload");
+
+        return uploadResult;
     }
 
     public async Task<DeletionResult?> DeleteImageAsync(string publicId, CancellationToken cancellationToken)
@@ -42,6 +46,18 @@ public class CloudinaryService : ICloudinaryService
             ResourceType = ResourceType.Image
         };
 
-        return await _cloudinary.DestroyAsync(deletionParams);
+        var deletionResult = await _cloudinary.DestroyAsync(deletionParams);
+        EnsureSuccess(deletionResult, "image deletion");
+
+        return deletionResult;
+    }
+
+    private static void EnsureSuccess(BaseResult result, string operation)
+    {
+        if ((int)result.StatusCode is >= 200 and < 300 && result.Error is null)
+            return;
+
+        throw new BusinessException(
+            $"Cloudinary {operation} failed: {result.Error?.Message ?? result.StatusCode.ToString()}");
     }
 }

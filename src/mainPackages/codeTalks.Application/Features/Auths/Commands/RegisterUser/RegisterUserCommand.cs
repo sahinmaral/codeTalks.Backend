@@ -24,6 +24,7 @@ public class RegisterUserCommand : IRequest<RegisteredUserDto>
     public sealed class RegisterUserCommandHandler(
         UserManager<User> userManager,
         IUserStatusRepository userStatusRepository,
+        IUserNotificationSettingRepository userNotificationSettingRepository,
         AuthBusinessRules authBusinessRules,
         IMapper mapper)
         : IRequestHandler<RegisterUserCommand, RegisteredUserDto>
@@ -44,6 +45,15 @@ public class RegisterUserCommand : IRequest<RegisteredUserDto>
             };
             
             userStatusRepository.Add(userStatusForNewUser);
+
+            UserNotificationSetting userNotificationSetting = new UserNotificationSetting
+            {
+                UserId = newUser.Id,
+                IsEnabled = true,
+                IsSoundEnabled = false
+            };
+            
+            userNotificationSettingRepository.Add(userNotificationSetting);
                 
             return mapper.Map<RegisteredUserDto>(newUser);
         }

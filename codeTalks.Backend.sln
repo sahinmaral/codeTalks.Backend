@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Persistence", "src\cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Mailing", "src\corePackages\Core.Mailing\Core.Mailing.csproj", "{DDAE0C20-C946-417A-86B3-A1495173838D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.CrossCuttingConcerns", "src\corePackages\Core.CrossCuttingConcers\Core.CrossCuttingConcerns.csproj", "{D3515115-05E9-4CC3-9E82-4212EF9DAD06}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.CrossCuttingConcerns", "src\corePackages\Core.CrossCuttingConcerns\Core.CrossCuttingConcerns.csproj", "{D3515115-05E9-4CC3-9E82-4212EF9DAD06}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Security", "src\corePackages\Core.Security\Core.Security.csproj", "{3AB813B2-7104-40AE-9EC1-03D6705E169F}"
 EndProject
@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mainPackages", "mainPackage
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codeTalks.Domain", "src\mainPackages\codeTalks.Domain\codeTalks.Domain.csproj", "{52C0C72E-4871-43A7-B722-17950077DCC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codeTalks.Persistance", "src\mainPackages\codeTalks.Persistance\codeTalks.Persistance.csproj", "{AF5CDA8C-4B18-4E37-8BF7-0B0546F946CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codeTalks.Persistence", "src\mainPackages\codeTalks.Persistence\codeTalks.Persistence.csproj", "{AF5CDA8C-4B18-4E37-8BF7-0B0546F946CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codeTalks.Application", "src\mainPackages\codeTalks.Application\codeTalks.Application.csproj", "{FCAD7C33-E2CB-4221-9DA4-AC483EF53F7A}"
 EndProject

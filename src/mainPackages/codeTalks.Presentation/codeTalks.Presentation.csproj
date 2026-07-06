@@ -7,9 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Reference Include="MediatR">
-        <HintPath>..\..\..\..\..\..\.nuget\packages\mediatr\12.0.1\lib\net6.0\MediatR.dll</HintPath>
-      </Reference>
       <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
         <HintPath>..\..\..\..\..\..\.nuget\packages\microsoft.aspnetcore.app.ref\8.0.2\ref\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
       </Reference>

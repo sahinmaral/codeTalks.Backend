@@ -1,3 +1,5 @@
+using codeTalks.Application.Features.Users.Dtos;
+
 namespace codeTalks.Application.Features.Auths.Dtos;
 
 public class RegisteredUserDto

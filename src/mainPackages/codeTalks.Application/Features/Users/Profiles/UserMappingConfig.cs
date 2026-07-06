@@ -11,6 +11,11 @@ public class UserMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
+        config.NewConfig<User, GetCurrentUserDto>();
+
+        config.NewConfig<UserStatus, GetUserStatusDto>()
+            .Map(dest => dest.LastUpdated, src => src.UpdatedAt ?? src.CreatedAt);
+        
         config.NewConfig<IPaginate<ChannelUser>, UsersByChannelIdListModel>().TwoWays();
         config.NewConfig<Role, UserRoleAtChannelDto>();
         
@@ -22,5 +27,7 @@ public class UserMappingConfig : IRegister
             .Map(dest => dest.ProfilePhotoURL, src => src.User.ProfilePhotoURL)
             .Map(dest => dest.UserName, src => src.User.UserName)
             .Map(dest => dest.Email, src => src.User.Email);
+
+        config.NewConfig<UserNotificationSetting, UserNotificationSettingDto>();
     }
 }

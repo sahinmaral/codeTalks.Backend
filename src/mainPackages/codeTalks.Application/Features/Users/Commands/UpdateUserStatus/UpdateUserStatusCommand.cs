@@ -26,7 +26,7 @@ public class UpdateUserStatusCommand : ICommand
                 {
                     Status = request.Status,
                     UserId = currentUserId
-                });
+                }, cancellationToken);
             }
             else
             {
