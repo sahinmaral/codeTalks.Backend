@@ -34,7 +34,7 @@ public class CloudinaryService : ICloudinaryService
         };
 
         var uploadResult = await _cloudinary.UploadAsync(uploadParams);
-        EnsureSuccess(uploadResult, "image upload");
+        EnsureSuccess(uploadResult, "The image could not be uploaded. Please try again later.");
 
         return uploadResult;
     }
@@ -47,17 +47,18 @@ public class CloudinaryService : ICloudinaryService
         };
 
         var deletionResult = await _cloudinary.DestroyAsync(deletionParams);
-        EnsureSuccess(deletionResult, "image deletion");
+        EnsureSuccess(deletionResult, "The image could not be deleted. Please try again later.");
 
         return deletionResult;
     }
 
-    private static void EnsureSuccess(BaseResult result, string operation)
+    private static void EnsureSuccess(BaseResult result, string errorMessage)
     {
         if ((int)result.StatusCode is >= 200 and < 300 && result.Error is null)
             return;
 
-        throw new BusinessException(
-            $"Cloudinary {operation} failed: {result.Error?.Message ?? result.StatusCode.ToString()}");
+        // The user-facing message is a localization key (resolved in ExceptionMiddleware). The raw
+        // Cloudinary error is external and not translatable, so it is not surfaced to the client.
+        throw new BusinessException(errorMessage);
     }
 }

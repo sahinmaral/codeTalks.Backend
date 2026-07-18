@@ -2,6 +2,7 @@ using codeTalks.Application.Features.Users.Dtos;
 using codeTalks.Application.Services;
 using codeTalks.Application.Services.Repositories;
 using Core.Application.CQRS;
+using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
@@ -23,14 +24,14 @@ public class GetCurrentUserQuery : IRequest<GetCurrentUserDto>
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
 
             var user = await userManager.FindByIdAsync(currentUserId)
-                ?? throw new InvalidOperationException("User not found.");
+                ?? throw new EntityNotFoundException("User not found.");
 
             var channelsWhoUserJoined = await channelRepository.GetListAsync(
                 predicate: channel => channel.ChannelUsers.Any(cu => cu.UserId == currentUserId),
                 cancellationToken: cancellationToken);
             
             var userStatusOfUser = await userStatusRepository.GetAsync(x => x.UserId == currentUserId, cancellationToken);
-            if (userStatusOfUser == null) throw new InvalidOperationException("User status not found.");
+            if (userStatusOfUser == null) throw new EntityNotFoundException("User status not found.");
             
             var userStatus = mapper.Map<GetUserStatusDto>(userStatusOfUser);
             

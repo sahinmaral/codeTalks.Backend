@@ -11,7 +11,7 @@ namespace codeTalks.Application.Features.Users.Commands.UpdateChannelMuteSetting
 public class UpdateChannelMuteSettingCommand: ICommand
 {
     public string ChannelId { get; set; }
-    public DateTime MuteUntil { get; set; } = DateTime.Now;
+    public DateTime MuteUntil { get; set; } = DateTime.UtcNow;
     
     public class UpdateChannelMuteSettingCommandHandler(
         ICurrentUserService currentUserService,

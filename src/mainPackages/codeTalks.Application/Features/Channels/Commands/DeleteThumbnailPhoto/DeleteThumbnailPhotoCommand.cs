@@ -47,7 +47,7 @@ public class DeleteThumbnailPhotoCommand : ICommand
                 throw new AuthorizationException("You have no authorization to delete channel's thumbnail photo");
             
             if (channel.ThumbnailPhotoURL is null)
-                throw new BusinessException("You haven't uploaded any profile photo yet");
+                throw new BusinessException("You haven't uploaded any thumbnail photo yet");
             
             await cloudinaryService.DeleteImageAsync(
                 FileStorageHelpers.ConvertPhotoPathToPublicId(channel.ThumbnailPhotoURL), 

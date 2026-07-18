@@ -24,7 +24,6 @@ public class AuthController : BaseController
         return Ok(response);
     }
     
-    [Authorize]
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh([FromBody] RefreshTokenCommand request)
     {

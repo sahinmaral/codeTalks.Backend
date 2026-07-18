@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Core.Persistence.Dynamic;
 using Core.Persistence.Paging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -59,24 +58,6 @@ public class EfRepositoryBase<TEntity, TContext>(TContext context) : IAsyncRepos
             ? orderBy(queryable).Select(selector)
             : queryable.Select(selector);
         return await projected.ToPaginateAsync(index, size, 0, cancellationToken);
-    }
-
-    public async Task<IPaginate<TEntity>> GetListByDynamicAsync(Dynamic.Dynamic dynamic,
-        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy =
-            null,
-        Func<IQueryable<TEntity>,
-                IIncludableQueryable<TEntity, object>>?
-            include = null,
-        int index = 0, int size = 10,
-        bool enableTracking = true,
-        CancellationToken cancellationToken = default)
-    {
-        IQueryable<TEntity> queryable = Query().AsQueryable().ToDynamic(dynamic);
-        if (!enableTracking) queryable = queryable.AsNoTracking();
-        if (include != null) queryable = include(queryable);
-        if (orderBy != null)
-            return await orderBy(queryable).ToPaginateAsync(index, size, 0, cancellationToken);
-        return await queryable.ToPaginateAsync(index, size, 0, cancellationToken);
     }
 
     public IQueryable<TEntity> Query()
@@ -151,21 +132,6 @@ public class EfRepositoryBase<TEntity, TContext>(TContext context) : IAsyncRepos
         return projected.ToPaginate(index, size, 0);
     }
     
-
-    public IPaginate<TEntity> GetListByDynamic(Dynamic.Dynamic dynamic,
-        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy =
-            null,
-        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>?
-            include = null, int index = 0, int size = 10,
-        bool enableTracking = true)
-    {
-        IQueryable<TEntity> queryable = Query().AsQueryable().ToDynamic(dynamic);
-        if (!enableTracking) queryable = queryable.AsNoTracking();
-        if (include != null) queryable = include(queryable);
-        if (orderBy != null)
-            return orderBy(queryable).ToPaginate(index, size);
-        return queryable.ToPaginate(index, size);
-    }
 
     public TEntity Add(TEntity entity)
     {

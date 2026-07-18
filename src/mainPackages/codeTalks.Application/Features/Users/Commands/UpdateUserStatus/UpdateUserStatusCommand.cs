@@ -19,7 +19,7 @@ public class UpdateUserStatusCommand : ICommand
         {
             var currentUserId = await currentUserService.GetCurrentUserIdAsync();
             
-            var currentUserStatus = await userStatusRepository.GetAsync(x => x.UserId == currentUserId);
+            var currentUserStatus = await userStatusRepository.GetAsync(x => x.UserId == currentUserId, cancellationToken);
             if (currentUserStatus == null)
             {
                 await userStatusRepository.AddAsync(new UserStatus

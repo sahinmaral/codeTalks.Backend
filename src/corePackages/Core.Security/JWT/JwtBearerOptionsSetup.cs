@@ -19,7 +19,8 @@ public sealed class JwtBearerOptionsSetup(IOptions<JwtOptions> jwtOptions) : IPo
             ValidateIssuerSigningKey = true,
             ValidIssuer = _jwtOptions.Issuer,
             ValidAudience = _jwtOptions.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecurityKey))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecurityKey)),
+            ClockSkew = TimeSpan.FromSeconds(30)
         };
 
         // SignalR sends the token as a query string because WebSocket/SSE don't support headers

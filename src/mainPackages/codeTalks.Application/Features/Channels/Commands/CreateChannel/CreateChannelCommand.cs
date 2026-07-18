@@ -32,7 +32,7 @@ public class CreateChannelCommand : ICommand
                 isUnique = await channelRepository.GetAsync(x => x.InviteCode == inviteCode, cancellationToken) == null;
             } while (!isUnique);
             
-            var moderatorRole = await roleManager.FindByNameAsync("Moderator");
+            var ownerRole = await roleManager.FindByNameAsync("Owner");
 
             var newChannel = new Channel
             {
@@ -48,7 +48,7 @@ public class CreateChannelCommand : ICommand
                 ChannelId = newChannel.Id,
                 UserId = currentUserId,
                 Status = ChannelUserStatus.Accepted,
-                RoleId = moderatorRole!.Id
+                RoleId = ownerRole!.Id
             });
 
             await channelRepository.AddAsync(newChannel, cancellationToken);

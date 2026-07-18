@@ -2,6 +2,7 @@ using codeTalks.Application.Features.Users.Commands.ChangeUserPassword;
 using codeTalks.Application.Features.Users.Commands.DeleteProfilePhoto;
 using codeTalks.Application.Features.Users.Commands.UnmuteChannel;
 using codeTalks.Application.Features.Users.Commands.UpdateChannelMuteSetting;
+using codeTalks.Application.Features.Users.Commands.UpdateProfileInformation;
 using codeTalks.Application.Features.Users.Commands.UpdateUserNotificationSetting;
 using codeTalks.Application.Features.Users.Commands.UpdateProfilePhoto;
 using codeTalks.Application.Features.Users.Commands.UpdateUserStatus;
@@ -35,6 +36,19 @@ public class UsersController : BaseController
         await Dispatcher.SendAsync(request);
 
         return NoContent();
+    }
+    
+    [HttpPut("profile")]
+    public async Task<IActionResult> UpdateProfileInformations([FromBody] UpdateProfileInformationDto request)
+    {
+        UpdateProfileInformationCommand command = new UpdateProfileInformationCommand()
+        {
+            ProfileInformation = request,
+        };
+        
+        await Dispatcher.SendAsync(command);
+        
+        return Ok();
     }
     
     [HttpPut("profile-photo")]

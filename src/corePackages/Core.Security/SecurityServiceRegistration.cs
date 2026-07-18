@@ -46,6 +46,7 @@ public static class SecurityServiceRegistration
             options.Lockout.MaxFailedAccessAttempts = 3;
             options.Lockout.AllowedForNewUsers = true;
         })
+            .AddErrorDescriber<LocalizedIdentityErrorDescriber>()
             .AddDefaultTokenProviders()
             .AddEntityFrameworkStores<TContext>();
 

@@ -1,6 +1,5 @@
 using codeTalks.Application.Services;
 using codeTalks.Application.Services.Notifications.Interfaces;
-using Core.Security.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 

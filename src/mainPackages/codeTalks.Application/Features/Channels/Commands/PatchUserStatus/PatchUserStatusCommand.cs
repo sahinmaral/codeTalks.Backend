@@ -40,9 +40,9 @@ public class PatchUserStatusCommand : ICommand
             if (channel is null)
                 throw new EntityNotFoundException("This channel doesn't exist");
 
-            if (channel.JoinPolicy == ChannelJoinPolicy.Open && 
-                request.Status == ChannelUserStatus.Accepted || 
-                request.Status == ChannelUserStatus.Denied)
+            if (channel.JoinPolicy == ChannelJoinPolicy.Open &&
+                (request.Status == ChannelUserStatus.Accepted ||
+                 request.Status == ChannelUserStatus.Denied))
                 throw new BusinessException($"You can't set a user's channel status to {request.Status}");
 
             var userToUpdateChannelUserStatus = await userManager.Users

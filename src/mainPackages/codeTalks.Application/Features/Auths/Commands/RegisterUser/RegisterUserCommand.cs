@@ -5,6 +5,7 @@ using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Services.Repositories;
 using codeTalks.Domain;
 using Core.Application.CQRS;
+using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;
 using Microsoft.AspNetCore.Identity;
 
@@ -15,8 +16,6 @@ public class RegisterUserCommand : IRequest<RegisteredUserDto>
     public string FirstName { get; set; }
     public string? MiddleName { get; set; }
     public string LastName { get; set; }
-    public string? ProfilePhotoURL { get; set; }
-    public string? Bio { get; set; }
     public string UserName { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
@@ -36,7 +35,9 @@ public class RegisterUserCommand : IRequest<RegisteredUserDto>
 
             User newUser = mapper.Map<User>(request);
 
-            await userManager.CreateAsync(newUser, request.Password);
+            IdentityResult result = await userManager.CreateAsync(newUser, request.Password);
+            if (!result.Succeeded)
+                throw new BusinessException(string.Join(" ", result.Errors.Select(e => e.Description)));
 
             UserStatus userStatusForNewUser = new UserStatus
             {

@@ -8,7 +8,7 @@ public sealed class JwtOptions
     public string Issuer { get; set; } = null!;
     public string Audience { get; set; } = null!;
     public string SecurityKey { get; set; } = null!;
-    public int RefreshTokenExpiration { get; set; }
+    public int RefreshTokenExpirationInDays { get; set; }
 }
 
 public sealed class JwtOptionsSetup(IConfiguration configuration) : IConfigureOptions<JwtOptions>

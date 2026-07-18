@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- Exception messages -->
+  <data name="As a moderator you can only remove regular members from channel" xml:space="preserve">
+    <value>Moderatör olarak kanaldan yalnızca normal üyeleri çıkarabilirsiniz</value>
+  </data>
+  <data name="Channel does not found" xml:space="preserve">
+    <value>Kanal bulunamadı</value>
+  </data>
+  <data name="Channel not found" xml:space="preserve">
+    <value>Kanal bulunamadı</value>
+  </data>
+  <data name="Only the channel owner can change member roles" xml:space="preserve">
+    <value>Üye rollerini yalnızca kanal sahibi değiştirebilir</value>
+  </data>
+  <data name="Please confirm your account via the e-mail sent to the e-mail address you registered with" xml:space="preserve">
+    <value>Lütfen kayıt olduğunuz e-posta adresine gönderilen e-posta ile hesabınızı doğrulayın</value>
+  </data>
+  <data name="There is no user with this username or email address" xml:space="preserve">
+    <value>Bu kullanıcı adına veya e-posta adresine sahip bir kullanıcı yok</value>
+  </data>
+  <data name="This channel doesn't exist" xml:space="preserve">
+    <value>Bu kanal mevcut değil</value>
+  </data>
+  <data name="This e-mail address is already taken" xml:space="preserve">
+    <value>Bu e-posta adresi zaten kullanılıyor</value>
+  </data>
+  <data name="This role doesn't exist" xml:space="preserve">
+    <value>Bu rol mevcut değil</value>
+  </data>
+  <data name="This user doesn't exist" xml:space="preserve">
+    <value>Bu kullanıcı mevcut değil</value>
+  </data>
+  <data name="This user hasn't registered this channel yet" xml:space="preserve">
+    <value>Bu kullanıcı bu kanala henüz katılmamış</value>
+  </data>
+  <data name="This username is already taken" xml:space="preserve">
+    <value>Bu kullanıcı adı zaten alınmış</value>
+  </data>
+  <data name="User does not found" xml:space="preserve">
+    <value>Kullanıcı bulunamadı</value>
+  </data>
+  <data name="User identity could not be resolved" xml:space="preserve">
+    <value>Kullanıcı kimliği belirlenemedi</value>
+  </data>
+  <data name="User no longer exists" xml:space="preserve">
+    <value>Kullanıcı artık mevcut değil</value>
+  </data>
+  <data name="You already accepted to this channel" xml:space="preserve">
+    <value>Bu kanala zaten katıldınız</value>
+  </data>
+  <data name="You already sent a request to this channel" xml:space="preserve">
+    <value>Bu kanala zaten bir istek gönderdiniz</value>
+  </data>
+  <data name="You are not authorized to see this channel" xml:space="preserve">
+    <value>Bu kanalı görüntüleme yetkiniz yok</value>
+  </data>
+  <data name="You are not authorized to view these users" xml:space="preserve">
+    <value>Bu kullanıcıları görüntüleme yetkiniz yok</value>
+  </data>
+  <data name="You can't change the role of the channel owner" xml:space="preserve">
+    <value>Kanal sahibinin rolünü değiştiremezsiniz</value>
+  </data>
+  <data name="You can't change your own role" xml:space="preserve">
+    <value>Kendi rolünüzü değiştiremezsiniz</value>
+  </data>
+  <data name="You can't leave channel, you have to transfer your ownership to someone else" xml:space="preserve">
+    <value>Kanaldan ayrılamazsınız, sahipliğinizi başka birine devretmeniz gerekir</value>
+  </data>
+  <data name="You can't remove yourself from channel" xml:space="preserve">
+    <value>Kendinizi kanaldan çıkaramazsınız</value>
+  </data>
+  <data name="You can't update your own channel status" xml:space="preserve">
+    <value>Kendi kanal durumunuzu güncelleyemezsiniz</value>
+  </data>
+  <data name="You have been banned from this channel" xml:space="preserve">
+    <value>Bu kanaldan yasaklandınız</value>
+  </data>
+  <data name="You have no authorization to delete channel" xml:space="preserve">
+    <value>Kanalı silme yetkiniz yok</value>
+  </data>
+  <data name="You have no authorization to delete channel's thumbnail photo" xml:space="preserve">
+    <value>Kanalın küçük resmini silme yetkiniz yok</value>
+  </data>
+  <data name="You have no authorization to remove user from channel" xml:space="preserve">
+    <value>Kullanıcıyı kanaldan çıkarma yetkiniz yok</value>
+  </data>
+  <data name="You have no authorization to update channel information" xml:space="preserve">
+    <value>Kanal bilgilerini güncelleme yetkiniz yok</value>
+  </data>
+  <data name="You have no authorization to update channel's thumbnail photo" xml:space="preserve">
+    <value>Kanalın küçük resmini güncelleme yetkiniz yok</value>
+  </data>
+  <data name="You have no authorization to update user's channel status" xml:space="preserve">
+    <value>Kullanıcının kanal durumunu güncelleme yetkiniz yok</value>
+  </data>
+  <data name="You haven't registered this channel yet" xml:space="preserve">
+    <value>Bu kanala henüz katılmadınız</value>
+  </data>
+  <data name="You haven't set this channel as muted yet." xml:space="preserve">
+    <value>Bu kanalı henüz sessize almadınız.</value>
+  </data>
+  <data name="You haven't uploaded any profile photo yet" xml:space="preserve">
+    <value>Henüz bir profil fotoğrafı yüklemediniz</value>
+  </data>
+  <data name="Your notification settings does not exist" xml:space="preserve">
+    <value>Bildirim ayarlarınız mevcut değil</value>
+  </data>
+  <data name="Your current password is incorrect" xml:space="preserve">
+    <value>Mevcut şifreniz hatalı</value>
+  </data>
+  <data name="Invalid username/email or password" xml:space="preserve">
+    <value>Geçersiz kullanıcı adı/e-posta veya şifre</value>
+  </data>
+  <!-- Custom validation messages -->
+  <data name="Status must be between [0-3]" xml:space="preserve">
+    <value>Durum [0-3] aralığında olmalıdır</value>
+  </data>
+  <data name="New password must be different from the current password" xml:space="preserve">
+    <value>Yeni şifre mevcut şifreden farklı olmalıdır</value>
+  </data>
+  <data name="Join Policy must be Open or Request." xml:space="preserve">
+    <value>Katılım politikası Açık veya İstek olmalıdır.</value>
+  </data>
+  <data name="Role must be User, Moderator or Owner." xml:space="preserve">
+    <value>Rol Kullanıcı, Moderatör veya Sahip olmalıdır.</value>
+  </data>
+  <data name="Status must be Accepted, Denied or Banned." xml:space="preserve">
+    <value>Durum Kabul Edildi, Reddedildi veya Yasaklandı olmalıdır.</value>
+  </data>
+  <data name="An image file is required" xml:space="preserve">
+    <value>Bir resim dosyası gereklidir</value>
+  </data>
+  <data name="The image file cannot be empty" xml:space="preserve">
+    <value>Resim dosyası boş olamaz</value>
+  </data>
+  <data name="The image file cannot exceed 5 MB" xml:space="preserve">
+    <value>Resim dosyası 5 MB'ı aşamaz</value>
+  </data>
+  <data name="The image must be a JPEG, PNG, WEBP or GIF file" xml:space="preserve">
+    <value>Resim JPEG, PNG, WEBP veya GIF dosyası olmalıdır</value>
+  </data>
+  <!-- Cloudinary / file storage messages -->
+  <data name="The image could not be uploaded. Please try again later." xml:space="preserve">
+    <value>Resim yüklenemedi. Lütfen daha sonra tekrar deneyin.</value>
+  </data>
+  <data name="The image could not be deleted. Please try again later." xml:space="preserve">
+    <value>Resim silinemedi. Lütfen daha sonra tekrar deneyin.</value>
+  </data>
+  <!-- Auth / token messages -->
+  <data name="Refresh token is invalid" xml:space="preserve">
+    <value>Yenileme belirteci geçersiz</value>
+  </data>
+  <data name="Refresh token is expired" xml:space="preserve">
+    <value>Yenileme belirtecinin süresi dolmuş</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Kullanıcı bulunamadı.</value>
+  </data>
+  <data name="User status not found." xml:space="preserve">
+    <value>Kullanıcı durumu bulunamadı.</value>
+  </data>
+  <data name="HttpContext is null" xml:space="preserve">
+    <value>HttpContext boş</value>
+  </data>
+  <!-- ASP.NET Core Identity error messages -->
+  <data name="An unknown failure has occurred." xml:space="preserve">
+    <value>Bilinmeyen bir hata oluştu.</value>
+  </data>
+  <data name="Incorrect password." xml:space="preserve">
+    <value>Şifre hatalı.</value>
+  </data>
+  <data name="Passwords must have at least one non alphanumeric character." xml:space="preserve">
+    <value>Şifre en az bir alfasayısal olmayan karakter içermelidir.</value>
+  </data>
+  <data name="Passwords must have at least one digit ('0'-'9')." xml:space="preserve">
+    <value>Şifre en az bir rakam ('0'-'9') içermelidir.</value>
+  </data>
+  <data name="Passwords must have at least one lowercase ('a'-'z')." xml:space="preserve">
+    <value>Şifre en az bir küçük harf ('a'-'z') içermelidir.</value>
+  </data>
+  <data name="Passwords must have at least one uppercase ('A'-'Z')." xml:space="preserve">
+    <value>Şifre en az bir büyük harf ('A'-'Z') içermelidir.</value>
+  </data>
+  <data name="Passwords must be at least {0} characters." xml:space="preserve">
+    <value>Şifre en az {0} karakter olmalıdır.</value>
+  </data>
+  <data name="Passwords must use at least {0} different characters." xml:space="preserve">
+    <value>Şifre en az {0} farklı karakter içermelidir.</value>
+  </data>
+</root>

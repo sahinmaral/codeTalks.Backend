@@ -7,7 +7,9 @@ using codeTalks.Presentation;
 using codeTalks.Presentation.Hubs;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,18 @@ builder.Services
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    CultureInfo[] supportedCultures = [new("en"), new("tr")];
+
+    options.DefaultRequestCulture = new RequestCulture("en");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+    options.RequestCultureProviders = [new AcceptLanguageHeaderRequestCultureProvider()];
+});
 
 
 builder.Services.AddCors(options => 
@@ -60,6 +74,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseCors("CorsPolicy");
+
+app.UseRequestLocalization();
 
 if (app.Environment.IsDevelopment())
 {

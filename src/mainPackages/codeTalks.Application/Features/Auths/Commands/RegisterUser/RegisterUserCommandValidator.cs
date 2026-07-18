@@ -22,16 +22,6 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
             .MinimumLength(2).When(u => !string.IsNullOrEmpty(u.MiddleName));
         RuleFor(u => u.MiddleName)
             .MaximumLength(50).When(u => !string.IsNullOrEmpty(u.MiddleName));
-        
-        RuleFor(u => u.MiddleName)
-            .MinimumLength(2).When(u => !string.IsNullOrEmpty(u.Bio));
-        RuleFor(u => u.MiddleName)
-            .MaximumLength(300).When(u => !string.IsNullOrEmpty(u.Bio));
-
-        RuleFor(u => u.ProfilePhotoURL)
-            .MinimumLength(5).When(u => !string.IsNullOrEmpty(u.ProfilePhotoURL));
-        RuleFor(u => u.ProfilePhotoURL)
-            .MinimumLength(200).When(u => !string.IsNullOrEmpty(u.ProfilePhotoURL));
 
         RuleFor(u => u.Email).NotEmpty();
         RuleFor(u => u.Email).EmailAddress();

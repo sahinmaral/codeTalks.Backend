@@ -3,7 +3,6 @@ using codeTalks.Application.Services.FileStorage;
 using codeTalks.Application.Services.Notifications;
 using codeTalks.Application.Services.Notifications.Interfaces;
 using codeTalks.Application.Services.Notifications.Models;
-using codeTalks.Application.Services.Repositories;
 using codeTalks.Infrastructure.FileStorage;
 using codeTalks.Infrastructure.Messaging;
 using codeTalks.Infrastructure.Notifications;
