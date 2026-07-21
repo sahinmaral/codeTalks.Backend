@@ -179,6 +179,7 @@ public class ChannelsController : BaseController
         return NoContent();
     }
     
+    [Authorize]
     [HttpPut("{channelId}/thumbnail-photo")]
     public async Task<IActionResult> UpdateThumbnailPhoto([FromRoute] string channelId, IFormFile image)
     {
@@ -193,6 +194,7 @@ public class ChannelsController : BaseController
         return Ok(response);
     }
     
+    [Authorize]
     [HttpDelete("{channelId}/thumbnail-photo")]
     public async Task<IActionResult> DeleteThumbnailPhoto([FromRoute] string channelId)
     {

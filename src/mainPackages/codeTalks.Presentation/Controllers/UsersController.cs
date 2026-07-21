@@ -38,6 +38,7 @@ public class UsersController : BaseController
         return NoContent();
     }
     
+    [Authorize]
     [HttpPut("profile")]
     public async Task<IActionResult> UpdateProfileInformations([FromBody] UpdateProfileInformationDto request)
     {
@@ -51,6 +52,7 @@ public class UsersController : BaseController
         return Ok();
     }
     
+    [Authorize]
     [HttpPut("profile-photo")]
     public async Task<IActionResult> UpdateProfilePhoto(IFormFile image)
     {
@@ -64,6 +66,7 @@ public class UsersController : BaseController
         return Ok(response);
     }
     
+    [Authorize]
     [HttpDelete("profile-photo")]
     public async Task<IActionResult> DeleteProfilePhoto()
     {
