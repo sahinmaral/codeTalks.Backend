@@ -11,8 +11,6 @@ public static class PersistanceServiceRegistration
 {
     public static IServiceCollection AddPersistanceServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("PostgreSQLConnectionString");
-
         services.AddScoped<IMessageRepository, MessageRepository>();
         services.AddScoped<IChannelRepository, ChannelRepository>();
         services.AddScoped<IUserStatusRepository, UserStatusRepository>();
@@ -22,7 +20,7 @@ public static class PersistanceServiceRegistration
 
         services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseNpgsql(connectionString);
+            options.UseNpgsql(configuration.GetConnectionString("PostgreSQLConnectionString"));
         });
 
         return services;
