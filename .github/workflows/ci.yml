@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore
+        run: dotnet restore codeTalks.Backend.sln
+
+      - name: Build
+        run: dotnet build codeTalks.Backend.sln --no-restore --configuration Release
+
+      - name: Unit tests
+        run: dotnet test tests/codeTalks.Application.UnitTests --no-build --configuration Release --logger "console;verbosity=normal"
+
+      - name: Integration tests
+        run: dotnet test tests/codeTalks.WebAPI.IntegrationTests --no-build --configuration Release --logger "console;verbosity=normal"
