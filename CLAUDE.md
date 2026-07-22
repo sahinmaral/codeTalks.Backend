@@ -129,3 +129,16 @@ Not yet done (flagged as a follow-up): log aggregation/shipping (Seq, Loki, Clou
 Only **Error Monitoring** is enabled — `TracesSampleRate = 0.0` deliberately disables Sentry's Performance/Tracing product, and its separate Logging product isn't used at all (would duplicate what Serilog already does and burn a separate quota for no benefit).
 
 `ExceptionMiddleware` catches and fully absorbs every exception without rethrowing (see above), so Sentry's own automatic exception-capturing middleware would never see anything on its own. `CreateInternalException` — the same 500/unexpected-exception path that logs via `ILogger` — also explicitly calls `SentrySdk.CaptureException(exception)`. The other exception branches (validation/business/not-found/authorization) are expected 4xx outcomes and are deliberately not reported — sending those to Sentry would burn through the free tier's 5,000-events/month quota on routine client errors (wrong passwords, validation failures, etc.), not genuine bugs.
+
+## Rate limiting
+
+Built-in ASP.NET Core rate limiting (`Microsoft.AspNetCore.RateLimiting`, part of the shared framework — no NuGet package needed), configured in `Program.cs`. Two fixed-window, per-client-IP policies:
+
+- **Global** — every endpoint by default, 100 requests/minute (`RateLimiting:Global` config).
+- **`"auth"`** — `[EnableRateLimiting("auth")]` on `AuthController`, 5 requests/minute (`RateLimiting:Auth` config). Register/login/refresh are the prime targets for credential stuffing, brute force, and fake-account creation, so they get a much stricter limit than the rest of the API.
+
+`/health/live` and `/health/ready` call `.DisableRateLimiting()` explicitly — an orchestrator polling them frequently getting rate-limited would be indistinguishable from a genuine outage.
+
+**Limits are configuration-driven, not hardcoded**, specifically so `CustomWebApplicationFactory` can override them (`RateLimiting:Global:PermitLimit` / `RateLimiting:Auth:PermitLimit` set to a very high number in `ConfigureAppConfiguration`, the same override mechanism already used for Postgres/Redis/RabbitMQ). Without this, the integration suite would trip the real limits almost immediately — it drives ~100 auth calls through one shared host from a single loopback address in a matter of seconds. This is *not* the same eager-config-read bug fixed earlier for Postgres/Redis: the limit values are read lazily inside each rate limiter's partition factory (only evaluated the first time a given partition key is seen, well after the test override has merged in), not captured into a variable before `Build()`.
+
+Rejections return a `RateLimitProblemDetails` JSON body (matching the shape of every other error response in this API) with a 429 status, via `options.OnRejected` — verified manually: 5 rapid login attempts succeed (401/404 as expected), the 6th returns the 429 JSON body, and `/health/live` stays 200 throughout.

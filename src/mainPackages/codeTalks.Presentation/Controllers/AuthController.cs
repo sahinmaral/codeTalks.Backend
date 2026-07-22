@@ -5,9 +5,11 @@ using codeTalks.Application.Features.Auths.Dtos;
 using codeTalks.Presentation.Controllers.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace codeTalks.Presentation.Controllers;
 
+[EnableRateLimiting("auth")]
 public class AuthController : BaseController
 {
     [HttpPost("register")]
