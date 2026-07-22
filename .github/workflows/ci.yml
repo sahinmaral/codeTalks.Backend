@@ -30,3 +30,36 @@ jobs:
 
       - name: Integration tests
         run: dotnet test tests/codeTalks.WebAPI.IntegrationTests --no-build --configuration Release --logger "console;verbosity=normal"
+
+  push-image:
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: src/mainPackages/codeTalks.WebAPI/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/sahinmaral/codetalks-backend:latest
+            ghcr.io/sahinmaral/codetalks-backend:${{ github.sha }}

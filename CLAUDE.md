@@ -83,7 +83,7 @@ Covered: the harness (401 smoke + DB reachability); the **Auth slice** (`Feature
 
 The photo endpoints do their multipart binding + FluentValidation + owner-authorization + persistence for real against Postgres; only the Cloudinary calls themselves are faked (upload returns a canned secure URL, delete is asserted via `Received`), so the assertions cover everything except the actual asset transfer.
 
-Not yet covered: a live SignalR-connected-client test — `MessageDeliveryTests.cs` proves the disconnected/queue/Redis path (`SignalRAndPush`), but nothing connects a real `HubConnection` to exercise the `IsConnected=true` paths (`SignalRSound`/`SignalRSilent`); that needs a `HubConnection` wired against the `WebApplicationFactory` `TestServer`, meaningfully more harness work for a narrower payoff. Also still open: query handlers that are thin passthroughs.
+Not yet covered: a live SignalR-connected-client test — `MessageDeliveryTests.cs` proves the disconnected/queue/Redis path (`SignalRAndPush`), but nothing connects a real `HubConnection` to exercise the `IsConnected=true` paths (`SignalRSound`/`SignalRSilent`); that needs a `HubConnection` wired against the `WebApplicationFactory` `TestServer`, meaningfully more harness work for a narrower payoff.
 
 ## Continuous integration
 
@@ -92,3 +92,9 @@ Not yet covered: a live SignalR-connected-client test — `MessageDeliveryTests.
 - **Docker** is preinstalled on the runner, so `codeTalks.WebAPI.IntegrationTests`' Testcontainers-managed Postgres, RabbitMQ, and Redis containers all work with no extra setup — no `services:` block needed in the workflow, since each gets a dynamically-ported throwaway container per test run rather than relying on a fixed well-known port.
 
 **`main` is protected**: pushes go through a PR, and the `build-and-test` check must pass (with the branch up to date) before the merge button unlocks — enforced for admins too, so there's no direct-push or bypass path. Day-to-day workflow is: branch → PR → wait for the check → merge.
+
+A second job, `push-image`, runs after `build-and-test` succeeds — but only on an actual push to `main` (`if: github.ref == 'refs/heads/main' && github.event_name == 'push'`), never on a PR build. It builds `src/mainPackages/codeTalks.WebAPI/Dockerfile` and pushes to GHCR (`ghcr.io/sahinmaral/codetalks-backend`, tagged `latest` and the commit SHA) using the workflow's own `GITHUB_TOKEN` — no extra secrets. GHCR image names must be lowercase, hence `codetalks-backend` rather than matching the repo's casing.
+
+## Docker
+
+`src/mainPackages/codeTalks.WebAPI/Dockerfile` is a standard multi-stage build (SDK image restores + publishes, `aspnet` runtime image runs the output as the non-root `app` user). `docker-compose.yml` provisions Postgres/Redis/RabbitMQ for local dev and wires the `codetalks-webapi` service's env vars (`ConnectionStrings__PostgreSQLConnectionString`, `Redis__ConnectionString`, `RabbitMq__Host`/`Username`/`Password`) to reach them by container name — `docker compose up --build` runs the whole stack. Note `dotnet publish` copies whatever `appsettings.*.json` files exist in the project into the image, including `appsettings.Development.json`'s placeholder JWT key; a real deployment overrides config via environment variables regardless, but excluding non-`Production` appsettings from the publish output would be a cleaner fix.
