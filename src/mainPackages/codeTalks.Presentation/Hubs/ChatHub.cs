@@ -23,19 +23,6 @@ public class ChatHub(IDispatcher dispatcher) : Hub
 
         await Clients.Caller.SendAsync("ReceiveActiveChannelsByUserId", response);
     }
-    
-    [Authorize]
-    public async Task SendAllChannelsByUserId(ChannelPageRequest request)
-    {
-        GetAllQuery getAllByUserIdQuery = new()
-        {
-            Size = request.PageSize,
-            Index = request.Page - 1,
-        };
-        var response = await dispatcher.SendAsync(getAllByUserIdQuery);
-
-        await Clients.Caller.SendAsync("ReceiveAllChannelsByUserId", response);
-    }
 
     [Authorize]
     public async Task SendMessagesOfChannel(string channelId, int? size = null, int? index = null)
