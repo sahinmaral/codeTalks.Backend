@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Sentry;
 using System.Net;
 
 namespace Core.CrossCuttingConcerns.Exceptions;
@@ -116,6 +117,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
     {
         logger.LogError(exception, "Unhandled exception processing {Method} {Path}",
             context.Request.Method, context.Request.Path);
+        SentrySdk.CaptureException(exception);
 
         context.Response.StatusCode = Convert.ToInt32(HttpStatusCode.InternalServerError);
 
