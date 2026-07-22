@@ -102,6 +102,29 @@ public abstract class IntegrationTestBase
         var channel = await db.Set<Channel>().AsNoTracking().SingleAsync(c => c.Name == name);
         return new ChannelInfo(channel.Id, channel.InviteCode, name);
     }
+
+    /// <summary>
+    /// Polls <paramref name="condition"/> until it returns true or <paramref name="timeout"/>
+    /// elapses. Needed for assertions against work that completes asynchronously off the
+    /// request thread (e.g. RabbitMQ publish -> background worker -> Redis write) instead of
+    /// synchronously within the HTTP response.
+    /// </summary>
+    protected static async Task WaitUntilAsync(
+        Func<Task<bool>> condition, TimeSpan? timeout = null, TimeSpan? interval = null)
+    {
+        var deadline = DateTime.UtcNow + (timeout ?? TimeSpan.FromSeconds(5));
+        var delay = interval ?? TimeSpan.FromMilliseconds(100);
+
+        while (DateTime.UtcNow < deadline)
+        {
+            if (await condition())
+                return;
+
+            await Task.Delay(delay);
+        }
+
+        throw new TimeoutException($"Condition was not met within {timeout ?? TimeSpan.FromSeconds(5)}.");
+    }
 }
 
 /// <summary>Identifiers for a channel created during a test.</summary>

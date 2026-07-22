@@ -1,24 +1,23 @@
 using codeTalks.Application.Services.FileStorage;
 using codeTalks.Application.Services.Notifications.Interfaces;
-using codeTalks.Infrastructure.Messaging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
 using NSubstitute;
-using StackExchange.Redis;
 using Testcontainers.PostgreSql;
+using Testcontainers.RabbitMq;
+using Testcontainers.Redis;
 
 namespace codeTalks.WebAPI.IntegrationTests.Infrastructure;
 
 /// <summary>
-/// Boots the real WebAPI host against a throwaway Postgres container, replacing the
-/// external infrastructure the app talks to at startup (Redis, RabbitMQ, Cloudinary)
-/// with in-memory fakes. Postgres is real so EF Core, Identity and the migrations that
-/// <c>Program</c> applies on boot are all exercised for real.
+/// Boots the real WebAPI host against throwaway Postgres, RabbitMQ, and Redis containers.
+/// Postgres, RabbitMQ, and Redis are all real — EF Core, Identity, migrations, message
+/// publishing, the background fan-out worker, and unread-count tracking all execute for
+/// real. Only actual third-party network calls stay faked: Cloudinary and Expo push.
 /// </summary>
 public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
@@ -27,6 +26,19 @@ public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>
         .WithDatabase("codeTalksTestDb")
         .WithUsername("postgres")
         .WithPassword("postgres")
+        .Build();
+
+    // A non-"guest" user is required: RabbitMQ restricts the built-in guest account to
+    // loopback-only connections, and a connection through Docker's port mapping doesn't
+    // count as loopback from the broker's point of view.
+    private readonly RabbitMqContainer _rabbitContainer = new RabbitMqBuilder()
+        .WithImage("rabbitmq:3.13-alpine")
+        .WithUsername("testuser")
+        .WithPassword("testpass")
+        .Build();
+
+    private readonly RedisContainer _redisContainer = new RedisBuilder()
+        .WithImage("redis:7-alpine")
         .Build();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -40,56 +52,46 @@ public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>
             config.AddInMemoryCollection(new Dictionary<string, string?>
             {
                 ["ConnectionStrings:PostgreSQLConnectionString"] = _dbContainer.GetConnectionString(),
-                // AddInfrastructureService calls ConnectionMultiplexer.Connect eagerly at
-                // registration time; abortConnect=false keeps that from throwing when no
-                // Redis is reachable. The multiplexer itself is replaced below anyway.
-                ["Redis:ConnectionString"] = "localhost:6379,abortConnect=false,connectTimeout=250",
+                ["Redis:ConnectionString"] = _redisContainer.GetConnectionString(),
+                ["RabbitMq:Host"] = _rabbitContainer.Hostname,
+                ["RabbitMq:Port"] = _rabbitContainer.GetMappedPublicPort(5672).ToString(),
+                ["RabbitMq:Username"] = "testuser",
+                ["RabbitMq:Password"] = "testpass",
             });
         });
 
         builder.ConfigureTestServices(services =>
         {
-            // Redis: swap the eagerly-connected multiplexer for a stub.
-            services.RemoveAll<IConnectionMultiplexer>();
-            services.AddSingleton(_ => Substitute.For<IConnectionMultiplexer>());
-
-            // RabbitMQ: drop the background fan-out worker and the connecting publisher.
-            RemoveHostedService<ChannelMessageFanoutWorker>(services);
-            services.RemoveAll<IMessagePublisher>();
-            services.AddSingleton<IMessagePublisher, NoOpMessagePublisher>();
-
             // Cloudinary: no real uploads in tests.
             services.RemoveAll<ICloudinaryService>();
             services.AddSingleton(_ => Substitute.For<ICloudinaryService>());
 
-            // User-settings cache is Redis-backed; back it with a no-op so settings handlers
-            // don't depend on the stubbed multiplexer. Postgres stays the source of truth.
+            // Expo push is a real third-party HTTP call; the fan-out worker now runs for
+            // real, so without this it would actually hit https://exp.host in tests.
+            services.RemoveAll<IPushNotificationProvider>();
+            services.AddSingleton(_ => Substitute.For<IPushNotificationProvider>());
+
+            // User-settings cache still bypasses Redis — orthogonal to the fan-out
+            // pipeline; Postgres stays the source of truth for settings.
             services.RemoveAll<IUserSettingsCache>();
             services.AddScoped<IUserSettingsCache, NoOpUserSettingsCache>();
-
-            // Unread tracker is Redis-backed; use an in-memory singleton so notification-count
-            // tests can seed counts and read them back deterministically.
-            services.RemoveAll<IUnreadTracker>();
-            services.AddSingleton<IUnreadTracker, FakeUnreadTracker>();
         });
     }
 
-    private static void RemoveHostedService<T>(IServiceCollection services) where T : IHostedService
-    {
-        var descriptor = services.SingleOrDefault(
-            d => d.ServiceType == typeof(IHostedService) && d.ImplementationType == typeof(T));
-        if (descriptor is not null)
-            services.Remove(descriptor);
-    }
-
-    Task IAsyncLifetime.InitializeAsync() => _dbContainer.StartAsync();
+    Task IAsyncLifetime.InitializeAsync() => Task.WhenAll(
+        _dbContainer.StartAsync(),
+        _rabbitContainer.StartAsync(),
+        _redisContainer.StartAsync());
 
     // Explicit impl: WebApplicationFactory already exposes ValueTask DisposeAsync via
     // IAsyncDisposable. Route xUnit's teardown through here and dispose both the host
-    // (base) and the container.
+    // (base) and the containers.
     async Task IAsyncLifetime.DisposeAsync()
     {
-        await _dbContainer.DisposeAsync();
+        await Task.WhenAll(
+            _dbContainer.DisposeAsync().AsTask(),
+            _rabbitContainer.DisposeAsync().AsTask(),
+            _redisContainer.DisposeAsync().AsTask());
         await base.DisposeAsync();
     }
 }
