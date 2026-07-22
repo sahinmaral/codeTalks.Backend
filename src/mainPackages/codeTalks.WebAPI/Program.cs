@@ -31,6 +31,15 @@ builder.Host.UseSerilog((context, services, loggerConfig) =>
         loggerConfig.WriteTo.Console(new CompactJsonFormatter());
 });
 
+// Dsn comes from configuration (Sentry:Dsn) -- User Secrets locally, an environment
+// variable in real deployments -- never hardcoded here. No-ops if unset.
+builder.WebHost.UseSentry(options =>
+{
+    options.Environment = builder.Environment.EnvironmentName;
+    options.TracesSampleRate = 0.0; // error tracking only, no performance/tracing product
+    options.Debug = builder.Environment.IsDevelopment();
+});
+
 builder.Services
     .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
     .AddApplicationPart(codeTalks.Application.AssemblyReference.Assembly);

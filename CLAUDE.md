@@ -120,4 +120,12 @@ Serilog is the actual logging provider (`Program.cs`, `builder.Host.UseSerilog(.
 
 **Real fix along the way:** `ExceptionMiddleware.CreateInternalException` (the 500/unexpected-exception path) previously caught and fully absorbed every exception without logging it anywhere — since the middleware never rethrows, nothing else in the pipeline ever saw it either, so a genuine production bug left zero trace in any log. It now logs via `ILogger<ExceptionMiddleware>.LogError(exception, ...)` before returning the response. The other exception branches (validation/business/not-found/authorization) are expected 4xx outcomes already visible via the per-request status code from `UseSerilogRequestLogging()`, so they're deliberately not logged separately.
 
-Not yet done (flagged as follow-ups, not part of this change): error tracking / exception-capture service (Sentry or similar — needs an external account/DSN, a separate decision); log aggregation/shipping (Seq, Loki, CloudWatch, etc. — depends on the eventual hosting target).
+Not yet done (flagged as a follow-up): log aggregation/shipping (Seq, Loki, CloudWatch, etc.) — depends on the eventual hosting target.
+
+## Error tracking (Sentry)
+
+`Sentry.AspNetCore` (`Program.cs`, `builder.WebHost.UseSentry(...)`) reports genuine unexpected exceptions to Sentry. The DSN comes from configuration (`Sentry:Dsn`) — set via .NET User Secrets locally (this project already has a `<UserSecretsId>`), and via a `Sentry__Dsn` environment variable in real deployments; it's never hardcoded or committed. If `Sentry:Dsn` is unset, the SDK just no-ops — nothing breaks for a fresh clone without a Sentry account configured.
+
+Only **Error Monitoring** is enabled — `TracesSampleRate = 0.0` deliberately disables Sentry's Performance/Tracing product, and its separate Logging product isn't used at all (would duplicate what Serilog already does and burn a separate quota for no benefit).
+
+`ExceptionMiddleware` catches and fully absorbs every exception without rethrowing (see above), so Sentry's own automatic exception-capturing middleware would never see anything on its own. `CreateInternalException` — the same 500/unexpected-exception path that logs via `ILogger` — also explicitly calls `SentrySdk.CaptureException(exception)`. The other exception branches (validation/business/not-found/authorization) are expected 4xx outcomes and are deliberately not reported — sending those to Sentry would burn through the free tier's 5,000-events/month quota on routine client errors (wrong passwords, validation failures, etc.), not genuine bugs.
