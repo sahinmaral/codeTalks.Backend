@@ -57,6 +57,11 @@ public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 ["RabbitMq:Port"] = _rabbitContainer.GetMappedPublicPort(5672).ToString(),
                 ["RabbitMq:Username"] = "testuser",
                 ["RabbitMq:Password"] = "testpass",
+                // Real limits would trip almost immediately: the suite drives ~100 auth
+                // calls through this one shared host, from a single loopback address, in
+                // seconds. Effectively unlimited here; production keeps the strict defaults.
+                ["RateLimiting:Global:PermitLimit"] = "1000000",
+                ["RateLimiting:Auth:PermitLimit"] = "1000000",
             });
         });
 
