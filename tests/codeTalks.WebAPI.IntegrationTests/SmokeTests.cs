@@ -33,4 +33,22 @@ public sealed class SmokeTests(CustomWebApplicationFactory factory) : Integratio
         canConnect.Should().BeTrue();
         appliedMigrations.Should().NotBeEmpty("Program applies EF Core migrations on startup");
     }
+
+    [Fact]
+    public async Task Liveness_endpoint_returns_healthy_without_checking_dependencies()
+    {
+        var response = await Client.GetAsync("/health/live");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        (await response.Content.ReadAsStringAsync()).Should().Be("Healthy");
+    }
+
+    [Fact]
+    public async Task Readiness_endpoint_returns_healthy_when_postgres_redis_and_rabbitmq_are_reachable()
+    {
+        var response = await Client.GetAsync("/health/ready");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        (await response.Content.ReadAsStringAsync()).Should().Be("Healthy");
+    }
 }

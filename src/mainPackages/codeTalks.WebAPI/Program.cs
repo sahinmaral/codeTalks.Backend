@@ -5,8 +5,10 @@ using codeTalks.Infrastructure.Hubs;
 using codeTalks.Persistence.Contexts;
 using codeTalks.Presentation;
 using codeTalks.Presentation.Hubs;
+using codeTalks.WebAPI.HealthChecks;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -57,6 +59,11 @@ builder.Services.Configure<RouteOptions>(options =>
     options.LowercaseUrls = true;
 });
 
+builder.Services.AddHealthChecks()
+    .AddCheck<PostgresHealthCheck>("postgres", tags: ["ready"])
+    .AddCheck<RedisHealthCheck>("redis", tags: ["ready"])
+    .AddCheck<RabbitMqHealthCheck>("rabbitmq", tags: ["ready"]);
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -91,6 +98,9 @@ app.UseAuthorization();
 app.MapHub<ChatHub>("/hubs/chat");
 app.MapHub<NotificationHub>("/hubs/notifications");
 app.MapControllers();
+
+app.MapHealthChecks("/health/live", new HealthCheckOptions { Predicate = _ => false });
+app.MapHealthChecks("/health/ready", new HealthCheckOptions { Predicate = check => check.Tags.Contains("ready") });
 
 app.Run();
 
