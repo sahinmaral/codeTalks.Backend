@@ -21,6 +21,11 @@ RUN dotnet publish src/mainPackages/codeTalks.WebAPI/codeTalks.WebAPI.csproj -c 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 
+# curl is needed for the docker-compose healthcheck to call /health/live from inside the container.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY --from=build /app/publish .
 
 EXPOSE 8080
