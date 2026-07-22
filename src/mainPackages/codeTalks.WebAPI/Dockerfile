@@ -3,7 +3,6 @@ WORKDIR /src
 
 COPY src/corePackages/Core.Application/*.csproj src/corePackages/Core.Application/
 COPY src/corePackages/Core.CrossCuttingConcerns/*.csproj src/corePackages/Core.CrossCuttingConcerns/
-COPY src/corePackages/Core.Mailing/*.csproj src/corePackages/Core.Mailing/
 COPY src/corePackages/Core.Persistence/*.csproj src/corePackages/Core.Persistence/
 COPY src/corePackages/Core.Security/*.csproj src/corePackages/Core.Security/
 
@@ -27,4 +26,5 @@ COPY --from=build /app/publish .
 EXPOSE 8080
 EXPOSE 8081
 
+USER app
 ENTRYPOINT ["dotnet", "codeTalks.WebAPI.dll"]
