@@ -32,9 +32,13 @@ builder.Host.UseSerilog((context, services, loggerConfig) =>
 });
 
 // Dsn comes from configuration (Sentry:Dsn) -- User Secrets locally, an environment
-// variable in real deployments -- never hardcoded here. No-ops if unset.
+// variable in real deployments -- never hardcoded here. Sentry requires an explicit
+// empty string to disable itself; a merely-absent config key makes it throw at
+// startup instead, hence the ?? string.Empty fallback for environments (CI, a fresh
+// clone) with no Sentry account configured.
 builder.WebHost.UseSentry(options =>
 {
+    options.Dsn = builder.Configuration["Sentry:Dsn"] ?? string.Empty;
     options.Environment = builder.Environment.EnvironmentName;
     options.TracesSampleRate = 0.0; // error tracking only, no performance/tracing product
     options.Debug = builder.Environment.IsDevelopment();

@@ -124,7 +124,7 @@ Not yet done (flagged as a follow-up): log aggregation/shipping (Seq, Loki, Clou
 
 ## Error tracking (Sentry)
 
-`Sentry.AspNetCore` (`Program.cs`, `builder.WebHost.UseSentry(...)`) reports genuine unexpected exceptions to Sentry. The DSN comes from configuration (`Sentry:Dsn`) — set via .NET User Secrets locally (this project already has a `<UserSecretsId>`), and via a `Sentry__Dsn` environment variable in real deployments; it's never hardcoded or committed. If `Sentry:Dsn` is unset, the SDK just no-ops — nothing breaks for a fresh clone without a Sentry account configured.
+`Sentry.AspNetCore` (`Program.cs`, `builder.WebHost.UseSentry(...)`) reports genuine unexpected exceptions to Sentry. The DSN comes from configuration (`Sentry:Dsn`) — set via .NET User Secrets locally (this project already has a `<UserSecretsId>`), and via a `Sentry__Dsn` environment variable in real deployments; it's never hardcoded or committed. `options.Dsn` is explicitly set to `builder.Configuration["Sentry:Dsn"] ?? string.Empty` — Sentry's SDK requires an *explicit* empty string to disable itself and throws at startup if the config key is merely absent, so the fallback is what keeps CI and a fresh clone (no Sentry account configured) from crashing on boot.
 
 Only **Error Monitoring** is enabled — `TracesSampleRate = 0.0` deliberately disables Sentry's Performance/Tracing product, and its separate Logging product isn't used at all (would duplicate what Serilog already does and burn a separate quota for no benefit).
 
