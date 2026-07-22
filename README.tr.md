@@ -84,6 +84,10 @@ Integration test paketi, mock'lar yerine throwaway container'lara karşı gerçe
 - **Structured logging** — Serilog, her HTTP isteği için otomatik olarak tek satır log.
 - **Hata takibi** — gerçek, beklenmeyen exception'lar Sentry'e raporlanır.
 
+## Güvenlik
+
+- **Rate limiting** — tüm endpoint'ler için genel bir limit (dakikada 100 istek) geçerlidir; auth endpoint'lerinde (register/login/refresh) — credential stuffing ve brute-force saldırılarının en olası hedefleri — çok daha sıkı bir limit (dakikada 5 istek) uygulanır. Health check'ler bu limitten muaftır; böylece orchestrator'ın düzenli kontrolleri kötüye kullanımla karıştırılmaz.
+
 ## İlgili repo
 
 Mobil uygulama kaynak kodu: [codeTalks](https://github.com/sahinmaral/codeTalks)
