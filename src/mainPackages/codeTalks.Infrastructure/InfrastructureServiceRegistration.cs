@@ -23,7 +23,7 @@ public static class InfrastructureServiceRegistration
         services.AddSingleton<ICloudinaryService, CloudinaryService>();
         services.ConfigureOptions<CloudinaryOptionsSetup>();
         
-        services.AddSingleton<IConnectionMultiplexer>(
+        services.AddSingleton<IConnectionMultiplexer>(_ =>
             ConnectionMultiplexer.Connect(configuration["Redis:ConnectionString"]!));
         
         services.AddScoped<IConnectionTracker, RedisConnectionTracker>();

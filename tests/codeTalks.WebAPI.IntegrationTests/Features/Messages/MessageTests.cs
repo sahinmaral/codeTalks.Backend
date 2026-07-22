@@ -12,10 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 namespace codeTalks.WebAPI.IntegrationTests.Features.Messages;
 
 /// <summary>
-/// Full-pipeline coverage of /api/messages: creating a message (persisted + published via the
-/// faked <c>IMessagePublisher</c>) and paging a channel's messages. These endpoints carry no
-/// <c>[Authorize]</c> attribute — create still requires identity (the handler resolves the
-/// current user and 403s without a token), while listing is fully open.
+/// Full-pipeline coverage of /api/messages: creating a message (persisted + published to the
+/// real RabbitMQ container — see <c>MessageDeliveryTests</c> for the fan-out/delivery
+/// assertions) and paging a channel's messages. These endpoints carry no <c>[Authorize]</c>
+/// attribute — create still requires identity (the handler resolves the current user and
+/// 403s without a token), while listing is fully open.
 /// </summary>
 public sealed class MessageTests(CustomWebApplicationFactory factory) : IntegrationTestBase(factory)
 {

@@ -20,6 +20,7 @@ public class RabbitMqPublisher : IMessagePublisher, IDisposable
         var factory = new ConnectionFactory
         {
             HostName = options.Value.Host,
+            Port = options.Value.Port,
             UserName = options.Value.Username,
             Password = options.Value.Password
         };
