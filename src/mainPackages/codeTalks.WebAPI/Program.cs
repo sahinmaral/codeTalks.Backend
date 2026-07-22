@@ -11,9 +11,25 @@ using Core.Security;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Formatting.Compact;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, services, loggerConfig) =>
+{
+    loggerConfig
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services)
+        .Enrich.FromLogContext()
+        .Enrich.WithEnvironmentName();
+
+    if (context.HostingEnvironment.IsDevelopment())
+        loggerConfig.WriteTo.Console();
+    else
+        loggerConfig.WriteTo.Console(new CompactJsonFormatter());
+});
 
 builder.Services
     .AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
@@ -79,6 +95,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.ConfigureCustomExceptionMiddleware();
+
+app.UseSerilogRequestLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();
