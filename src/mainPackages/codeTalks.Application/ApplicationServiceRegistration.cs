@@ -3,7 +3,6 @@ using codeTalks.Application.Features.Channels.Rules;
 using codeTalks.Application.Services;
 using codeTalks.Application.Services.Notifications;
 using Core.Application.CQRS;
-using Core.Application.Pipelines.Logging;
 using Core.Application.Pipelines.Validation;
 using FluentValidation;
 using Mapster;

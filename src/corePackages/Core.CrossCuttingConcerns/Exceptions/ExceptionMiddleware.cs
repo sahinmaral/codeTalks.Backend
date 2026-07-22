@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
 
 namespace Core.CrossCuttingConcerns.Exceptions;
 
-public class ExceptionMiddleware(RequestDelegate next)
+public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
 {
     public async Task Invoke(HttpContext context, IStringLocalizer<SharedResource> localizer)
     {
@@ -113,6 +114,9 @@ public class ExceptionMiddleware(RequestDelegate next)
 
     private Task CreateInternalException(HttpContext context, Exception exception, IStringLocalizer localizer)
     {
+        logger.LogError(exception, "Unhandled exception processing {Method} {Path}",
+            context.Request.Method, context.Request.Path);
+
         context.Response.StatusCode = Convert.ToInt32(HttpStatusCode.InternalServerError);
 
         return context.Response.WriteAsync(new InternalServerErrorProblemDetails
