@@ -80,6 +80,11 @@ services:
     ports:
       - "5050:8080"
       - "5051:8081"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - codetalks-network
 
