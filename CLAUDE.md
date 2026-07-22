@@ -107,3 +107,7 @@ Two endpoints, both anonymous (no `[Authorize]` — orchestrators/load balancers
 - **`GET /health/ready`** — readiness. Runs the three checks tagged `"ready"` (`PostgresHealthCheck`, `RedisHealthCheck`, `RabbitMqHealthCheck`, in `src/mainPackages/codeTalks.WebAPI/HealthChecks/`), each a thin wrapper around a real connectivity check (`AppDbContext.Database.CanConnectAsync`, `IConnectionMultiplexer.GetDatabase().PingAsync()`, and a throwaway RabbitMQ `ConnectionFactory.CreateConnectionAsync` respectively) — 200 `"Healthy"` when all three succeed, 503 `"Unhealthy"` if any fail.
 
 No unit tests for the three `IHealthCheck` classes — same rationale as thin passthrough queries: real coverage is `SmokeTests.cs`'s two integration tests hitting both endpoints against the harness's real Postgres/Redis/RabbitMQ containers, which is a stronger proof than mocking the dependency away would be.
+
+## CORS
+
+There is no CORS policy — `Program.cs` used to register one with `SetIsOriginAllowed(_ => true).AllowCredentials()` (any origin, with credentials), which is the exact anti-pattern CORS exists to prevent, and it was never actually needed: the only client is the Expo mobile app (`../Mobile`), which talks to the API directly and isn't subject to browser CORS enforcement at all, and Swagger UI is served same-origin. If a browser-based client is ever added (including running the Expo app via `expo start --web`, which _would_ go through a browser), add back a scoped policy naming that origin explicitly — never a wildcard-origin + credentials combination.

@@ -42,16 +42,6 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.RequestCultureProviders = [new AcceptLanguageHeaderRequestCultureProvider()];
 });
 
-
-builder.Services.AddCors(options => 
-    options.AddPolicy("CorsPolicy", policyBuilder =>
-    {
-        policyBuilder.AllowAnyHeader()
-            .AllowAnyMethod()
-            .SetIsOriginAllowed(_ =>true)
-            .AllowCredentials();
-    }));
-
 builder.Services.AddSecurityServices<AppDbContext>();
 
 builder.Services.Configure<RouteOptions>(options =>
@@ -79,8 +69,6 @@ using (var scope = app.Services.CreateScope())
         throw new Exception("Error applying database migrations.", ex);
     }
 }
-
-app.UseCors("CorsPolicy");
 
 app.UseRequestLocalization();
 
