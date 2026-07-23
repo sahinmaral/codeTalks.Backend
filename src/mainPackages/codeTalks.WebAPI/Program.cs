@@ -122,7 +122,7 @@ builder.Services.AddRateLimiter(options =>
         await context.HttpContext.Response.WriteAsync(new RateLimitProblemDetails
         {
             Status = StatusCodes.Status429TooManyRequests,
-            Type = "https://example.com/probs/rateLimit",
+            Type = "urn:codetalks:problem:rateLimit",
             Title = "Too many requests",
             Detail = "Rate limit exceeded. Please try again later.",
             Instance = ""
