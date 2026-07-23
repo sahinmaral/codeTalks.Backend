@@ -41,7 +41,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         return context.Response.WriteAsync(new SecurityTokenProblemDetails
         {
             Status = StatusCodes.Status401Unauthorized,
-            Type = "https://example.com/probs/securityToken",
+            Type = "urn:codetalks:problem:securityToken",
             Title = "Security token exception",
             Detail = localizer[exception.Message],
             Instance = ""
@@ -55,7 +55,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         return context.Response.WriteAsync(new AuthorizationProblemDetails
         {
             Status = StatusCodes.Status403Forbidden,
-            Type = "https://example.com/probs/authorization",
+            Type = "urn:codetalks:problem:authorization",
             Title = "Authorization exception",
             Detail = localizer[exception.Message],
             Instance = ""
@@ -69,7 +69,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         return context.Response.WriteAsync(new EntityNotFoundProblemDetails
         {
             Status = StatusCodes.Status404NotFound,
-            Type = "https://example.com/probs/notFound",
+            Type = "urn:codetalks:problem:notFound",
             Title = "Entity not found exception",
             Detail = localizer[exception.Message],
             Instance = ""
@@ -83,7 +83,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         return context.Response.WriteAsync(new BusinessProblemDetails
         {
             Status = StatusCodes.Status400BadRequest,
-            Type = "https://example.com/probs/business",
+            Type = "urn:codetalks:problem:business",
             Title = "Business exception",
             Detail = localizer[exception.Message],
             Instance = ""
@@ -105,7 +105,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         return context.Response.WriteAsync(new ValidationProblemDetails
         {
             Status = StatusCodes.Status400BadRequest,
-            Type = "https://example.com/probs/validation",
+            Type = "urn:codetalks:problem:validation",
             Title = "Validation error(s)",
             Detail = "",
             Instance = "",
@@ -124,7 +124,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         return context.Response.WriteAsync(new InternalServerErrorProblemDetails
         {
             Status = StatusCodes.Status500InternalServerError,
-            Type = "https://example.com/probs/internal",
+            Type = "urn:codetalks:problem:internal",
             Title = "Internal exception",
             Detail = localizer[exception.Message],
             Instance = ""
