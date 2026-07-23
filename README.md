@@ -84,6 +84,10 @@ On every merge to `main`, a second job builds the Docker image and publishes it 
 - **Structured logging** — Serilog, with one line per HTTP request logged automatically.
 - **Error tracking** — genuine unhandled exceptions are reported to Sentry.
 
+## Security
+
+- **Rate limiting** — a global limit (100 requests/minute per client) applies to every endpoint, with a much stricter limit (5 requests/minute) on the auth endpoints (register/login/refresh) — the prime targets for credential stuffing and brute-force attacks. Health checks are exempt, so orchestrator polling is never mistaken for abuse.
+
 ## Related repository
 
 Mobile app source: [codeTalks](https://github.com/sahinmaral/codeTalks)
