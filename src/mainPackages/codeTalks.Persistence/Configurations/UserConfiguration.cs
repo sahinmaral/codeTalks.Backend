@@ -11,5 +11,6 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.ToTable("Users");
         builder.HasKey(x => x.Id);
         builder.Ignore(x => x.PhoneNumber);
+        builder.Ignore(x => x.PhoneNumberConfirmed);
     }
 }
