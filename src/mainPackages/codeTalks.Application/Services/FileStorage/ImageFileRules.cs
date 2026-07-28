@@ -5,7 +5,15 @@ namespace codeTalks.Application.Services.FileStorage;
 
 public static class ImageFileRules
 {
-    private const long MaxFileSizeInBytes = 5 * 1024 * 1024; // 5 MB
+    public const long MaxFileSizeInBytes = 5 * 1024 * 1024; // 5 MB
+
+    /// <summary>
+    /// Transport cap for a photo upload request body: the file limit plus headroom for the
+    /// multipart framing around it. Deliberately larger than <see cref="MaxFileSizeInBytes"/>
+    /// so a slightly oversized file is rejected by this class's readable validation message
+    /// rather than by Kestrel's bare 413.
+    /// </summary>
+    public const long MaxRequestBodySizeInBytes = MaxFileSizeInBytes + 512 * 1024;
 
     private static readonly string[] AllowedContentTypes =
     [

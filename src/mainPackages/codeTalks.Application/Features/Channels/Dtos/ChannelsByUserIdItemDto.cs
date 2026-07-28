@@ -8,6 +8,7 @@ public class ChannelsByUserIdItemDto
     public string Name { get; set; }
     public string Description { get; set; }
     public string InviteCode { get; set; }
+    public string? ThumbnailPhotoURL { get; set; }
     public ChannelJoinPolicy JoinPolicy { get; set; }
     public DateTime CreatedAt { get; set; }
     public int MemberCount { get; set; }
