@@ -10,7 +10,9 @@ using codeTalks.Application.Features.Users.Dtos;
 using codeTalks.Application.Features.Users.Queries.GetCurrentUser;
 using codeTalks.Application.Features.Users.Queries.GetUserChannelMuteSettings;
 using codeTalks.Application.Features.Users.Queries.GetUserNotificationSettings;
+using codeTalks.Application.Services.FileStorage;
 using codeTalks.Presentation.Controllers.Common;
+using codeTalks.Presentation.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -54,6 +56,8 @@ public class UsersController : BaseController
     
     [Authorize]
     [HttpPut("profile-photo")]
+    [AllowSlowUploads]
+    [RequestSizeLimit(ImageFileRules.MaxRequestBodySizeInBytes)]
     public async Task<IActionResult> UpdateProfilePhoto(IFormFile image)
     {
         UpdateProfilePhotoCommand request = new UpdateProfilePhotoCommand()

@@ -13,8 +13,10 @@ using codeTalks.Application.Features.Channels.Dtos;
 using codeTalks.Application.Features.Channels.Queries.GetAll;
 using codeTalks.Application.Features.Channels.Queries.GetById;
 using codeTalks.Application.Features.Channels.Queries.GetUsersDetailAtChannelByChannelId;
+using codeTalks.Application.Services.FileStorage;
 using codeTalks.Domain;
 using codeTalks.Presentation.Controllers.Common;
+using codeTalks.Presentation.Filters;
 using codeTalks.Presentation.Hubs.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -181,6 +183,8 @@ public class ChannelsController : BaseController
     
     [Authorize]
     [HttpPut("{channelId}/thumbnail-photo")]
+    [AllowSlowUploads]
+    [RequestSizeLimit(ImageFileRules.MaxRequestBodySizeInBytes)]
     public async Task<IActionResult> UpdateThumbnailPhoto([FromRoute] string channelId, IFormFile image)
     {
         UpdateThumbnailPhotoCommand request = new UpdateThumbnailPhotoCommand

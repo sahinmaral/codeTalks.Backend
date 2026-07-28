@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using CloudinaryDotNet.Actions;
 using codeTalks.Application.Features.Channels.Commands.JoinChannel;
 using codeTalks.Application.Features.Channels.Dtos;
+using codeTalks.Application.Features.Channels.Models;
 using codeTalks.Application.Features.Users.Dtos;
 using codeTalks.Application.Services.FileStorage;
 using codeTalks.Domain;
@@ -138,6 +139,30 @@ public sealed class PhotoTests(CustomWebApplicationFactory factory) : Integratio
         dto.NewThumbnailPhotoPath.Should().Be(uploadedUrl);
 
         (await ThumbnailPhotoUrlAsync(channel.Id)).Should().Be(uploadedUrl);
+    }
+
+    [Fact]
+    public async Task Uploaded_thumbnail_is_exposed_by_the_channel_read_endpoints()
+    {
+        var (_, ownerClient) = await CreateUserAsync();
+        var channel = await CreateChannelAsync(ownerClient);
+        const string uploadedUrl = "https://res.cloudinary.com/demo/image/upload/v1700000000/thumb/read.png";
+        StubUpload(uploadedUrl);
+        (await ownerClient.PutAsync($"/api/channels/{channel.Id}/thumbnail-photo", ImageForm())).EnsureSuccessStatusCode();
+
+        // GetById — the member's view of a channel they belong to.
+        var getById = await ownerClient.GetAsync($"/api/channels/{channel.Id}");
+        var byId = (await getById.Content.ReadFromJsonAsync<ChannelByIdDto>(JsonWebOptions))!;
+        byId.ThumbnailPhotoURL.Should().Be(uploadedUrl);
+
+        // GetAll — the discovery list, which only shows channels the caller has *not* joined,
+        // so ask as an outsider and isolate the row with the unique channel name.
+        var (_, outsiderClient) = await CreateUserAsync();
+        var list = await outsiderClient.GetAsync(
+            $"/api/channels?page=1&pageSize=50&title={Uri.EscapeDataString(channel.Name)}");
+        var page = (await list.Content.ReadFromJsonAsync<ChannelsByUserIdListModel>(JsonWebOptions))!;
+        page.Items.Should().ContainSingle(c => c.Id == channel.Id)
+            .Which.ThumbnailPhotoURL.Should().Be(uploadedUrl);
     }
 
     [Fact]
